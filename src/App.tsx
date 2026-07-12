@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import TemperatureManagment from './pages/TemperatureManagment';
 import UserManagment from './pages/UserManagment';
-import Navigation from './components/navigation';
+import Navigation from './components/NavigtionBar';
 
 import { useEffect } from 'react';
 

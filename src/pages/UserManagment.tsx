@@ -1,6 +1,6 @@
-import { UserLogin } from "../components/userLogin";
-import { DeleteUserById } from "../components/userManageData";
-import { UserTable } from "../components/userTable";
+import { UserLogin } from "../components/UserCreate";
+import { DeleteUserById } from "../components/UserManageData";
+import { UserTable } from "../components/UserTable";
 
 export default function UserManagmentPage() {
     return (

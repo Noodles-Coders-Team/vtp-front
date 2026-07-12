@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { type TemperatureDto } from '@nct/vtp-common';
-import { fetchUserTemperature } from '../../api/temperature';
-import { UserDropdown } from '../userSelectDropdown';
+import { fetchUserTemperature } from '../../api/TemperatureApi';
+import { UserDropdown } from '../UserSelectDropdown';
 
 export function AllTemperatureTableWithUserFilter() {
     const [temperature, setTemperature] = useState<TemperatureDto[]>([]);

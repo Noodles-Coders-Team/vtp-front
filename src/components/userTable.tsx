@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { type UserDto } from '@nct/vtp-common';
-import { fetchUsers } from '../api/users';
-import { eventBus } from '../api/eventBus';
+import { fetchUsers } from '../api/UsersApi';
+import { eventBus } from '../api/EventBus';
 
 export function UserTable() {
     const [users, setUsers] = useState<UserDto[]>([]);
@@ -29,9 +29,9 @@ export function UserTable() {
 
     //Runs when the user has been created
     useEffect(() => {
-        eventBus.addEventListener('userTableShouldBeRefreshed', loadUsers);
+        eventBus.addEventListener('UserTableShouldBeRefreshed', loadUsers);
         return () => {
-            eventBus.removeEventListener('userTableShouldBeRefreshed', loadUsers);
+            eventBus.removeEventListener('UserTableShouldBeRefreshed', loadUsers);
         };
     }, []);
 
@@ -47,20 +47,18 @@ export function UserTable() {
             <table border={1} cellPadding={0}>
                 <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Login</th>
-                        <th>Name</th>
-                        <th>City</th>
+                        <th>User Name</th>
+                        <th>Peermission level</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     {users.map((user) => (
-                        <tr key={user.id}>
-                            <td>{user.id}</td>
+                        <tr key={user.login}>
                             <td>{user.login}</td>
-                            <td>{user.name}</td>
-                            <td>{user.city ?? '-'}</td>
+                            <td>{user.user_name}</td>
+                            <td>{user.permission_level}</td>
                         </tr>
                     ))}
                 </tbody>
