@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { type TemperatureDto } from '@nct/weather-common';
+import { type TemperatureDto } from '@nct/vtp-common';
 import { eventBus } from '../../api/eventBus';
 import { fetchAllTemperature } from '../../api/temperature';
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CreateUserSchema, type CreateUserDto } from '@nct/weather-common';
+import { CreateUserSchema, type CreateUserDto } from '@nct/vtp-common';
 import { eventBus } from '../api/eventBus';
 
 

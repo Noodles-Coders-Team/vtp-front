@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { type UserDto } from '@nct/weather-common';
+import { type UserDto } from '@nct/vtp-common';
 import { fetchUsers } from '../api/users';
 import { eventBus } from '../api/eventBus';
 

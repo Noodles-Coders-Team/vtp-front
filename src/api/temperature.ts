@@ -1,4 +1,4 @@
-import { TemperatureSchema, type TemperatureDto } from "@nct/weather-common";
+import { TemperatureSchema, type TemperatureDto } from "@nct/vtp-common";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 

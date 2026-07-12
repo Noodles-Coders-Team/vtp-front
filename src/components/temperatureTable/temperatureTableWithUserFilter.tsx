@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { type TemperatureDto } from '@nct/weather-common';
+import { type TemperatureDto } from '@nct/vtp-common';
 import { fetchUserTemperature } from '../../api/temperature';
 import { UserDropdown } from '../userSelectDropdown';
 

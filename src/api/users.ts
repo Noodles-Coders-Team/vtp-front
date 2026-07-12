@@ -1,4 +1,4 @@
-import { UserSchema, type UserDto } from "@nct/weather-common";
+import { UserSchema, type UserDto } from "@nct/vtp-common";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL;
 

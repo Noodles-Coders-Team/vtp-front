@@ -1,4 +1,4 @@
-import type { UserDto } from "@nct/weather-common";
+import type { UserDto } from "@nct/vtp-common";
 import { useEffect, useState } from "react";
 import { fetchUsers } from "../api/users";
 import { eventBus } from "../api/eventBus";

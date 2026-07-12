@@ -19,7 +19,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/temperature" element={<TemperatureManagment />} />
+        {/* <Route path="/temperature" element={<TemperatureManagment />} /> */}
         <Route path="/user" element={<UserManagment />} />
       </Routes>
     </>
