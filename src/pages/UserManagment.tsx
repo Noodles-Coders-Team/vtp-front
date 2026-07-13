@@ -1,13 +1,15 @@
 import { UserLogin } from "../components/UserCreate";
-import { DeleteUserById } from "../components/UserManageData";
+import { DeleteUserByIdDropdown } from "../components/UserManage";
 import { UserTable } from "../components/UserTable";
 
 export default function UserManagmentPage() {
     return (
-        <div>
+        <div style={{
+            width: 250
+        }}>
             <UserLogin />
             <UserTable />
-            <DeleteUserById />
+            <DeleteUserByIdDropdown />
         </div>
     );
 }

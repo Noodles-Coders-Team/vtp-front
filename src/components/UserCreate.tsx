@@ -24,10 +24,12 @@ export function UserLogin() {
         <div>
             <h1>Create User</h1>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>User Login</label>
-                    <br />
+                <div className="mb-3">
+                    <label htmlFor="userLogin" className="form-label">User Login</label>
                     <input
+                        className="form-control"
+                        id="userLogin"
+                        placeholder="super_user_com"
                         type="text"
                         value={userCreateForm.login}
                         onChange={(event) => setUserCreateFormForm({
@@ -36,10 +38,12 @@ export function UserLogin() {
                         })}
                     />
                 </div>
-                <div>
-                    <label>User Name</label>
-                    <br />
+                <div className="mb-3">
+                    <label htmlFor="userName" className="form-label">User Name</label>
                     <input
+                        className="form-control"
+                        id="userName"
+                        placeholder="Very Cool Name"
                         type="text"
                         value={userCreateForm.user_name}
                         onChange={(event) => setUserCreateFormForm({
@@ -49,7 +53,7 @@ export function UserLogin() {
                     />
                 </div>
                 <br />
-                <button type="submit">Create</button>
+                <button type="submit" className="btn btn-primary">Create</button>
             </form>
         </div>
     )

@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
-import TemperatureManagment from './pages/TemperatureManagment';
 import UserManagment from './pages/UserManagment';
 import Navigation from './components/NavigtionBar';
 
@@ -9,7 +8,7 @@ import { useEffect } from 'react';
 function App() {
 
   useEffect(() => {
-    document.title = "Weather Control";
+    document.title = "Video Tracker & Planner";
   });
 
   return (
@@ -19,7 +18,6 @@ function App() {
 
       <Routes>
         <Route path="/" element={<HomePage />} />
-        {/* <Route path="/temperature" element={<TemperatureManagment />} /> */}
         <Route path="/user" element={<UserManagment />} />
       </Routes>
     </>
