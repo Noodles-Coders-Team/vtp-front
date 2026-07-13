@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import ImportGame from "./ImportPage";
 
 export default function HomePage() {
   useEffect(() => {
@@ -13,6 +14,7 @@ export default function HomePage() {
       <div className="row">
         <p>This is the home page of the App.</p>
       </div>
+      <ImportGame />
     </div>
   );
 }
