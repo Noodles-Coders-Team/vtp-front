@@ -44,12 +44,12 @@ export function UserTable() {
     return (
         <div>
             <h1> User list</h1>
-            <table border={1} cellPadding={0}>
+            <table border={1} cellPadding={0} className='table'>
                 <thead>
                     <tr>
-                        <th>Login</th>
-                        <th>User Name</th>
-                        <th>Peermission level</th>
+                        <th scope="col">Login</th>
+                        <th scope="col">User Name</th>
+                        <th scope="col">Peermission level</th>
                     </tr>
                 </thead>
 
@@ -63,7 +63,7 @@ export function UserTable() {
                     ))}
                 </tbody>
             </table>
-            <button onClick={loadUsers}>Refresh Data</button>
+            <button onClick={loadUsers} className="btn btn-secondary">Refresh Data</button>
         </div>
     );
 
