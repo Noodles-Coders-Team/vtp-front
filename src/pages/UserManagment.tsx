@@ -1,6 +1,6 @@
-import { UserLogin } from "../components/UserCreate";
-import { DeleteUserByIdDropdown } from "../components/UserManage";
-import { UserTable } from "../components/UserTable";
+import { UserLogin } from "../components/userPageCpmponent/UserCreate";
+import { DeleteUserByIdDropdown } from "../components/userPageCpmponent/UserDelete";
+import { UserTable } from "../components/userPageCpmponent/UserTable";
 
 export default function UserManagmentPage() {
     return (
@@ -17,9 +17,9 @@ export default function UserManagmentPage() {
                 <div className="col">
                     <UserTable />
                 </div>
-                <div className="row">
-                    <DeleteUserByIdDropdown />
-                </div>
+            </div>
+            <div className="row" style={{ width: '50%' }}>
+                <DeleteUserByIdDropdown />
             </div>
         </div>
     );

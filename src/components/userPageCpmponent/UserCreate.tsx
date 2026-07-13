@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { type CreateUserDto } from '@nct/vtp-common';
-import { createUser } from '../api/UsersApi';
+import { createUser } from '@api/UsersApi';
 
 const cleanUser: CreateUserDto = {
     login: '',

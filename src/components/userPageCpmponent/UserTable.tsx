@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { type UserDto } from '@nct/vtp-common';
-import { fetchUsers } from '../api/UsersApi';
-import { eventBus } from '../api/EventBus';
+import { fetchUsers } from '@api/UsersApi';
+import { eventBus } from '@api/EventBus';
 
 export function UserTable() {
     const [users, setUsers] = useState<UserDto[]>([]);
@@ -44,7 +44,7 @@ export function UserTable() {
     return (
         <div>
             <h1> User list</h1>
-            <table border={1} cellPadding={0} className='table'>
+            <table className='table'>
                 <thead>
                     <tr>
                         <th scope="col">Login</th>

@@ -1,6 +1,6 @@
-import { deleteUser } from "../api/UsersApi";
+import { deleteUser } from "../../api/UsersApi";
 import { useState } from "react";
-import { UserDropdown } from "./UserSelectDropdown";
+import { UserDropdown } from "../userComponent/UserSelectDropdown";
 
 
 export function DeleteUserByIdDropdown() {

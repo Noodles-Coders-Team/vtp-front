@@ -1,7 +1,7 @@
 import type { UserDto } from "@nct/vtp-common";
 import { useEffect, useState } from "react";
-import { fetchUsers } from "../api/UsersApi";
-import { eventBus } from "../api/EventBus";
+import { fetchUsers } from "@api/UsersApi";
+import { eventBus } from "@api/EventBus";
 
 type UserDropdownProps = {
     value: string;
