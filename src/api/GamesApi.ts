@@ -1,4 +1,4 @@
-import { CreateGameSchema, GameSchema, type CreateGameDto, type GameDto } from "@nct/vtp-common";
+import { CreateGameSchema, GameSchema, GameWithInfoSchema, type CreateGameDto, type GameDto, type GameWithInfoDto } from "@nct/vtp-common";
 import { eventBus } from "./EventBus";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL + "/games";
@@ -44,6 +44,26 @@ export async function readGames(): Promise<GameDto[]> {
 
     const data = await response.json();
     const parsed = GameSchema.array().safeParse(data);
+    if(!parsed.success){
+        throw new Error(`Invalid game data: ${parsed.error}`);
+    }
+    
+    return parsed.data;
+}
+
+
+export async function readGamesWithInfo(): Promise<GameWithInfoDto[]> {
+    let response = await fetch(`${API_URL}/with-info`,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    )
+
+    const data = await response.json();
+    const parsed = GameWithInfoSchema.array().safeParse(data);
     if(!parsed.success){
         throw new Error(`Invalid game data: ${parsed.error}`);
     }

@@ -1,10 +1,10 @@
 import { eventBus } from "@/api/EventBus";
-import { readGames } from "@/api/GamesApi";
-import type { GameDto } from "@nct/vtp-common";
+import { readGamesWithInfo } from "@/api/GamesApi";
+import type { GameWithInfoDto } from "@nct/vtp-common";
 import { useEffect, useState } from "react";
 
 export default function GamesPage() {
-    const [games, setGames] = useState<GameDto[]>([]);
+    const [games, setGames] = useState<GameWithInfoDto[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -12,7 +12,7 @@ export default function GamesPage() {
         try {
             setLoading(true);
 
-            const games = await readGames();
+            const games = await readGamesWithInfo();
             setGames(games);
         } catch (err) {
             setError((err as Error).message);
@@ -46,6 +46,8 @@ export default function GamesPage() {
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Game Name</th>
+                        <th scope="col">Can Record</th>
+                        <th scope="col">Discussed</th>
                     </tr>
                 </thead>
 
@@ -54,6 +56,8 @@ export default function GamesPage() {
                         <tr key={game.name}>
                             <td>{games.indexOf(game) + 1}</td>
                             <td>{game.name}</td>
+                            <td>{game.game_info.can_record? 'X' : ''}</td>
+                            <td>{game.game_info.discussed? 'X' : ''}</td>
                         </tr>
                     ))}
                 </tbody>
