@@ -3,6 +3,7 @@ import { eventBus } from "./EventBus";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL + "/games";
 
+//TODO: this wont work 100%
 export async function createGame(game: CreateGameDto): Promise<GameDto[]> {
     // Validate the form data using the CreateUserSchema
     const result = CreateGameSchema.safeParse(game);
@@ -29,4 +30,23 @@ export async function createGame(game: CreateGameDto): Promise<GameDto[]> {
     
     eventBus.dispatchEvent(new Event('GameTableShouldBeRefreshed'));
     return parsed.data;;
+}
+
+export async function readGames(): Promise<GameDto[]> {
+    let response = await fetch(`${API_URL}`,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    )
+
+    const data = await response.json();
+    const parsed = GameSchema.array().safeParse(data);
+    if(!parsed.success){
+        throw new Error(`Invalid game data: ${parsed.error}`);
+    }
+    
+    return parsed.data;
 }

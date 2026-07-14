@@ -12,6 +12,8 @@ export default function Navigation() {
                     </ul>
                     <NavLink adress="/" text='Home' />
                     <NavLink adress="/user" text="User Managment" />
+                    <NavLink adress="/games" text="Games" />
+                    <NavLink adress='/import' text=" CSV Import" />
                 </div>
             </div>
         </nav>

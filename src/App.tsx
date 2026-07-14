@@ -1,9 +1,10 @@
 import { Route, Routes } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import UserManagment from './pages/UserManagment';
-import Navigation from './components/NavigtionBar';
-
 import { useEffect } from 'react';
+import GamesPage from './pages/GamesPage';
+import HomePage from './pages/HomePage';
+import ImportPage from './pages/ImportCsvPage';
+import Navigation from './components/NavigtionBar';
+import UserManagmentPage from './pages/UserManagmentPage';
 
 function App() {
 
@@ -18,7 +19,9 @@ function App() {
 
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/user" element={<UserManagment />} />
+        <Route path="/user" element={<UserManagmentPage />} />
+        <Route path="/import" element={<ImportPage />} />
+        <Route path="/games" element={<GamesPage />} />
       </Routes>
     </>
   )
