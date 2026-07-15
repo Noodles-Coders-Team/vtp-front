@@ -22,14 +22,22 @@ export default function ImportGame() {
     }
 
     return (
-        <>
-            <input
-                type="file"
-                accept=".csv"
-                onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-            />
+        <div className="container text-center">
+            <div className="row">
+                <div className="col">
+                    <input
+                        type="file"
+                        className="form-control"
+                        id='gamesFile'
+                        accept=".csv"
+                        onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                    />
+                </div>
+                <div className="col">
+                    <button onClick={upload} type="button" className="btn btn-primary">Import CSV</button>
+                </div>
+            </div>
 
-            <button onClick={upload}>Import CSV</button>
-        </>
+        </ div>
     );
 }

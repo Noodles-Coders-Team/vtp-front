@@ -13,7 +13,8 @@ export default function Navigation() {
                     <NavLink adress="/" text='Home' />
                     <NavLink adress="/user" text="User Managment" />
                     <NavLink adress="/games" text="Games" />
-                    <NavLink adress='/import' text=" CSV Import" />
+                    <NavLink adress='/import' text="CSV Import" />
+                    <NavLink adress='http://localhost:8080/docs' text="API Docs" />
                 </div>
             </div>
         </nav>
