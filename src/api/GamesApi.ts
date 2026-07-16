@@ -21,13 +21,13 @@ export async function createGame(game: CreateGameDto): Promise<GameDto[]> {
         },
         body: JSON.stringify(result.data)
     });
-    
+
     const data = await response.json();
     const parsed = GameSchema.array().safeParse(data);
     if (!parsed.success) {
         throw new Error(`Invalid game data: ${parsed.error}`);
     }
-    
+
     eventBus.dispatchEvent(new Event('GameTableShouldBeRefreshed'));
     return parsed.data;;
 }
@@ -44,29 +44,33 @@ export async function readGames(): Promise<GameDto[]> {
 
     const data = await response.json();
     const parsed = GameSchema.array().safeParse(data);
-    if(!parsed.success){
+    if (!parsed.success) {
         throw new Error(`Invalid game data: ${parsed.error}`);
     }
-    
+
     return parsed.data;
 }
 
 
-export async function readGamesWithInfo(): Promise<GameWithInfoDto[]> {
+export async function readGamesWithInfo(can_record: boolean | null, discussed: boolean | null): Promise<GameWithInfoDto[]> {
     let response = await fetch(`${API_URL}/with-info`,
         {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify({
+                can_record: can_record,
+                discussed: discussed
+            })
         }
-    )
+    );
 
     const data = await response.json();
     const parsed = GameWithInfoSchema.array().safeParse(data);
-    if(!parsed.success){
+    if (!parsed.success) {
         throw new Error(`Invalid game data: ${parsed.error}`);
     }
-    
+
     return parsed.data;
 }
