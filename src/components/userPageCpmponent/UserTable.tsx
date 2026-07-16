@@ -42,28 +42,30 @@ export function UserTable() {
     if (!loading && users.length === 0) return <p>No users found.</p>;
 
     return (
-        <div>
-            <h1> User list</h1>
-            <table className='table'>
-                <thead>
-                    <tr>
-                        <th scope="col">Login</th>
-                        <th scope="col">User Name</th>
-                        <th scope="col">Peermission level</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {users.map((user) => (
-                        <tr key={user.login}>
-                            <td>{user.login}</td>
-                            <td>{user.user_name}</td>
-                            <td>{user.permission_level}</td>
+        <div className='card'>
+            <div className='card-body'>
+                <h5 className='card-title'> User list</h5>
+                <table className='table'>
+                    <thead>
+                        <tr>
+                            <th scope="col">Login</th>
+                            <th scope="col">User Name</th>
+                            <th scope="col">Peermission level</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-            <button onClick={loadUsers} className="btn btn-secondary">Refresh Data</button>
+                    </thead>
+
+                    <tbody>
+                        {users.map((user) => (
+                            <tr key={user.login}>
+                                <td>{user.login}</td>
+                                <td>{user.user_name}</td>
+                                <td>{user.permission_level}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <button onClick={loadUsers} className="btn btn-secondary">Refresh Data</button>
+            </div>
         </div>
     );
 

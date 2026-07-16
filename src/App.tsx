@@ -15,14 +15,17 @@ function App() {
   return (
     // This is same as <div>
     <>
-      <Navigation />
-
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/user" element={<UserManagmentPage />} />
-        <Route path="/import" element={<ImportPage />} />
-        <Route path="/games" element={<GamesPage />} />
-      </Routes>
+      <div>
+        <Navigation />
+      </div>
+      <div style={{marginTop: 125}}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/user" element={<UserManagmentPage />} />
+          <Route path="/import" element={<ImportPage />} />
+          <Route path="/games" element={<GamesPage />} />
+        </Routes>
+      </div>
     </>
   )
 }

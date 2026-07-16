@@ -4,13 +4,8 @@ import { UserTable } from "../components/userPageCpmponent/UserTable";
 
 export default function UserManagmentPage() {
     return (
-        <div
-            style={{
-                width: '80%'
-            }}
-            className="container text-center"
-        >
-            <div className="row">
+        <div className="container text-center">
+            <div className="row g-5">
                 <div className="col">
                     <UserLogin />
                 </div>
@@ -18,8 +13,10 @@ export default function UserManagmentPage() {
                     <UserTable />
                 </div>
             </div>
-            <div className="row" style={{ width: '50%' }}>
-                <DeleteUserByIdDropdown />
+            <div className="row g-5">
+                <div className="col">
+                    <DeleteUserByIdDropdown />
+                </div>
             </div>
         </div>
     );

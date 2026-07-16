@@ -3,7 +3,7 @@ import logo from '../assets/dvr_128dp.png';
 
 export default function Navigation() {
     return (
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <nav className="navbar navbar-expand-lg bg-body-tertiary nav-scroller fixed-top shadow-sm">
             <div className="container-fluid">
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
