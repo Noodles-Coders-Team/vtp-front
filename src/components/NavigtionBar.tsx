@@ -7,7 +7,7 @@ export default function Navigation() {
             <div className="container-fluid">
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
-                        <img src={logo} alt="Logo" width="64" height="64" className="d-inline-block align-text-top"></img>
+                        <img src={logo} alt="Logo" width="64" height="64" className="d-inline-block align-text-top" />
                         <p className="navbar-brand" >VP&T</p>
                     </ul>
                     <NavLink adress="/" text='Home' />

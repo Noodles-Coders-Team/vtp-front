@@ -2,6 +2,11 @@ import { eventBus } from "@/api/EventBus";
 import { readGamesWithInfo } from "@/api/GamesApi";
 import type { GameWithInfoDto } from "@nct/vtp-common";
 import { useEffect, useState } from "react";
+import { TableColumnNameBooleanFilter } from "../commonComponents/TableColumnNameBooleanFilter";
+import iconTrue from '@assets/check_box_64.svg';
+import iconFalse from '@assets/check_box_empty_64.svg';
+
+const tableIconSize = 32;
 
 export default function GamesTable() {
 
@@ -13,26 +18,6 @@ export default function GamesTable() {
     const [can_record, setCanRecord] = useState<boolean | null>(null);
     const [discussed, setDiscussed] = useState<boolean | null>(null);
 
-    const switchBoolean = (column: string) => {
-        console.log('Updating: ' + column.toString());
-        if (column == BooleanColumn.can_record) {
-            switchFilter(can_record, setCanRecord);
-        }
-        else {
-            switchFilter(discussed, setDiscussed);
-        }
-
-        loadGames();
-    }
-
-    const switchFilter = (value: boolean | null, onChange: (valuse: boolean | null) => void) => {
-        if (value === null)
-            onChange(true);
-        else if (value)
-            onChange(false);
-        else
-            onChange(null);
-    }
 
     const loadGames = async () => {
         try {
@@ -47,18 +32,13 @@ export default function GamesTable() {
         };
     };
 
-    const getColorByBool = (value: boolean | null): string => {
-        if (value === null)
-            return "white";
-        else if (value)
-            return "green";
-        else
-            return "red";
-    };
-
     useEffect(() => {
         loadGames();
     }, []);
+
+    useEffect(() => {
+        loadGames();
+    }, [can_record, discussed]);
 
     useEffect(() => {
         eventBus.addEventListener('GameTableShouldBeRefreshed', loadGames);
@@ -71,7 +51,7 @@ export default function GamesTable() {
 
     if (error) return <p style={{ color: "red" }}>Error loading games: {error}</p>;
 
-    if (!loading && games.length === 0) return <p>No games found.</p>;
+    // if (!loading && games.length === 0) return setGames([]);
 
     return (
         <div>
@@ -80,9 +60,9 @@ export default function GamesTable() {
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Game Name</th>
-                        <th scope="col" style={{backgroundColor: getColorByBool(can_record) }} onClick={() => { switchBoolean(BooleanColumn.can_record) }}>Can Record</th>
-                        <th scope="col" style={{backgroundColor: getColorByBool(discussed) }} onClick={() => { switchBoolean(BooleanColumn.discussed) }}>Discussed</th>
+                        <th scope="col" style={{width: '50%'}}>Game Name</th>
+                        <TableColumnNameBooleanFilter label="Can Record" value={can_record} onChange={setCanRecord} />
+                        <TableColumnNameBooleanFilter label="Discussed" value={discussed} onChange={setDiscussed} />
                     </tr>
                 </thead>
 
@@ -91,8 +71,8 @@ export default function GamesTable() {
                         <tr key={game.name}>
                             <td>{games.indexOf(game) + 1}</td>
                             <td>{game.name}</td>
-                            <td>{game.game_info.can_record ? 'X' : ''}</td>
-                            <td>{game.game_info.discussed ? 'X' : ''}</td>
+                            <td><img src={game.game_info.can_record ? iconTrue : iconFalse} alt="filter" width={tableIconSize} height={tableIconSize} /></td>
+                            <td><img src={game.game_info.discussed ? iconTrue : iconFalse} alt="filter" width={tableIconSize} height={tableIconSize} /></td>
                         </tr>
                     ))}
                 </tbody>
@@ -100,9 +80,4 @@ export default function GamesTable() {
             <button onClick={loadGames} className="btn btn-secondary">Refresh Data</button>
         </div>
     )
-}
-
-const BooleanColumn = {
-    can_record: 'can_record',
-    discussed: 'discussed'
 }
