@@ -1,5 +1,5 @@
 import { eventBus } from "@/api/EventBus";
-import { readGamesWithInfo } from "@/api/GamesApi";
+import { readGamesWithInfo, updateGameInfo } from "@/api/GamesApi";
 import type { GameWithInfoDto } from "@nct/vtp-common";
 import { useEffect, useState } from "react";
 import { TableColumnNameBooleanFilter } from "../commonComponents/TableColumnNameBooleanFilter";
@@ -33,6 +33,28 @@ export default function GamesTable() {
         };
     };
 
+    const onToggleCanRecord = async (id: string) => {
+        let game = games.find((g) => g.id == id);
+        if (game === undefined) {
+            console.error(`Game not found with id: ${id}`);
+            return;
+        }
+        game.game_info.can_record = !game?.game_info.can_record;
+        updateGameInfo(game.game_info);
+        await loadGames();
+    }
+
+    const onToggleDiscussed = async (id: string) => {
+        let game = games.find((g) => g.id == id);
+        if (game === undefined) {
+            console.error(`Game not found with id: ${id}`);
+            return;
+        }
+        game.game_info.discussed = !game?.game_info.discussed;
+        updateGameInfo(game.game_info);
+        await loadGames();
+    }
+
     useEffect(() => {
         loadGames();
     }, []);
@@ -52,10 +74,9 @@ export default function GamesTable() {
 
     if (error) return <p style={{ color: "red" }}>Error loading games: {error}</p>;
 
-    // if (!loading && games.length === 0) return setGames([]);
-
     return (
         <Card title="Games list">
+            <button onClick={loadGames} className="btn btn-secondary">Refresh Data</button>
             <div className="overflow-y-scroll" style={{ height: 500 }}>
                 <table className='table table-bordered'>
                     <thead>
@@ -73,15 +94,35 @@ export default function GamesTable() {
                             <tr key={game.name}>
                                 <td>{games.indexOf(game) + 1}</td>
                                 <td>{game.name}</td>
-                                <td style={{ alignContent: 'center', textAlign: 'center' }}><img src={game.game_info.can_record ? iconTrue : iconFalse} alt="filter" width={tableIconSize} height={tableIconSize} /></td>
-                                <td style={{ alignContent: 'center', textAlign: 'center' }}><img src={game.game_info.discussed ? iconTrue : iconFalse} alt="filter" width={tableIconSize} height={tableIconSize} /></td>
+                                <TableTogglebox value={game.game_info.can_record} id={game.id} onToggle={onToggleCanRecord} size={tableIconSize} />
+                                <TableTogglebox value={game.game_info.discussed} id={game.id} onToggle={onToggleDiscussed} size={tableIconSize} />
                                 <td>{game.game_info.notes}</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
-                <button onClick={loadGames} className="btn btn-secondary">Refresh Data</button>
             </div>
         </Card>
     )
+}
+
+
+type TableToggleboxProps = {
+    value: boolean;
+    id: string;
+    onToggle: (id: string) => void;
+    size: number;
+}
+
+
+function TableTogglebox({ value, id, onToggle, size = 32 }: TableToggleboxProps) {
+    const [currentValue, setCurrentValue] = useState<boolean>(value);
+    return (
+        <td
+            onClick={(e) => { e.preventDefault(); onToggle(id); setCurrentValue(!currentValue); }}
+            style={{ alignContent: 'center', textAlign: 'center', cursor: 'pointer' }}>
+            <img src={currentValue ? iconTrue : iconFalse} alt="filter" width={size} height={size} />
+        </td>
+    )
+
 }

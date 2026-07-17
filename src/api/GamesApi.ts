@@ -16,7 +16,6 @@ export async function createGame(game: CreateGameDto): Promise<GameDto> {
 export async function updateGameInfo(gameInfo: GameInfoDto): Promise<GameInfoDto> {
     const response = await put(`${API_URL}/info`, validateSchema<GameInfoDto>(GameInfoSchema, gameInfo));
     const result = validateSchema<GameInfoDto>(GameInfoSchema, response);
-    eventBus.dispatchEvent(new Event('GameTableShouldBeRefreshed'));
     return result;
 }
 
