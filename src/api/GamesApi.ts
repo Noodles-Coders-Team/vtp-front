@@ -1,75 +1,37 @@
-import { CreateGameSchema, GameSchema, GameWithInfoSchema, type CreateGameDto, type GameDto, type GameWithInfoDto } from "@nct/vtp-common";
+import { CreateGameSchema, GameInfoSchema, GameSchema, GameWithInfoSchema, type CreateGameDto, type GameDto, type GameInfoDto, type GameWithInfoDto } from "@nct/vtp-common";
 import { eventBus } from "./EventBus";
+import { validateSchema, validateSchemaArray } from "./Validators";
+import { get, post, put } from "./RequestApi";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL + "/games";
 
 export async function createGame(game: CreateGameDto): Promise<GameDto> {
-    // Validate the form data using the CreateUserSchema
-    const result = CreateGameSchema.safeParse(game);
-
-    if (!result.success) {
-        console.error(result.error);
-        throw new Error(`Invalid game data: ${result.error}`);
-    }
-
-    // Send post request to the backend API with the validated data
-    let response = await fetch(`${API_URL}/create`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(result.data)
-    });
-
-    const data = await response.json();
-    const parsed = GameSchema.safeParse(data);
-    if (!parsed.success) {
-        throw new Error(`Invalid game data: ${parsed.error}`);
-    }
-
+    const response = await post(`${API_URL}/create`, validateSchema<CreateGameDto>(CreateGameSchema, game));
+    const result = validateSchema<GameDto>(GameSchema, response);
     eventBus.dispatchEvent(new Event('GameTableShouldBeRefreshed'));
-    return parsed.data;;
+    return result;
 }
 
+
+export async function updateGameInfo(gameInfo: GameInfoDto): Promise<GameInfoDto> {
+    const response = await put(`${API_URL}/info`, validateSchema<GameInfoDto>(GameInfoSchema, gameInfo));
+    const result = validateSchema<GameInfoDto>(GameInfoSchema, response);
+    eventBus.dispatchEvent(new Event('GameTableShouldBeRefreshed'));
+    return result;
+}
+
+
 export async function readGames(): Promise<GameDto[]> {
-    let response = await fetch(`${API_URL}`,
-        {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }
-    )
-
-    const data = await response.json();
-    const parsed = GameSchema.array().safeParse(data);
-    if (!parsed.success) {
-        throw new Error(`Invalid game data: ${parsed.error}`);
-    }
-
-    return parsed.data;
+    const response = await get(`${API_URL}`);
+    const result = validateSchemaArray<GameDto[]>(GameSchema, response);
+    return result;
 }
 
 
 export async function readGamesWithInfo(can_record: boolean | null, discussed: boolean | null): Promise<GameWithInfoDto[]> {
-    let response = await fetch(`${API_URL}/with-info`,
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                can_record: can_record,
-                discussed: discussed
-            })
-        }
-    );
-
-    const data = await response.json();
-    const parsed = GameWithInfoSchema.array().safeParse(data);
-    if (!parsed.success) {
-        throw new Error(`Invalid game data: ${parsed.error}`);
-    }
-
-    return parsed.data;
+    const response = await post(`${API_URL}/with-info`, {
+        can_record: can_record,
+        discussed: discussed
+    });
+    return validateSchemaArray<GameWithInfoDto[]>(GameWithInfoSchema, response);
 }
