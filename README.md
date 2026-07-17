@@ -1,5 +1,5 @@
 # NCT
-This is simple Node.js + React + Vite front end site. Depends on [weather-common](https://github.com/Noodles-Coders-Team/weather-common) and uses [weather-backend](https://github.com/Noodles-Coders-Team/weather-backend) as backend
+This is simple Node.js + React + Vite front end site. Depends on [vtp-common](https://github.com/Noodles-Coders-Team/vtp-common) and uses [vtp-backend](https://github.com/Noodles-Coders-Team/vtp-backend) as backend
 
 ## Set Up
 
@@ -7,16 +7,7 @@ To set up the project run `npm install`. To run locall server run `npm run dev`.
 
 You will need to have `.env` file with backend adress: `VITE_BACKEND_URL=http://localhost:8080`
 
-**NOTE**: documentation for backend api should/will be available under [backend README.md](https://github.com/Noodles-Coders-Team/weather-backend/blob/main/README.md#API)
-
-# Todo
-
-* __ALWAYS__ fix typos :D
-* Add user removal to user managment page, either via manual input, or selectbox with available users
-* Create same functionality for Temperature Managment page as in user managment (**C**reate **R**ead **U**pdate **D**elete)
-  * Displaying temperature split into two category: all, and only for specific user. Selected by checkbox "Display for Selected user". If checked display dropdowns with users.
-  * Removal of temperature entry should be done via button next to the row (bttn embeded into row)
-* Change styling of app to [BOOTSTRAP](https://getbootstrap.com/docs/5.3/getting-started/introduction/) (easy styling without actually writing it)
+**NOTE**: documentation for backend api should/will be available under [backend README.md](https://github.com/Noodles-Coders-Team/vtp-backend/blob/main/README.md#API)
 
 
 # React + TypeScript + Vite

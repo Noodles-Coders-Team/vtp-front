@@ -57,28 +57,32 @@ export default function GamesTable() {
         <div className='card'>
             <div className='card-body'>
                 <h5 className='card-title'>Games list</h5>
-                <table className='table table-bordered'>
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col" style={{ width: '50%', textAlign: 'left' }}>Game Name</th>
-                            <TableColumnNameBooleanFilter label="Can Record" value={can_record} onChange={setCanRecord} />
-                            <TableColumnNameBooleanFilter label="Discussed" value={discussed} onChange={setDiscussed} />
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {games.map((game) => (
-                            <tr key={game.name}>
-                                <td>{games.indexOf(game) + 1}</td>
-                                <td>{game.name}</td>
-                                <td style={{ alignContent: 'center', textAlign: 'center' }}><img src={game.game_info.can_record ? iconTrue : iconFalse} alt="filter" width={tableIconSize} height={tableIconSize} /></td>
-                                <td style={{ alignContent: 'center', textAlign: 'center' }}><img src={game.game_info.discussed ? iconTrue : iconFalse} alt="filter" width={tableIconSize} height={tableIconSize} /></td>
+                <div className="overflow-y-scroll" style={{ height: 500 }}>
+                    <table className='table table-bordered'>
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col" style={{ width: '50%', textAlign: 'left' }}>Game Name</th>
+                                <TableColumnNameBooleanFilter label="Can Record" value={can_record} onChange={setCanRecord} />
+                                <TableColumnNameBooleanFilter label="Discussed" value={discussed} onChange={setDiscussed} />
+                                <th scope="col">Notes</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-                <button onClick={loadGames} className="btn btn-secondary">Refresh Data</button>
+                        </thead>
+
+                        <tbody>
+                            {games.map((game) => (
+                                <tr key={game.name}>
+                                    <td>{games.indexOf(game) + 1}</td>
+                                    <td>{game.name}</td>
+                                    <td style={{ alignContent: 'center', textAlign: 'center' }}><img src={game.game_info.can_record ? iconTrue : iconFalse} alt="filter" width={tableIconSize} height={tableIconSize} /></td>
+                                    <td style={{ alignContent: 'center', textAlign: 'center' }}><img src={game.game_info.discussed ? iconTrue : iconFalse} alt="filter" width={tableIconSize} height={tableIconSize} /></td>
+                                    <td>{game.game_info.notes}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <button onClick={loadGames} className="btn btn-secondary">Refresh Data</button>
+                </div>
             </div>
         </div>
     )

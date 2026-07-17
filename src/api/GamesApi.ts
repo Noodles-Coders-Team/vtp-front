@@ -3,8 +3,7 @@ import { eventBus } from "./EventBus";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL + "/games";
 
-//TODO: this wont work 100%
-export async function createGame(game: CreateGameDto): Promise<GameDto[]> {
+export async function createGame(game: CreateGameDto): Promise<GameDto> {
     // Validate the form data using the CreateUserSchema
     const result = CreateGameSchema.safeParse(game);
 
@@ -23,7 +22,7 @@ export async function createGame(game: CreateGameDto): Promise<GameDto[]> {
     });
 
     const data = await response.json();
-    const parsed = GameSchema.array().safeParse(data);
+    const parsed = GameSchema.safeParse(data);
     if (!parsed.success) {
         throw new Error(`Invalid game data: ${parsed.error}`);
     }
