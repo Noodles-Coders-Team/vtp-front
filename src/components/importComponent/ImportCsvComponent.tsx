@@ -1,9 +1,15 @@
 import { useState } from "react";
-import Card from "./commonComponents/Card";
+import Card from "../commonComponents/Card";
+
+interface ImportCsvProps {
+    title: string,
+    end_point: string,
+    description: string
+}
 
 const API_URL = import.meta.env.VITE_BACKEND_URL + "/import";
 
-export default function ImportGame() {
+export default function ImportCsvComponent({title, end_point, description}: ImportCsvProps) {
     const [file, setFile] = useState<File | null>(null);
 
     const upload = async () => {
@@ -13,7 +19,7 @@ export default function ImportGame() {
         const formData = new FormData();
         formData.append("file", file);
 
-        const response = await fetch(`${API_URL}/game`, {
+        const response = await fetch(`${API_URL}/${end_point}`, {
             method: 'POST',
             body: formData
         });
@@ -23,14 +29,14 @@ export default function ImportGame() {
     }
 
     return (
-        <Card title="Import Games from Google sheets">
-            <div className="container text-center">
+        <Card title={title}>
+        <div className="container text-center">
                 <div className="row">
                     <div className="col">
                         <input
                             type="file"
                             className="form-control"
-                            id='gamesFile'
+                            id={end_point+'File'}
                             accept=".csv"
                             onChange={(e) => setFile(e.target.files?.[0] ?? null)}
                         />
