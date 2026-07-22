@@ -9,8 +9,10 @@ interface ImportCsvProps {
 
 const API_URL = import.meta.env.VITE_BACKEND_URL + "/import";
 
-export default function ImportCsvComponent({title, end_point, description}: ImportCsvProps) {
+export default function ImportCsvComponent({ title, end_point, description }: ImportCsvProps) {
     const [file, setFile] = useState<File | null>(null);
+    const [responseCode, setResponseCode] = useState<number>(0);
+    const [errorMsg, setErrorMsg] = useState<string>('');
 
     const upload = async () => {
         if (!file)
@@ -24,19 +26,39 @@ export default function ImportCsvComponent({title, end_point, description}: Impo
             body: formData
         });
 
-        const data = await response.json();
-        console.log(data);
+        const responseBody = await response.json();
+
+        if (response.status == 500) {
+            setErrorMsg(responseBody['message']);
+        }
+
+        setResponseCode(response.status);
     }
 
     return (
         <Card title={title}>
-        <div className="container text-center">
+            <div className="container text-center">
+                {responseCode == 502 &&
+                    <div className="row" style={{ color: "red" }}>
+                        <p>{errorMsg}</p>
+                    </div>
+                }
+                {responseCode == 200 &&
+                    <div className="row" style={{ color: "green" }}>
+                        <p>Import was successful!</p>
+                    </div>
+                }
+                {responseCode == 400 &&
+                    <div className="row" style={{ color: "orange" }}>
+                        <p>No import file was attached!</p>
+                    </div>
+                }
                 <div className="row">
                     <div className="col">
                         <input
                             type="file"
                             className="form-control"
-                            id={end_point+'File'}
+                            id={end_point + 'File'}
                             accept=".csv"
                             onChange={(e) => setFile(e.target.files?.[0] ?? null)}
                         />
