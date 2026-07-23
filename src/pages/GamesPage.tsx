@@ -1,20 +1,21 @@
+import { Column, Container, Row } from "@/components/commonComponents/Container";
 import GamesCreate from "@/components/gamePageComponent/GamesCreate";
 import GamesTable from "@/components/gamePageComponent/GamesTable";
 
 
 export default function GamesPage() {
     return (
-        <div className="container text-center">
-            <div className="row g-5">
-                <div className="col">
-                    <GamesTable />
-                </div>
-            </div>
-            <div className="row g-5">
-                <div className="col">
+        <Container>
+            <Row>
+                <Column>
                     <GamesCreate />
-                </div>
-            </div>
-        </div>
+                </Column>
+            </Row>
+            <Row>
+                <Column>
+                    <GamesTable />
+                </Column>
+            </Row>
+        </Container>
     )
 }

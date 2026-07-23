@@ -1,23 +1,24 @@
-import { UserLogin } from "../components/userPageCpmponent/UserCreate";
-import { DeleteUserByIdDropdown } from "../components/userPageCpmponent/UserDelete";
-import { UserTable } from "../components/userPageCpmponent/UserTable";
+import { Column, Container, Row } from "@/components/commonComponents/Container";
+import { UserLogin } from "@/components/userPageCpmponent/UserCreate";
+import { DeleteUserByIdDropdown } from "@/components/userPageCpmponent/UserDelete";
+import { UserTable } from "@/components/userPageCpmponent/UserTable";
 
 export default function UserManagmentPage() {
     return (
-        <div className="container text-center">
-            <div className="row g-5">
-                <div className="col">
+        <Container>
+            <Row>
+                <Column>
                     <UserLogin />
-                </div>
-                <div className="col">
+                </Column>
+                <Column>
                     <UserTable />
-                </div>
-            </div>
-            <div className="row g-5">
-                <div className="col">
+                </Column>
+            </Row>
+            <Row>
+                <Column>
                     <DeleteUserByIdDropdown />
-                </div>
-            </div>
-        </div>
+                </Column>
+            </Row>
+        </Container>
     );
 }

@@ -2,6 +2,7 @@ import { deleteUser } from "../../api/UsersApi";
 import { useState } from "react";
 import { UserDropdown } from "../userComponent/UserSelectDropdown";
 import Card from "../commonComponents/Card";
+import { Column, Container, Row } from "../commonComponents/Container";
 
 
 export function DeleteUserByIdDropdown() {
@@ -15,16 +16,16 @@ export function DeleteUserByIdDropdown() {
 
     return (
         <Card title='Delete User'>
-            <div className="container text-center">
-                <div className="row">
-                    <div className="col">
+            <Container>
+                <Row>
+                    <Column>
                         <UserDropdown value={userLogin} onChange={setUserLogin} />
-                    </div>
-                    <div className="col">
+                    </Column>
+                    <Column>
                         <button type="button" onClick={handleSubmit} className="btn btn-danger">Delete User</button>
-                    </div>
-                </div>
-            </div>
+                    </Column>
+                </Row>
+            </Container>
         </Card>
     );
 }

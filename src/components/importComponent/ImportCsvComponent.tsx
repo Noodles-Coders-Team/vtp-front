@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Card from "../commonComponents/Card";
+import { Column, Row } from "../commonComponents/Container";
 
 interface ImportCsvProps {
     title: string,
@@ -37,24 +38,24 @@ export default function ImportCsvComponent({ title, end_point, description }: Im
 
     return (
         <Card title={title}>
-            <div className="container text-center">
+            <Column>
                 {responseCode == 502 &&
-                    <div className="row" style={{ color: "red" }}>
-                        <p>{errorMsg}</p>
-                    </div>
+                    <Row style={{ color: "red" }}>
+                        <Column><p>{errorMsg}</p></Column>
+                    </Row>
                 }
                 {responseCode == 200 &&
-                    <div className="row" style={{ color: "green" }}>
-                        <p>Import was successful!</p>
-                    </div>
+                    <Row style={{ color: "green" }}>
+                        <Column><p>Import was successful!</p></Column>
+                    </Row>
                 }
                 {responseCode == 400 &&
-                    <div className="row" style={{ color: "orange" }}>
-                        <p>No import file was attached!</p>
-                    </div>
+                    <Row style={{ color: "orange" }}>
+                        <Column><p>No import file was attached!</p></Column>
+                    </Row>
                 }
-                <div className="row">
-                    <div className="col">
+                <Row>
+                    <Column>
                         <input
                             type="file"
                             className="form-control"
@@ -62,12 +63,12 @@ export default function ImportCsvComponent({ title, end_point, description }: Im
                             accept=".csv"
                             onChange={(e) => setFile(e.target.files?.[0] ?? null)}
                         />
-                    </div>
-                    <div className="col">
+                    </Column>
+                    <Column>
                         <button onClick={upload} type="button" className="btn btn-primary">Import CSV</button>
-                    </div>
-                </div>
-            </ div>
+                    </Column>
+                </Row>
+            </Column>
         </Card>
     );
 }
