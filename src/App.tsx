@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import ImportPage from './pages/ImportCsvPage';
 import Navigation from './components/NavigtionBar';
 import UserManagmentPage from './pages/UserManagmentPage';
+import ChannelData from './pages/ChennelDataPage';
 
 function App() {
 
@@ -18,12 +19,13 @@ function App() {
       <div>
         <Navigation />
       </div>
-      <div style={{marginTop: 125}}>
+      <div style={{ marginTop: 125 }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/user" element={<UserManagmentPage />} />
           <Route path="/import" element={<ImportPage />} />
           <Route path="/games" element={<GamesPage />} />
+          <Route path="/channel-data" element={<ChannelData />} />
         </Routes>
       </div>
     </>

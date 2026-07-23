@@ -15,6 +15,7 @@ export default function Navigation() {
                     <NavLink adress="/games" text="Games" />
                     <NavLink adress='/import' text="CSV Import" />
                     <NavLink adress='http://localhost:8080/docs' text="API Docs" />
+                    <NavLink adress='/channel-data' text="Channel Data Graph" />
                 </div>
             </div>
         </nav>
