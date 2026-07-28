@@ -5,12 +5,12 @@ import { Column, Row } from "../commonComponents/Container";
 interface ImportCsvProps {
     title: string,
     end_point: string,
-    description: string
+    description?: string | undefined
 }
 
 const API_URL = import.meta.env.VITE_BACKEND_URL + "/import";
 
-export default function ImportCsvComponent({ title, end_point, description }: ImportCsvProps) {
+export default function ImportCsvComponent({ title, end_point, description = undefined }: ImportCsvProps) {
     const [file, setFile] = useState<File | null>(null);
     const [responseCode, setResponseCode] = useState<number>(0);
     const [errorMsg, setErrorMsg] = useState<string>('');
@@ -34,11 +34,17 @@ export default function ImportCsvComponent({ title, end_point, description }: Im
         }
 
         setResponseCode(response.status);
+        setTimeout(() => setResponseCode(0), 5000);
     }
 
     return (
         <Card title={title}>
             <Column>
+                {description !== null && description !== "" &&
+                    <Row>
+                        <h6>{description}</h6>
+                    </Row>
+                }
                 {responseCode == 502 &&
                     <Row style={{ color: "red" }}>
                         <Column><p>{errorMsg}</p></Column>

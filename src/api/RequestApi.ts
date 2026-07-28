@@ -8,7 +8,8 @@ export async function get(URL: string): Promise<any> {
         }
     );
     if(!response.ok){
-        console.error(`Request to ${URL} failed with: ${response.body}`);
+        const text = await response.text();
+        throw new Error(`${URL} failed (${response.status}): ${text || response.statusText}`);
     }
     return await response.json();
 }
@@ -30,7 +31,8 @@ async function sendPostPutRequest(type: string, URL: string, body: any): Promise
         body: JSON.stringify(body)
     });
     if(!response.ok){
-        console.error(`Request to ${URL} failed with: ${response.body}`);
+        const text = await response.text();
+        throw new Error(`${URL} failed (${response.status}): ${text || response.statusText}`);
     }
     return await response.json();
 }

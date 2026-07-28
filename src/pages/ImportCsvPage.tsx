@@ -7,17 +7,17 @@ export default function ImportPage() {
         <Container>
             <Row>
                 <Column>
-                    <ImportCsvComponent title={"Import Games from Google sheets"} end_point={"games"} description={""} />
+                    <ImportCsvComponent title={"Import Games from Google sheets"} end_point={"games"} />
                 </Column>
             </Row>
             <Row>
                 <Column>
-                    <ImportCsvComponent title={"Import channel Data from YT"} end_point={"channel-data"} description={""} />
+                    <ImportCsvComponent title={"Import channel Data from YT"} end_point={"channel-data"} />
                 </Column>
             </Row>
             <Row>
                 <Column>
-                    <ImportCsvComponent title={"Import Table Data from YT"} end_point={"table-data"} description={""} />
+                    <ImportCsvComponent title={"Import Table Data from YT"} end_point={"table-data"} />
                 </Column>
             </Row>
         </Container>
