@@ -3,9 +3,9 @@ import { useEffect } from 'react';
 import GamesPage from './pages/GamesPage';
 import HomePage from './pages/HomePage';
 import ImportPage from './pages/ImportCsvPage';
-import Navigation from './components/NavigtionBar';
+import Navigation from './components/NavigationBar';
 import UserManagmentPage from './pages/UserManagmentPage';
-import ChannelData from './pages/ChennelDataPage';
+import ChannelData from './pages/ChenelDataPage';
 
 function App() {
 

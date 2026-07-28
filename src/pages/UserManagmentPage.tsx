@@ -1,7 +1,7 @@
 import { Column, Container, Row } from "@/components/commonComponents/Container";
-import { UserLogin } from "@/components/userPageCpmponent/UserCreate";
-import { DeleteUserByIdDropdown } from "@/components/userPageCpmponent/UserDelete";
-import { UserTable } from "@/components/userPageCpmponent/UserTable";
+import { UserLogin } from "@/components/userPageComponent/UserCreate";
+import { DeleteUserByIdDropdown } from "@/components/userPageComponent/UserDelete";
+import { UserTable } from "@/components/userPageComponent/UserTable";
 
 export default function UserManagmentPage() {
     return (

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 export default function HomePage() {
   useEffect(() => {
-    document.title = "Video Tracker & Planer";
+    document.title = "Video Tracker & Planner";
   });
 
   return (
