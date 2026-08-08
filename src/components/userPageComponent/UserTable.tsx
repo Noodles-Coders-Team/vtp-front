@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { type UserDto } from '@nct/vtp-common';
 import { fetchUsers } from '@api/UsersApi';
-import { eventBus } from '@api/EventBus';
+import { eventBus } from '@/api/EventBus';
 import Card from '../commonComponents/Card';
 
 export function UserTable() {

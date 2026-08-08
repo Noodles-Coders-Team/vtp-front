@@ -1,16 +1,16 @@
 import { eventBus } from "@/api/EventBus";
 import { readGamesWithInfo, updateGameInfo } from "@/api/GamesApi";
-import type { GameWithInfoDto } from "@nct/vtp-common";
+import type { DropDownDto, GameWithInfoDto } from "@nct/vtp-common";
 import { useEffect, useState } from "react";
 import { TableColumnNameBooleanFilter } from "../commonComponents/TableColumnNameBooleanFilter";
 import iconTrue from '@assets/check_box_64.svg';
 import iconFalse from '@assets/check_box_empty_64.svg';
 import Card from "../commonComponents/Card";
+import { getGenreDropDownData, getTagDropDownData } from "@/api/DropDownDataApi";
 
 const tableIconSize = 32;
 
 export default function GamesTable() {
-
     const [games, setGames] = useState<GameWithInfoDto[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -19,6 +19,25 @@ export default function GamesTable() {
     const [can_record, setCanRecord] = useState<boolean | null>(null);
     const [discussed, setDiscussed] = useState<boolean | null>(null);
 
+    const [tagDropDownData, setTagDropDownData] = useState<DropDownDto[]>([]);
+    const [genreDropDownData, setGenreDropDownData] = useState<DropDownDto[]>([]);
+
+    const loadDropDownData = async () => {
+        try {
+            setLoading(true);
+
+            const tags = await getTagDropDownData();
+            setTagDropDownData(tags);
+
+            const genres = await getGenreDropDownData();
+            setGenreDropDownData(genres);
+
+        } catch (err) {
+            setError((err as Error).message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const loadGames = async () => {
         try {
@@ -56,8 +75,12 @@ export default function GamesTable() {
     }
 
     useEffect(() => {
-        loadGames();
+        loadDropDownData();
     }, []);
+
+    useEffect(() => {
+        loadGames();
+    }, [genreDropDownData]);
 
     useEffect(() => {
         loadGames();
@@ -85,6 +108,8 @@ export default function GamesTable() {
                             <th scope="col" style={{ width: '50%', textAlign: 'left' }}>Game Name</th>
                             <TableColumnNameBooleanFilter label="Can Record" value={can_record} onChange={setCanRecord} />
                             <TableColumnNameBooleanFilter label="Discussed" value={discussed} onChange={setDiscussed} />
+                            <th scope="col">Genre</th>
+                            <th scope="col">Tags</th>
                             <th scope="col">Notes</th>
                         </tr>
                     </thead>
@@ -96,6 +121,8 @@ export default function GamesTable() {
                                 <td>{game.name}</td>
                                 <TableTogglebox value={game.game_info.can_record} id={game.id} onToggle={onToggleCanRecord} size={tableIconSize} />
                                 <TableTogglebox value={game.game_info.discussed} id={game.id} onToggle={onToggleDiscussed} size={tableIconSize} />
+                                <DropDownValue value={game.game_info.genre} mappings={genreDropDownData} />
+                                <DropDownValue value={game.game_info.tags} mappings={tagDropDownData} />
                                 <td>{game.game_info.notes}</td>
                             </tr>
                         ))}
@@ -107,11 +134,49 @@ export default function GamesTable() {
 }
 
 
+
 type TableToggleboxProps = {
     value: boolean;
     id: string;
     onToggle: (id: string) => void;
     size: number;
+}
+
+type DropDownValueProps = {
+    value: string[] | undefined;
+    mappings: DropDownDto[];
+}
+
+interface IColorDictionary {
+    [key: number]: string;
+}
+
+const Color_To_Score_Mapping: IColorDictionary = {
+    0: "orange",
+    1: "green",
+    "-1": "red"
+}
+
+function DropDownValue({ value, mappings }: DropDownValueProps) {
+
+    const getColor = (value: string) => {
+        const default_color = "pink";
+        if (value == "")
+            return default_color;
+        const data: DropDownDto = mappings.find((data) => data.value == value) as DropDownDto;
+        if (data === null || data === undefined)
+            return default_color;
+        console.log(`Matched key: ${data.key}`);
+        return Color_To_Score_Mapping[data?.score] ?? default_color;
+    };
+
+    return (
+        <td>
+            {value?.map((v => (
+                <div style={{ backgroundColor: getColor(v), borderRadius: 5, marginTop: 2 }}>{v}</div>
+            )))}
+        </td>
+    )
 }
 
 

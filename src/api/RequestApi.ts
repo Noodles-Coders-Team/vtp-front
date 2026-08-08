@@ -14,7 +14,11 @@ export async function get(URL: string): Promise<any> {
     return await response.json();
 }
 
-export function put(URL: string, body: any = {}): Promise<any> {
+export function postDelete(URL: string){
+    return sendPostPutRequest("DELETE", URL, {});
+}
+
+export async function put(URL: string, body: any = {}): Promise<any> {
     return sendPostPutRequest('PUT', URL, body);
 }
 
