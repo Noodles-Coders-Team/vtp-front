@@ -58,8 +58,8 @@ export default function GamesTable() {
             console.error(`Game not found with id: ${id}`);
             return;
         }
-        game.game_info.can_record = !game?.game_info.can_record;
-        updateGameInfo(game.game_info);
+        game.can_record = !game?.can_record;
+        updateGameInfo(game);
         await loadGames();
     }
 
@@ -69,8 +69,8 @@ export default function GamesTable() {
             console.error(`Game not found with id: ${id}`);
             return;
         }
-        game.game_info.discussed = !game?.game_info.discussed;
-        updateGameInfo(game.game_info);
+        game.discussed = !game?.discussed;
+        updateGameInfo(game);
         await loadGames();
     }
 
@@ -108,6 +108,7 @@ export default function GamesTable() {
                             <th scope="col" style={{ width: '50%', textAlign: 'left' }}>Game Name</th>
                             <TableColumnNameBooleanFilter label="Can Record" value={can_record} onChange={setCanRecord} />
                             <TableColumnNameBooleanFilter label="Discussed" value={discussed} onChange={setDiscussed} />
+                            <th scope="col">Score</th>
                             <th scope="col">Genre</th>
                             <th scope="col">Tags</th>
                             <th scope="col">Notes</th>
@@ -119,11 +120,12 @@ export default function GamesTable() {
                             <tr key={game.name}>
                                 <td>{games.indexOf(game) + 1}</td>
                                 <td>{game.name}</td>
-                                <TableTogglebox value={game.game_info.can_record} id={game.id} onToggle={onToggleCanRecord} size={tableIconSize} />
-                                <TableTogglebox value={game.game_info.discussed} id={game.id} onToggle={onToggleDiscussed} size={tableIconSize} />
-                                <DropDownValue value={game.game_info.genre} mappings={genreDropDownData} />
-                                <DropDownValue value={game.game_info.tags} mappings={tagDropDownData} />
-                                <td>{game.game_info.notes}</td>
+                                <TableTogglebox value={game.can_record} id={game.id} onToggle={onToggleCanRecord} size={tableIconSize} />
+                                <TableTogglebox value={game.discussed} id={game.id} onToggle={onToggleDiscussed} size={tableIconSize} />
+                                <td>{game.game_score ?? 0}</td>
+                                <DropDownValue value={game.genre} mappings={genreDropDownData} />
+                                <DropDownValue value={game.tags} mappings={tagDropDownData} />
+                                <td>{game.notes}</td>
                             </tr>
                         ))}
                     </tbody>
