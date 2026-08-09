@@ -54,8 +54,8 @@ export function DropDownDataCreate() {
                             className="form-select" aria-label="Default select example"
                         >
                             <option value={0} selected>0</option>
-                            <option value={1} selected>1</option>
-                            <option value={-1} selected>-1</option>
+                            <option value={1}>1</option>
+                            <option value={-1}>-1</option>
                         </select>
                     </div>
                 </div>

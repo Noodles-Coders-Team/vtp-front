@@ -100,7 +100,7 @@ export default function GamesTable() {
     return (
         <Card title="Games list">
             <button onClick={loadGames} className="btn btn-secondary">Refresh Data</button>
-            <div className="overflow-y-scroll" style={{ height: 500 }}>
+            <div className="overflow-y-scroll" style={{ height: 750 }}>
                 <table className='table table-bordered'>
                     <thead>
                         <tr>
@@ -166,7 +166,6 @@ function DropDownValue({ value, mappings }: DropDownValueProps) {
         const data: DropDownDto = mappings.find((data) => data.value == value) as DropDownDto;
         if (data === null || data === undefined)
             return default_color;
-        console.log(`Matched key: ${data.key}`);
         return Color_To_Score_Mapping[data?.score] ?? default_color;
     };
 

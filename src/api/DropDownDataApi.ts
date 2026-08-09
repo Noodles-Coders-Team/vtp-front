@@ -24,6 +24,19 @@ export async function getAllDopDownData(): Promise<DropDownDto[]> {
 }
 
 
+export async function getTagDopDownData(): Promise<DropDownDto[]> {
+    const response = await get(`${API_URL}/tag`);
+    return ValidateSchemaArray<DropDownDto[]>(response, DropDownSchema);
+}
+
+
+export async function getGenreDopDownData(): Promise<DropDownDto[]> {
+    const response = await get(`${API_URL}/genre`);
+    return ValidateSchemaArray<DropDownDto[]>(response, DropDownSchema);
+}
+
+
+
 export async function getTagDropDownData(): Promise<DropDownDto[]> {
     const response = await get(`${API_URL}/tag`);
     return ValidateSchemaArray<DropDownDto[]>(response, DropDownSchema);
