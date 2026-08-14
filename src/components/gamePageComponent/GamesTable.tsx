@@ -117,7 +117,7 @@ export default function GamesTable() {
 
                     <tbody>
                         {games.map((game) => (
-                            <tr key={game.name}>
+                            <tr key={game.id}>
                                 <td>{games.indexOf(game) + 1}</td>
                                 <td>{game.name}</td>
                                 <TableTogglebox value={game.can_record} id={game.id} onToggle={onToggleCanRecord} size={tableIconSize} />

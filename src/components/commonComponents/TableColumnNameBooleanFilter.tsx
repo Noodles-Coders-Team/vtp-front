@@ -31,7 +31,7 @@ export function TableColumnNameBooleanFilter({ label, value, onChange }: TableCo
     }
 
     return (
-        <th scope="col" onClick={switchBoolean} style={{alignContent: 'center', textAlign: 'center', cursor: 'pointer'}}>
+        <th scope="col" onClick={switchBoolean} style={{ alignItems: 'center', textAlign: 'center', cursor: 'pointer' }}>
             <div className="container text-center">
                 <div className="row">
                     <div className='col'>

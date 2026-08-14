@@ -1,4 +1,4 @@
-import { deleteDropDownData, getAllDopDownData, getGenreDopDownData, getTagDopDownData } from "@/api/DropDownDataApi";
+import { deleteDropDownData, getAllDropDownData, getGenreDropDownData, getTagDropDownData } from "@/api/DropDownDataApi";
 import { eventBus } from "@/api/EventBus";
 import type { DropDownDto } from "@nct/vtp-common";
 import { useEffect, useState } from "react";
@@ -16,11 +16,11 @@ export function DropDownDataTable() {
             setLoading(true);
             let data;
             if (showOnlyTags)
-                data = await getTagDopDownData();
+                data = await getTagDropDownData();
             else if (showOnlyGenres)
-                data = await getGenreDopDownData();
+                data = await getGenreDropDownData();
             else
-                data = await getAllDopDownData();
+                data = await getAllDropDownData();
             setDropDownData(data);
         } catch (err) {
             setError((err as Error).message);

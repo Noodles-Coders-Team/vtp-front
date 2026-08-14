@@ -49,7 +49,7 @@ export function UserTable() {
                     <tr>
                         <th scope="col">Login</th>
                         <th scope="col">User Name</th>
-                        <th scope="col">Peermission level</th>
+                        <th scope="col">Permission level</th>
                     </tr>
                 </thead>
 

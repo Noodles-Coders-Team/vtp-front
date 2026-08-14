@@ -54,7 +54,7 @@ export function UserDropdown({ value, onChange }: UserDropdownProps) {
                 onChange={(e) => onChange(e.target.value)}
                 className="form-select" aria-label="Default select example"
             >
-                <option value={-1} selected>Select User</option>
+                <option value="-1" selected>Select User</option>
                 {users.map((user) => (
                     <option value={user.login}>{user.user_name}</option>
                 ))}

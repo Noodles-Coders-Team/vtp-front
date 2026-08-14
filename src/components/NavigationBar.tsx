@@ -8,25 +8,25 @@ export default function Navigation() {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
                         <img src={logo} alt="Logo" width="64" height="64" className="d-inline-block align-text-top" />
-                        <p className="navbar-brand" >VP&T</p>
+                        <p className="navbar-brand" >VT&P</p>
                     </ul>
-                    <NavLink adress="/" text='Home' />
-                    <NavLink adress="/config" text="Configuration" />
-                    <NavLink adress="/games" text="Games" />
-                    <NavLink adress='/import' text="CSV Import" />
-                    <NavLink adress='http://localhost:8080/docs' text="API Docs" />
-                    <NavLink adress='/channel-data' text="Channel Data Graph" />
+                    <NavLink address="/" text='Home' />
+                    <NavLink address="/config" text="Configuration" />
+                    <NavLink address="/games" text="Games" />
+                    <NavLink address='/import' text="CSV Import" />
+                    <NavLink address='http://localhost:8080/docs' text="API Docs" />
+                    <NavLink address='/channel-data' text="Channel Data Graph" />
                 </div>
             </div>
         </nav>
     )
 }
 
-function NavLink({ adress = '/', text = 'No Text Provided' }) {
+function NavLink({ address = '/', text = 'No Text Provided' }) {
     // We are using link as it's just updates status, and prevents browser from refreshing the page
     return (
         <ul className="navbar-nav">
-            <Link className="nav-link active" to={adress}>{text}</Link>
+            <Link className="nav-link active" to={address}>{text}</Link>
         </ul>
     )
 }

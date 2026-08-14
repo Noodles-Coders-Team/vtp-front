@@ -10,7 +10,7 @@ const cleanUser: CreateUserDto = {
 }
 
 export function UserLogin() {
-    const [userCreateForm, setUserCreateFormForm] = useState<CreateUserDto>(cleanUser);
+    const [userCreateForm, setUserCreateForm] = useState<CreateUserDto>(cleanUser);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         // Prevent browser default form submission behavior (page reload)
@@ -18,7 +18,7 @@ export function UserLogin() {
         createUser(userCreateForm);
 
         // Clear form after submission
-        setUserCreateFormForm(cleanUser);
+        setUserCreateForm(cleanUser);
     };
 
     return (
@@ -33,7 +33,7 @@ export function UserLogin() {
                             placeholder="super_user_com"
                             type="text"
                             value={userCreateForm.login}
-                            onChange={(event) => setUserCreateFormForm({
+                            onChange={(event) => setUserCreateForm({
                                 ...userCreateForm,
                                 login: event.target.value
                             })}
@@ -49,7 +49,7 @@ export function UserLogin() {
                             placeholder="Very Cool Name"
                             type="text"
                             value={userCreateForm.user_name}
-                            onChange={(event) => setUserCreateFormForm({
+                            onChange={(event) => setUserCreateForm({
                                 ...userCreateForm,
                                 user_name: event.target.value
                             })}

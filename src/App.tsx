@@ -4,7 +4,7 @@ import GamesPage from './pages/GamesPage';
 import HomePage from './pages/HomePage';
 import ImportPage from './pages/ImportCsvPage';
 import Navigation from './components/NavigationBar';
-import ChannelData from './pages/ChenelDataPage';
+import ChannelData from './pages/ChannelDataPage';
 import ConfigurationPage from './pages/ConfigurationPage';
 
 function App() {
@@ -26,6 +26,7 @@ function App() {
           <Route path="/import" element={<ImportPage />} />
           <Route path="/games" element={<GamesPage />} />
           <Route path="/channel-data" element={<ChannelData />} />
+          <Route path="*" element={<div>Page not found</div>} />
         </Routes>
       </div>
     </>
