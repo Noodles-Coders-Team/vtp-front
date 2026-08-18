@@ -84,7 +84,6 @@ export default function GamesTable() {
             return;
 
         if (id == 'name') {
-            console.log('Sorting by game name');
             setGames([...games].sort((a, b) => {
                 const nA = a.name.toUpperCase();
                 const nB = b.name.toUpperCase();
@@ -102,7 +101,6 @@ export default function GamesTable() {
         }
 
         if (id == 'score') {
-            console.log('Sorting by game score');
             setGames([...games].sort((a, b) => {
                 const nA = a.game_score ?? 0;
                 const nB = b.game_score ?? 0;
@@ -239,7 +237,7 @@ function TableTogglebox({ value, id, onToggle, size = tableIconSize }: TableTogg
 
 }
 
-//TODO: filter is not firing after first click. State from 0 changes to 0 also
+
 function TableTextColumnName({ state = 0, id, children, onChangeState, size = tableIconSize, style }: TableColumnNameProps) {
     const [currentState, setCurrentState] = useState<number>(state);
 
@@ -262,7 +260,6 @@ function TableTextColumnName({ state = 0, id, children, onChangeState, size = ta
 
     const toggleState = () => {
         let state: number = 0;
-        console.log(`Changing for ${id} from ${state}`);
         if (currentState == 0)
             state = 1;
         else if (currentState == 1)
@@ -271,12 +268,12 @@ function TableTextColumnName({ state = 0, id, children, onChangeState, size = ta
             state = 0;
         eventBus.dispatchEvent(new Event('SortingShouldBeReset'));
         setCurrentState(state);
-        console.log(id + ' is ' + currentState);
+        onChangeState(id, state);
     };
 
     return (
         <td
-            onClick={async (e) => { e.preventDefault(); toggleState(); onChangeState(id, currentState); }}
+            onClick={async (e) => { e.preventDefault(); toggleState(); }}
             style={style && { alignContent: 'center', textAlign: 'center', cursor: 'pointer' }}
         >
             {currentState == 0 &&
