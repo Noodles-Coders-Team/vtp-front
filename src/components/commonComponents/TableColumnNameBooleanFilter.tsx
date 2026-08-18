@@ -35,10 +35,10 @@ export function TableColumnNameBooleanFilter({ label, value, onChange }: TableCo
             <div className="container text-center">
                 <div className="row">
                     <div className='col'>
-                        {label}
+                        <img src={getIcon()} alt="filter" width={iconSize} height={iconSize} />
                     </div>
                     <div className='col'>
-                        <img src={getIcon()} alt="filter" width={iconSize} height={iconSize} />
+                        {label}
                     </div>
                 </div>
             </div>
