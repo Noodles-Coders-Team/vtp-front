@@ -1,6 +1,7 @@
 import { Column, Container, Row } from "@/components/commonComponents/Container";
 import { DropDownDataCreate } from "@/components/dropDownComponents/DropDownDataCreate";
 import { DropDownDataTable } from "@/components/dropDownComponents/DropDownDataTable";
+import { SettingsConfigurationPage } from "@/components/SettingDataTable";
 import { UserLogin } from "@/components/userPageComponent/UserCreate";
 import { DeleteUserByIdDropdown } from "@/components/userPageComponent/UserDelete";
 import { UserTable } from "@/components/userPageComponent/UserTable";
@@ -9,14 +10,13 @@ export default function ConfigurationPage() {
     return (
         <Container>
             <Row>
-                <Column>
-                    <DropDownDataCreate />
-                </Column>
-                <Column>
-                    <DropDownDataTable />
-                </Column>
+                <DropDownDataCreate />
+                <DropDownDataTable />
             </Row>
             <Row>
+                <SettingsConfigurationPage />
+            </Row>
+            {/* <Row>
                 <Column>
                     <UserLogin />
                 </Column>
@@ -26,7 +26,7 @@ export default function ConfigurationPage() {
                 <Column>
                     <DeleteUserByIdDropdown />
                 </Column>
-            </Row>
+            </Row> */}
         </Container>
     );
 }
