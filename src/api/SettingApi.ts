@@ -1,5 +1,6 @@
 import { SettingSchema, ValidateSchema, ValidateSchemaArray, type SettingDto } from "@nct/vtp-common";
-import { get, post, put } from "./RequestApi";
+import { get, post, postDelete, put } from "./RequestApi";
+import { eventBus } from "./EventBus";
 
 
 const POINT = 'settings'
@@ -19,12 +20,21 @@ export async function readSetting(name: string): Promise<SettingDto> {
 
 
 export async function createSetting(body: SettingDto): Promise<SettingDto> {
-    const rawSetting = post(API_URL, body);
+    const rawSetting = await post(API_URL, body);
+    eventBus.dispatchEvent(new Event('SettingsTableShouldBeRefreshed'));
     return ValidateSchema<SettingDto>(rawSetting, SettingSchema);
 }
 
 
 export async function updateSetting(body: SettingDto): Promise<SettingDto> {
     const rawSetting = put(API_URL, body);
+    eventBus.dispatchEvent(new Event('SettingsTableShouldBeRefreshed'));
+    return ValidateSchema<SettingDto>(rawSetting, SettingSchema);
+}
+
+
+export async function deleteSettingByKey(key: string): Promise<SettingDto> {
+    const rawSetting = await postDelete(API_URL + '/' + key);
+    eventBus.dispatchEvent(new Event('SettingsTableShouldBeRefreshed'));
     return ValidateSchema<SettingDto>(rawSetting, SettingSchema);
 }

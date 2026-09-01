@@ -3,10 +3,12 @@ import { eventBus } from "@/api/EventBus";
 import type { SettingDto } from "@nct/vtp-common";
 import { useEffect, useState } from "react";
 import Card from "./commonComponents/Card";
-import { readSettings } from "@/api/SettingApi";
+import { createSetting, deleteSettingByKey, readSettings } from "@/api/SettingApi";
+import { Column, Row } from "./commonComponents/Container";
 
 export function SettingsConfigurationPage() {
     const [settingsData, setSettingsData] = useState<SettingDto[]>([]);
+    const [settingCreate, setSettingCreate] = useState<SettingDto>({} as SettingDto);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -20,6 +22,17 @@ export function SettingsConfigurationPage() {
         } finally {
             setLoading(false);
         }
+    };
+
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        // Prevent browser default form submission behavior (page reload)
+        event.preventDefault();
+
+        createSetting(settingCreate);
+
+        // Clear form after submission
+        setSettingCreate({} as SettingDto);
     };
 
 
@@ -42,12 +55,64 @@ export function SettingsConfigurationPage() {
     if (error) return <p style={{ color: "red" }}>Error loading Settings data: {error}</p>;
 
     const deleteData = async (key: string) => {
-        deleteDropDownData(key);
+        deleteSettingByKey(key);
     };
 
 
     return (
-        <Card title='Settings List'>
+        <Card title='Settings'>
+            <div>
+                <form onSubmit={handleSubmit}>
+                    <Row>
+                        <Column>
+                            <label htmlFor="settingDisplay">Display</label>
+                            <input
+                                className="form-control"
+                                id="settingDisplay"
+                                placeholder="Setting Name"
+                                type="text"
+                                value={settingCreate.display}
+                                onChange={(event) => setSettingCreate({
+                                    ...settingCreate,
+                                    display: event.target.value
+                                })}
+                            />
+                        </Column>
+                        <Column>
+                            <label htmlFor="settingValue">Value</label>
+                            <input
+                                className="form-control"
+                                id="settingValue"
+                                placeholder="100"
+                                type="text"
+                                value={settingCreate.value}
+                                onChange={(event) => setSettingCreate({
+                                    ...settingCreate,
+                                    value: event.target.value
+                                })}
+                            />
+                        </Column>
+                        <Column>
+                            <label htmlFor="settingKey">Key</label>
+                            <input
+                                className="form-control"
+                                id="settingKey"
+                                placeholder="setting_name"
+                                type="text"
+                                value={settingCreate.key}
+                                onChange={(event) => setSettingCreate({
+                                    ...settingCreate,
+                                    key: event.target.value
+                                })}
+                            />
+                        </Column>
+                        <Column>
+                            <button type="submit" className="btn btn-success" style={{ marginTop: 15 }}>Create</button>
+                        </Column>
+                    </Row>
+                </form>
+            </div>
+            <br />
             <div className="overflow-y-scroll" style={{ height: 400 }}>
                 <table className='table'>
                     <thead>
@@ -71,7 +136,8 @@ export function SettingsConfigurationPage() {
                     </tbody>
                 </table>
             </div>
+            <br />
             <button onClick={loadSettingsData} className="btn btn-secondary">Refresh Data</button>
-        </Card>
+        </Card >
     );
 }

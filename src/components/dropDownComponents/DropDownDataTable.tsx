@@ -114,6 +114,7 @@ export function DropDownDataTable() {
                     </tbody>
                 </table>
             </div>
+            <br />
             <button onClick={loadDropDownData} className="btn btn-secondary">Refresh Data</button>
         </Card>
     );
