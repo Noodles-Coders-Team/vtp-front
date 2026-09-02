@@ -1,32 +1,20 @@
 import { Column, Container, Row } from "@/components/commonComponents/Container";
-import { DropDownDataCreate } from "@/components/dropDownComponents/DropDownDataCreate";
-import { DropDownDataTable } from "@/components/dropDownComponents/DropDownDataTable";
+import { DropDownConfigurationComponent } from "@/components/dropdownComponents/DropDownConfigurationComponent";
 import { SettingsConfigurationPage } from "@/components/SettingDataTable";
-import { UserLogin } from "@/components/userPageComponent/UserCreate";
-import { DeleteUserByIdDropdown } from "@/components/userPageComponent/UserDelete";
-import { UserTable } from "@/components/userPageComponent/UserTable";
 
 export default function ConfigurationPage() {
     return (
         <Container>
             <Row>
-                <DropDownDataCreate />
-                <DropDownDataTable />
+                <Column>
+                    <DropDownConfigurationComponent />
+                </Column>
             </Row>
             <Row>
-                <SettingsConfigurationPage />
+                <Column>
+                    <SettingsConfigurationPage />
+                </Column>
             </Row>
-            {/* <Row>
-                <Column>
-                    <UserLogin />
-                </Column>
-                <Column>
-                    <UserTable />
-                </Column>
-                <Column>
-                    <DeleteUserByIdDropdown />
-                </Column>
-            </Row> */}
         </Container>
     );
 }

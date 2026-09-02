@@ -1,10 +1,10 @@
-import { deleteDropDownData } from "@/api/DropDownDataApi";
 import { eventBus } from "@/api/EventBus";
 import type { SettingDto } from "@nct/vtp-common";
 import { useEffect, useState } from "react";
 import Card from "./commonComponents/Card";
 import { createSetting, deleteSettingByKey, readSettings } from "@/api/SettingApi";
 import { Column, Row } from "./commonComponents/Container";
+import { InputComponent } from "./commonComponents/InputComponent";
 
 export function SettingsConfigurationPage() {
     const [settingsData, setSettingsData] = useState<SettingDto[]>([]);
@@ -65,46 +65,30 @@ export function SettingsConfigurationPage() {
                 <form onSubmit={handleSubmit}>
                     <Row>
                         <Column>
-                            <label htmlFor="settingDisplay">Display</label>
-                            <input
-                                className="form-control"
+                            <InputComponent
                                 id="settingDisplay"
+                                label="Setting Name"
                                 placeholder="Setting Name"
-                                type="text"
                                 value={settingCreate.display}
-                                onChange={(event) => setSettingCreate({
-                                    ...settingCreate,
-                                    display: event.target.value
-                                })}
+                                onChange={(value: string) => setSettingCreate({ ...settingCreate, display: value })}
                             />
                         </Column>
                         <Column>
-                            <label htmlFor="settingValue">Value</label>
-                            <input
-                                className="form-control"
+                            <InputComponent
                                 id="settingValue"
+                                label="Value"
                                 placeholder="100"
-                                type="text"
                                 value={settingCreate.value}
-                                onChange={(event) => setSettingCreate({
-                                    ...settingCreate,
-                                    value: event.target.value
-                                })}
+                                onChange={(value: string) => setSettingCreate({ ...settingCreate, value: value })}
                             />
                         </Column>
                         <Column>
-                            <label htmlFor="settingKey">Key</label>
-                            <input
-                                className="form-control"
+                            <InputComponent
                                 id="settingKey"
+                                label="Key"
                                 placeholder="setting_name"
-                                type="text"
                                 value={settingCreate.key}
-                                onChange={(event) => setSettingCreate({
-                                    ...settingCreate,
-                                    key: event.target.value
-                                })}
-                            />
+                                onChange={(value: string) => setSettingCreate({ ...settingCreate, key: value })} />
                         </Column>
                         <Column>
                             <button type="submit" className="btn btn-success" style={{ marginTop: 15 }}>Create</button>

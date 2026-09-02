@@ -1,15 +1,26 @@
-import { deleteDropDownData, getAllDropDownData, getGenreDropDownData, getTagDropDownData } from "@/api/DropDownDataApi";
+import { createDropDownData, deleteDropDownData, getAllDropDownData, getGenreDropDownData, getTagDropDownData } from "@/api/DropDownDataApi";
 import { eventBus } from "@/api/EventBus";
 import type { DropDownDto } from "@nct/vtp-common";
 import { useEffect, useState } from "react";
 import Card from "../commonComponents/Card";
+import { Column, Row } from "../commonComponents/Container";
+import { InputComponent } from "../commonComponents/InputComponent";
 
-export function DropDownDataTable() {
+
+const cleanDropDownData: DropDownDto = {
+    value: '',
+    type: 'tag',
+    score: 0
+}
+
+
+export function DropDownConfigurationComponent() {
     const [dropDownData, setDropDownData] = useState<DropDownDto[]>([]);
     const [showOnlyTags, setShowOnlyTags] = useState<boolean>(false);
     const [showOnlyGenres, setShowOnlyGenres] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [dropDownDataCreate, setDropDownDataCreate] = useState<DropDownDto>(cleanDropDownData);
 
     const loadDropDownData = async () => {
         try {
@@ -38,6 +49,16 @@ export function DropDownDataTable() {
     const toggleGenreOnly = () => {
         setShowOnlyTags(false);
         setShowOnlyGenres(!showOnlyGenres);
+    };
+
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        // Prevent browser default form submission behavior (page reload)
+        event.preventDefault();
+        createDropDownData(dropDownDataCreate);
+
+        // Clear form after submission
+        setDropDownDataCreate(cleanDropDownData);
     };
 
 
@@ -81,6 +102,58 @@ export function DropDownDataTable() {
 
     return (
         <Card title='DropDown Data List'>
+            <form onSubmit={handleSubmit}>
+                <Row>
+                    <Column>
+                        <InputComponent
+                            id="value"
+                            label="Value"
+                            placeholder="RPG"
+                            value={dropDownDataCreate.value}
+                            onChange={(value: string) => setDropDownDataCreate({ ...dropDownDataCreate, value: value })}
+                        />
+                    </Column>
+                    <Column>
+                        <label htmlFor="score" className="col-sm-2 col-form-label">Score</label>
+                        <div className="col-sm-10">
+                            <select
+                                id="score"
+                                value={dropDownDataCreate.score}
+                                onChange={(event) => setDropDownDataCreate({
+                                    ...dropDownDataCreate,
+                                    score: Number(event.target.value)
+                                })}
+                                className="form-select" aria-label="Default select example"
+                            >
+                                <option value={0} selected>0</option>
+                                <option value={1}>1</option>
+                                <option value={-1}>-1</option>
+                            </select>
+                        </div>
+                    </Column>
+                    <Column>
+                        <label htmlFor="type" className="col-sm-2 col-form-label">Type</label>
+                        <div className="col-sm-10">
+                            <select
+                                id="type"
+                                value={dropDownDataCreate.type}
+                                onChange={(event) => setDropDownDataCreate({
+                                    ...dropDownDataCreate,
+                                    type: event.target.value
+                                })}
+                                className="form-select" aria-label="Default select example"
+                            >
+                                <option value={'tag'} selected>Tag</option>
+                                <option value={'genre'} selected>Genre</option>
+                            </select>
+                        </div>
+                    </Column>
+                    <Column>
+                        <button type="submit" className="btn btn-success">Create</button>
+                    </Column>
+                </Row>
+            </form>
+            <br />
             <div style={{ alignContent: "end" }}>
                 <p>
                     <input type="checkbox" onChange={toggleTagOnly} checked={showOnlyTags} />
