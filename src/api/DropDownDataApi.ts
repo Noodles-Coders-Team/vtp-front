@@ -1,5 +1,5 @@
 import { DropDownSchema, ValidateSchema, ValidateSchemaArray, type DropDownDto } from "@nct/vtp-common";
-import { get, postDelete, put } from "./RequestApi";
+import { get, post, postDelete, put } from "./RequestApi";
 import { eventBus } from "./EventBus";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL + "/drop-down-data";
@@ -11,7 +11,7 @@ export async function deleteDropDownData(key: string) {
 
 
 export async function createDropDownData(body: DropDownDto) {
-    const response = await put(`${API_URL}/`, ValidateSchema<DropDownDto>(body, DropDownSchema));
+    const response = await post(`${API_URL}/`, ValidateSchema<DropDownDto>(body, DropDownSchema));
     const result = ValidateSchema<DropDownDto>(response, DropDownSchema);
     eventBus.dispatchEvent(new Event('DropDownTableShouldBeRefreshed'));
     return result;
