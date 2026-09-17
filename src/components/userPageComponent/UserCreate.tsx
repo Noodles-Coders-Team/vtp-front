@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { type CreateUserDto } from '@nct/vtp-common';
-import { createUser } from '@api/UsersApi';
+import {useState} from 'react';
+import {type CreateUserDto} from '@nct/vtp-common';
+import {createUser} from '@api/UsersApi';
 import Card from '../commonComponents/Card';
 
 const cleanUser: CreateUserDto = {
@@ -15,7 +15,7 @@ export function UserLogin() {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         // Prevent browser default form submission behavior (page reload)
         event.preventDefault();
-        createUser(userCreateForm);
+        await createUser(userCreateForm);
 
         // Clear form after submission
         setUserCreateForm(cleanUser);

@@ -10,7 +10,7 @@ type TableColumnProps = {
     onChange: (value: boolean | null) => void;
 }
 
-export function TableColumnNameBooleanFilter({ label, value, onChange }: TableColumnProps) {
+export function TableColumnNameBooleanFilter({label, value, onChange}: TableColumnProps) {
 
     const switchBoolean = () => {
         if (value === null)
@@ -31,11 +31,11 @@ export function TableColumnNameBooleanFilter({ label, value, onChange }: TableCo
     }
 
     return (
-        <th scope="col" onClick={switchBoolean} style={{ alignItems: 'center', textAlign: 'center', cursor: 'pointer' }}>
+        <th scope="col" onClick={switchBoolean} style={{alignItems: 'center', textAlign: 'center', cursor: 'pointer'}}>
             <div className="container text-center">
                 <div className="row">
                     <div className='col'>
-                        <img src={getIcon()} alt="filter" width={iconSize} height={iconSize} />
+                        <img src={getIcon()} alt="filter" width={iconSize} height={iconSize}/>
                     </div>
                     <div className='col'>
                         {label}

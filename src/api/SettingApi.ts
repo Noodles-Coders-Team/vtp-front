@@ -1,6 +1,6 @@
-import { SettingSchema, ValidateSchema, ValidateSchemaArray, type SettingDto } from "@nct/vtp-common";
-import { get, post, postDelete, put } from "./RequestApi";
-import { eventBus } from "./EventBus";
+import {type SettingDto, SettingSchema, ValidateSchema} from "@nct/vtp-common";
+import {get, post, postDelete, put} from "./RequestApi";
+import {eventBus} from "./EventBus";
 
 
 const POINT = 'settings'
@@ -9,7 +9,7 @@ const API_URL = import.meta.env.VITE_BACKEND_URL + '/' + POINT;
 
 export async function readSettings(): Promise<SettingDto[]> {
     const rawSettings = await get(API_URL);
-    return ValidateSchemaArray<SettingDto[]>(rawSettings, SettingSchema);
+    return ValidateSchema<SettingDto>(rawSettings, SettingSchema, true);
 }
 
 
@@ -27,7 +27,7 @@ export async function createSetting(body: SettingDto): Promise<SettingDto> {
 
 
 export async function updateSetting(body: SettingDto): Promise<SettingDto> {
-    const rawSetting = put(API_URL, body);
+    const rawSetting = await put(API_URL, body);
     eventBus.dispatchEvent(new Event('SettingsTableShouldBeRefreshed'));
     return ValidateSchema<SettingDto>(rawSetting, SettingSchema);
 }

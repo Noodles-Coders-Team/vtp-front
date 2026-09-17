@@ -1,6 +1,6 @@
-import { createGame } from "@/api/GamesApi";
-import type { CreateGameDto } from "@nct/vtp-common";
-import { useState } from "react";
+import {createGame} from "@/api/GamesApi";
+import type {CreateGameDto} from "@nct/vtp-common";
+import {useState} from "react";
 import Card from "../commonComponents/Card";
 
 const cleanGame: CreateGameDto = {
@@ -18,7 +18,7 @@ export default function GamesCreate() {
         // Prevent browser default form submission behavior (page reload)
         event.preventDefault();
 
-        createGame(createGameForm);
+        await createGame(createGameForm);
         // Clear form after submission
         setCreateGameForm(cleanGame);
     }
@@ -48,7 +48,7 @@ export default function GamesCreate() {
                         <input
                             className="form-control"
                             id="userName"
-                            placeholder="Very Cool Name"
+                            placeholder="minecraft.com"
                             type="text"
                             value={createGameForm.link ?? ''}
                             onChange={(event) => setCreateGameForm({

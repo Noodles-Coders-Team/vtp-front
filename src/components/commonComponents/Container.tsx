@@ -1,11 +1,11 @@
-import type { ReactNode } from 'react';
+import type {ReactNode} from 'react';
 
 interface ContainerProps {
     children: ReactNode,
     style?: React.CSSProperties | undefined
 }
 
-export function Container({ children, style = undefined }: ContainerProps) {
+export function Container({children, style = undefined}: ContainerProps) {
     return (
         <div className="container text-center" style={style}>
             {children}
@@ -14,7 +14,7 @@ export function Container({ children, style = undefined }: ContainerProps) {
 }
 
 
-export function Row({ children, style = {} }: ContainerProps) {
+export function Row({children, style = {}}: ContainerProps) {
     return (
         <div className="row" style={style}>
             {children}
@@ -23,7 +23,7 @@ export function Row({ children, style = {} }: ContainerProps) {
 }
 
 
-export function Column({ children, style = {} }: ContainerProps) {
+export function Column({children, style = {}}: ContainerProps) {
     return (
         <div className="col" style={style}>
             {children}

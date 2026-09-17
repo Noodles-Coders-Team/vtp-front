@@ -1,6 +1,6 @@
-import { DropDownSchema, ValidateSchema, ValidateSchemaArray, type DropDownDto } from "@nct/vtp-common";
-import { get, post, postDelete, put } from "./RequestApi";
-import { eventBus } from "./EventBus";
+import {type DropDownDto, DropDownSchema, ValidateSchema} from "@nct/vtp-common";
+import {get, post, postDelete} from "./RequestApi";
+import {eventBus} from "./EventBus";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL + "/drop-down-data";
 
@@ -20,17 +20,17 @@ export async function createDropDownData(body: DropDownDto) {
 
 export async function getAllDropDownData(): Promise<DropDownDto[]> {
     const response = await get(`${API_URL}/`);
-    return ValidateSchemaArray<DropDownDto[]>(response, DropDownSchema);
+    return ValidateSchema<DropDownDto>(response, DropDownSchema, true);
 }
 
 
 export async function getGenreDropDownData(): Promise<DropDownDto[]> {
     const response = await get(`${API_URL}/genre`);
-    return ValidateSchemaArray<DropDownDto[]>(response, DropDownSchema);
+    return ValidateSchema<DropDownDto>(response, DropDownSchema, true);
 }
 
 
 export async function getTagDropDownData(): Promise<DropDownDto[]> {
     const response = await get(`${API_URL}/tag`);
-    return ValidateSchemaArray<DropDownDto[]>(response, DropDownSchema);
+    return ValidateSchema<DropDownDto>(response, DropDownSchema, true);
 }

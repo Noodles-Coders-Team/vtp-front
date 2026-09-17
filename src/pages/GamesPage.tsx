@@ -1,4 +1,4 @@
-import { Column, Container, Row } from "@/components/commonComponents/Container";
+import {Column, Container, Row} from "@/components/commonComponents/Container";
 import GamesCreate from "@/components/gamePageComponent/GamesCreate";
 import GamesTable from "@/components/gamePageComponent/GamesTable";
 
@@ -8,12 +8,12 @@ export default function GamesPage() {
         <Container>
             <Row>
                 <Column>
-                    <GamesCreate />
+                    <GamesCreate/>
                 </Column>
             </Row>
             <Row>
                 <Column>
-                    <GamesTable />
+                    <GamesTable/>
                 </Column>
             </Row>
         </Container>

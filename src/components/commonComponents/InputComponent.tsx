@@ -7,7 +7,7 @@ interface InputProps {
     onChange: (value: string) => void
 }
 
-export function InputComponent({ id, label, placeholder, type = "text", value, onChange }: InputProps) {
+export function InputComponent({id, label, placeholder, type = "text", value, onChange}: InputProps) {
     return (
         <>
             <label htmlFor={id}>{label}</label>

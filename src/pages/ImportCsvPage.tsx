@@ -1,4 +1,4 @@
-import { Column, Container, Row } from "@/components/commonComponents/Container";
+import {Column, Container, Row} from "@/components/commonComponents/Container";
 import ImportCsvComponent from "@/components/importComponent/ImportCsvComponent";
 
 export default function ImportPage() {
@@ -7,17 +7,17 @@ export default function ImportPage() {
         <Container>
             <Row>
                 <Column>
-                    <ImportCsvComponent title={"Import Games from Google sheets"} end_point={"games"} />
+                    <ImportCsvComponent title={"Import Games from Google sheets"} end_point={"games"}/>
                 </Column>
             </Row>
             <Row>
                 <Column>
-                    <ImportCsvComponent title={"Import channel Data from YT"} end_point={"channel-data"} />
+                    <ImportCsvComponent title={"Import channel Data from YT"} end_point={"channel-data"}/>
                 </Column>
             </Row>
             <Row>
                 <Column>
-                    <ImportCsvComponent title={"Import Table Data from YT"} end_point={"table-data"} />
+                    <ImportCsvComponent title={"Import Table Data from YT"} end_point={"table-data"}/>
                 </Column>
             </Row>
         </Container>

@@ -1,6 +1,6 @@
-import { CreateUserSchema, UserSchema, ValidateSchema, ValidateSchemaArray, type CreateUserDto, type UserDto } from "@nct/vtp-common";
-import { eventBus } from "./EventBus";
-import { post, get } from "./RequestApi";
+import {type CreateUserDto, CreateUserSchema, type UserDto, UserSchema, ValidateSchema} from "@nct/vtp-common";
+import {eventBus} from "./EventBus";
+import {get, post} from "./RequestApi";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL + '/users';
 
@@ -18,5 +18,5 @@ export async function createUser(user: CreateUserDto): Promise<void> {
 
 export async function fetchUsers(): Promise<UserDto[]> {
     const response = await get(`${API_URL}`);
-    return  ValidateSchemaArray<UserDto[]>(response, UserSchema);
-};
+    return ValidateSchema<UserDto>(response, UserSchema, true);
+}

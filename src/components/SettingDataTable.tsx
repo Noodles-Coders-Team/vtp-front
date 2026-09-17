@@ -1,10 +1,11 @@
-import { eventBus } from "@/api/EventBus";
-import type { SettingDto } from "@nct/vtp-common";
-import { useEffect, useState } from "react";
+import {eventBus} from "@/api/EventBus";
+import type {SettingDto} from "@nct/vtp-common";
+import {useEffect, useState} from "react";
 import Card from "./commonComponents/Card";
-import { createSetting, deleteSettingByKey, readSettings } from "@/api/SettingApi";
-import { Column, Row } from "./commonComponents/Container";
-import { InputComponent } from "./commonComponents/InputComponent";
+import {createSetting, deleteSettingByKey, readSettings} from "@/api/SettingApi";
+import {Column, Row} from "./commonComponents/Container";
+import {InputComponent} from "./commonComponents/InputComponent";
+import {ItemLoadingErrorState} from "@/components/commonComponents/ItemLoadingErrorState.tsx";
 
 export function SettingsConfigurationPage() {
     const [settingsData, setSettingsData] = useState<SettingDto[]>([]);
@@ -12,16 +13,11 @@ export function SettingsConfigurationPage() {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    const loadSettingsData = async () => {
-        try {
-            setLoading(true);
-            const data = await readSettings();
-            setSettingsData(data);
-        } catch (err) {
-            setError((err as Error).message);
-        } finally {
-            setLoading(false);
-        }
+    const loadSettingsData = () => {
+        readSettings()
+            .then(data => setSettingsData(data))
+            .catch(error => setError(error))
+            .finally(() => setLoading(false));
     };
 
 
@@ -29,7 +25,7 @@ export function SettingsConfigurationPage() {
         // Prevent browser default form submission behavior (page reload)
         event.preventDefault();
 
-        createSetting(settingCreate);
+        await createSetting(settingCreate);
 
         // Clear form after submission
         setSettingCreate({} as SettingDto);
@@ -50,14 +46,6 @@ export function SettingsConfigurationPage() {
         };
     }, []);
 
-    if (loading) return <p>Loading Settings Data...</p>;
-
-    if (error) return <p style={{ color: "red" }}>Error loading Settings data: {error}</p>;
-
-    const deleteData = async (key: string) => {
-        deleteSettingByKey(key);
-    };
-
 
     return (
         <Card title='Settings'>
@@ -70,7 +58,7 @@ export function SettingsConfigurationPage() {
                                 label="Setting Name"
                                 placeholder="Setting Name"
                                 value={settingCreate.display}
-                                onChange={(value: string) => setSettingCreate({ ...settingCreate, display: value })}
+                                onChange={(value: string) => setSettingCreate({...settingCreate, display: value})}
                             />
                         </Column>
                         <Column>
@@ -79,7 +67,7 @@ export function SettingsConfigurationPage() {
                                 label="Value"
                                 placeholder="100"
                                 value={settingCreate.value}
-                                onChange={(value: string) => setSettingCreate({ ...settingCreate, value: value })}
+                                onChange={(value: string) => setSettingCreate({...settingCreate, value: value})}
                             />
                         </Column>
                         <Column>
@@ -88,40 +76,50 @@ export function SettingsConfigurationPage() {
                                 label="Key"
                                 placeholder="setting_name"
                                 value={settingCreate.key}
-                                onChange={(value: string) => setSettingCreate({ ...settingCreate, key: value })} />
+                                onChange={(value: string) => setSettingCreate({...settingCreate, key: value})}/>
                         </Column>
                         <Column>
-                            <button type="submit" className="btn btn-success" style={{ marginTop: 15 }}>Create</button>
+                            <button type="submit" className="btn btn-success" style={{marginTop: 15}}>Create</button>
                         </Column>
                     </Row>
                 </form>
             </div>
-            <br />
-            <div className="overflow-y-scroll" style={{ height: 400 }}>
-                <table className='table'>
-                    <thead>
+            <br/>
+            <ItemLoadingErrorState label={"settings"} loading={loading} error={error}>
+                <div className="overflow-y-scroll" style={{height: 400}}>
+                    <table className='table'>
+                        <thead>
                         <tr>
                             <th scope="col">Display</th>
                             <th scope="col">Value</th>
                             <th scope="col">Key</th>
                             <th></th>
                         </tr>
-                    </thead>
+                        </thead>
 
-                    <tbody>
+                        <tbody>
                         {settingsData.map((data) => (
                             <tr key={data.key}>
                                 <td>{data.display}</td>
                                 <td>{data.value}</td>
                                 <td>{data.key}</td>
-                                <td><button className="btn btn-danger" onClick={() => deleteData(data.key as string)}>X</button></td>
+                                <td>
+                                    <button className="btn btn-danger"
+                                            onClick={() => deleteSettingByKey(data.key as string)}>X
+                                    </button>
+                                </td>
                             </tr>
                         ))}
-                    </tbody>
-                </table>
-            </div>
-            <br />
-            <button onClick={loadSettingsData} className="btn btn-secondary">Refresh Data</button>
-        </Card >
+                        </tbody>
+                    </table>
+                </div>
+                <br/>
+            </ItemLoadingErrorState>
+            <button onClick={() => {
+                setError(null);
+                loadSettingsData();
+            }} className="btn btn-secondary">Refresh Data
+            </button>
+        </Card>
     );
 }

@@ -1,10 +1,17 @@
-import { createDropDownData, deleteDropDownData, getAllDropDownData, getGenreDropDownData, getTagDropDownData } from "@/api/DropDownDataApi";
-import { eventBus } from "@/api/EventBus";
-import type { DropDownDto } from "@nct/vtp-common";
-import { useEffect, useState } from "react";
+import {
+    createDropDownData,
+    deleteDropDownData,
+    getAllDropDownData,
+    getGenreDropDownData,
+    getTagDropDownData
+} from "@/api/DropDownDataApi";
+import {eventBus} from "@/api/EventBus";
+import type {DropDownDto} from "@nct/vtp-common";
+import {useEffect, useState} from "react";
 import Card from "../commonComponents/Card";
-import { Column, Row } from "../commonComponents/Container";
-import { InputComponent } from "../commonComponents/InputComponent";
+import {Column, Row} from "../commonComponents/Container";
+import {InputComponent} from "../commonComponents/InputComponent";
+import {ItemLoadingErrorState} from "@/components/commonComponents/ItemLoadingErrorState.tsx";
 
 
 const cleanDropDownData: DropDownDto = {
@@ -22,22 +29,18 @@ export function DropDownConfigurationComponent() {
     const [error, setError] = useState<string | null>(null);
     const [dropDownDataCreate, setDropDownDataCreate] = useState<DropDownDto>(cleanDropDownData);
 
-    const loadDropDownData = async () => {
-        try {
-            setLoading(true);
-            let data;
-            if (showOnlyTags)
-                data = await getTagDropDownData();
-            else if (showOnlyGenres)
-                data = await getGenreDropDownData();
-            else
-                data = await getAllDropDownData();
-            setDropDownData(data);
-        } catch (err) {
-            setError((err as Error).message);
-        } finally {
-            setLoading(false);
-        }
+    const loadDropDownData = () => {
+        let data;
+        if (showOnlyTags)
+            data = getTagDropDownData();
+        else if (showOnlyGenres)
+            data = getGenreDropDownData();
+        else
+            data = getAllDropDownData();
+        data.then(setDropDownData)
+            .catch((err) => setError((err as Error).message))
+            .finally(() => setLoading(false));
+
     };
 
 
@@ -61,12 +64,6 @@ export function DropDownConfigurationComponent() {
         setDropDownDataCreate(cleanDropDownData);
     };
 
-
-    // Runs once on page load
-    useEffect(() => {
-        loadDropDownData();
-    }, []);
-
     useEffect(() => {
         loadDropDownData();
     }, [showOnlyTags, showOnlyGenres]);
@@ -81,12 +78,12 @@ export function DropDownConfigurationComponent() {
 
     if (loading) return <p>Loading DropDown Data...</p>;
 
-    if (error) return <p style={{ color: "red" }}>Error loading DropDown data: {error}</p>;
+    if (error) return <p style={{color: "red"}}>Error loading DropDown data: {error}</p>;
 
     if (!loading && dropDownData.length === 0) return <p>No DropDown data found.</p>;
 
     const deleteData = async (key: string) => {
-        deleteDropDownData(key);
+        deleteDropDownData(key).then(() => loadDropDownData());
     };
 
     const getScoreColor = (score: number): string => {
@@ -110,7 +107,7 @@ export function DropDownConfigurationComponent() {
                             label="Value"
                             placeholder="RPG"
                             value={dropDownDataCreate.value}
-                            onChange={(value: string) => setDropDownDataCreate({ ...dropDownDataCreate, value: value })}
+                            onChange={(value: string) => setDropDownDataCreate({...dropDownDataCreate, value: value})}
                         />
                     </Column>
                     <Column>
@@ -153,42 +150,54 @@ export function DropDownConfigurationComponent() {
                     </Column>
                 </Row>
             </form>
-            <br />
-            <div style={{ alignContent: "end" }}>
+            <br/>
+            <div style={{alignContent: "end"}}>
                 <p>
-                    <input type="checkbox" onChange={toggleTagOnly} checked={showOnlyTags} />
+                    <input type="checkbox" onChange={toggleTagOnly} checked={showOnlyTags}/>
                     Tag
                 </p>
                 <p>
-                    <input type="checkbox" onChange={toggleGenreOnly} checked={showOnlyGenres} />
+                    <input type="checkbox" onChange={toggleGenreOnly} checked={showOnlyGenres}/>
                     Genre
                 </p>
             </div>
-            <div className="overflow-y-scroll" style={{ height: 400 }}>
-                <table className='table'>
-                    <thead>
+            <ItemLoadingErrorState label="DropDown Data" loading={loading} error={error}>
+                <div className="overflow-y-scroll" style={{height: 400}}>
+                    <table className='table'>
+                        <thead>
                         <tr>
                             <th scope="col">Value</th>
                             <th scope="col">Score</th>
                             <th scope="col">Type</th>
                             <th></th>
                         </tr>
-                    </thead>
+                        </thead>
 
-                    <tbody>
+                        <tbody>
                         {dropDownData.map((data) => (
                             <tr key={data.key}>
                                 <td>{data.value}</td>
-                                <td style={{ backgroundColor: getScoreColor(data.score), borderRadius: 5 }}>{data.score}</td>
-                                <td style={{ textTransform: "capitalize" }}>{data.type}</td>
-                                <td><button className="btn btn-danger" onClick={() => deleteData(data.key as string)}>X</button></td>
+                                <td style={{
+                                    backgroundColor: getScoreColor(data.score),
+                                    borderRadius: 5
+                                }}>{data.score}</td>
+                                <td style={{textTransform: "capitalize"}}>{data.type}</td>
+                                <td>
+                                    <button className="btn btn-danger" onClick={() => deleteData(data.key as string)}>X
+                                    </button>
+                                </td>
                             </tr>
                         ))}
-                    </tbody>
-                </table>
-            </div>
-            <br />
-            <button onClick={loadDropDownData} className="btn btn-secondary">Refresh Data</button>
+                        </tbody>
+                    </table>
+                </div>
+            </ItemLoadingErrorState>
+            <br/>
+            <button onClick={() => {
+                setError(null);
+                loadDropDownData();
+            }} className="btn btn-secondary">Refresh Data
+            </button>
         </Card>
     );
 }
