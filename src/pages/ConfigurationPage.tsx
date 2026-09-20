@@ -1,6 +1,7 @@
-import {Column, Container, Row} from "@/components/commonComponents/Container";
-import {DropDownConfigurationComponent} from "@/components/dropdownComponents/DropDownConfigurationComponent";
-import {SettingsConfigurationPage} from "@/components/SettingDataTable";
+import {Column, Container, Row} from "@commonComponents/Container";
+import {DropDownConfigurationComponent} from "@components/dropdownComponents/DropDownConfigurationComponent";
+import {SettingsConfigurationPage} from "@components/SettingDataTable";
+
 
 export default function ConfigurationPage() {
     return (

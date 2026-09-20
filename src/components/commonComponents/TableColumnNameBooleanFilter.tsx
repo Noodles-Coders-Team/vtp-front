@@ -2,13 +2,16 @@ import iconNone from '@assets/filter_off_64.svg';
 import iconTrue from '@assets/check_box_64.svg';
 import iconFalse from '@assets/check_box_empty_64.svg';
 
+
 const iconSize = 32;
+
 
 type TableColumnProps = {
     label: string;
     value: boolean | null;
     onChange: (value: boolean | null) => void;
 }
+
 
 export function TableColumnNameBooleanFilter({label, value, onChange}: TableColumnProps) {
 

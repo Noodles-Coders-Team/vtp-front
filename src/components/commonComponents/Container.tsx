@@ -1,9 +1,11 @@
 import type {ReactNode} from 'react';
 
+
 interface ContainerProps {
     children: ReactNode,
     style?: React.CSSProperties | undefined
 }
+
 
 export function Container({children, style = undefined}: ContainerProps) {
     return (

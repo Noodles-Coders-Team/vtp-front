@@ -1,5 +1,6 @@
-import {Column, Container, Row} from "@/components/commonComponents/Container";
-import ImportCsvComponent from "@/components/importComponent/ImportCsvComponent";
+import {Column, Container, Row} from "@commonComponents/Container";
+import ImportCsvComponent from "@components/importComponent/ImportCsvComponent";
+
 
 export default function ImportPage() {
 

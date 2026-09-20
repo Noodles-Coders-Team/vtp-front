@@ -3,8 +3,11 @@ import {eventBus} from "@api/EventBus.ts";
 import iconDesc from '@assets/arrow_upward_64.svg';
 import iconAsc from '@assets/arrow_downward_64.svg';
 import iconFilterOff from '@assets/filter_off_64.svg';
+import {EventName} from "@api/EventBus";
+
 
 const tableIconSize = 32;
+
 
 type TableColumnNameProps = {
     children: ReactNode;
@@ -14,6 +17,7 @@ type TableColumnNameProps = {
     size?: number;
     style?: React.CSSProperties | undefined;
 }
+
 
 export function TableTextColumnName({
                                         state = 0,
@@ -32,9 +36,9 @@ export function TableTextColumnName({
 
 
     useEffect(() => {
-        eventBus.addEventListener('SortingShouldBeReset', resetSorting);
+        eventBus.addEventListener(EventName.SortingReset, resetSorting);
         return () => {
-            eventBus.removeEventListener('SortingShouldBeReset', resetSorting);
+            eventBus.removeEventListener(EventName.SortingReset, resetSorting);
         };
     }, []);
 
@@ -47,7 +51,7 @@ export function TableTextColumnName({
             state = -1;
         else if (currentState == -1)
             state = 0;
-        eventBus.dispatchEvent(new Event('SortingShouldBeReset'));
+        eventBus.dispatchEvent(new Event(EventName.SortingReset));
         setCurrentState(state);
         onChangeState(id, state);
     };
@@ -58,7 +62,7 @@ export function TableTextColumnName({
                 e.preventDefault();
                 toggleState();
             }}
-            style={style && {alignContent: 'center', textAlign: 'center', cursor: 'pointer'}}
+            style={{alignContent: 'center', textAlign: 'center', cursor: 'pointer', ...style}}
         >
             {currentState == 0 &&
                 <img src={iconFilterOff} alt="Sortign Off" width={size} height={size}/>

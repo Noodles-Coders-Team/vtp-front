@@ -1,8 +1,8 @@
 import {deleteUser} from "@api/UsersApi.ts";
 import {useState} from "react";
-import {UserDropdown} from "../userComponent/UserSelectDropdown";
-import Card from "../commonComponents/Card";
-import {Column, Container, Row} from "../commonComponents/Container";
+import {UserDropdown} from "@components/userComponent/UserSelectDropdown";
+import Card from "@commonComponents/Card";
+import {Column, Container, Row} from "@commonComponents/Container";
 
 
 export function DeleteUserByIdDropdown() {

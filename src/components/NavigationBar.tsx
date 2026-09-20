@@ -1,5 +1,6 @@
 import {Link} from 'react-router-dom';
-import logo from '../assets/dvr_128dp.png';
+import logo from '@assets/dvr_128dp.png';
+
 
 export default function Navigation() {
     return (
@@ -21,6 +22,7 @@ export default function Navigation() {
         </nav>
     )
 }
+
 
 function NavLink({address = '/', text = 'No Text Provided'}) {
     // We are using link as it's just updates status, and prevents browser from refreshing the page

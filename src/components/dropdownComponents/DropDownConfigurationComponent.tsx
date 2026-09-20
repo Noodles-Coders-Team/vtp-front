@@ -4,17 +4,19 @@ import {
     getAllDropDownData,
     getGenreDropDownData,
     getTagDropDownData
-} from "@/api/DropDownDataApi";
+} from "@api/DropDownDataApi";
 import {eventBus} from "@/api/EventBus";
 import type {DropDownDto} from "@nct/vtp-common";
 import {useEffect, useState} from "react";
-import Card from "../commonComponents/Card";
-import {Column, Row} from "../commonComponents/Container";
-import {InputComponent} from "../commonComponents/InputComponent";
-import {ItemLoadingErrorState} from "@/components/commonComponents/ItemLoadingErrorState.tsx";
+import Card from "@commonComponents/Card";
+import {Column, Row} from "@commonComponents/Container";
+import {InputComponent} from "@commonComponents/InputComponent";
+import {ItemLoadingErrorState} from "@commonComponents/ItemLoadingErrorState";
+import {EventName} from "@api/EventBus";
 
 
 const cleanDropDownData: DropDownDto = {
+    key: '',
     value: '',
     type: 'tag',
     score: 0
@@ -70,17 +72,11 @@ export function DropDownConfigurationComponent() {
 
     //Runs when the user has been created
     useEffect(() => {
-        eventBus.addEventListener('DropDownTableShouldBeRefreshed', loadDropDownData);
+        eventBus.addEventListener(EventName.DropDownDataUpdated, loadDropDownData);
         return () => {
-            eventBus.removeEventListener('DropDownTableShouldBeRefreshed', loadDropDownData);
+            eventBus.removeEventListener(EventName.DropDownDataUpdated, loadDropDownData);
         };
     }, []);
-
-    if (loading) return <p>Loading DropDown Data...</p>;
-
-    if (error) return <p style={{color: "red"}}>Error loading DropDown data: {error}</p>;
-
-    if (!loading && dropDownData.length === 0) return <p>No DropDown data found.</p>;
 
     const deleteData = async (key: string) => {
         deleteDropDownData(key).then(() => loadDropDownData());

@@ -1,9 +1,10 @@
 import {useEffect, useState} from 'react';
 import {type UserDto} from '@nct/vtp-common';
 import {fetchUsers} from '@api/UsersApi';
-import {eventBus} from '@/api/EventBus';
-import Card from '../commonComponents/Card';
-import {ItemLoadingErrorState} from "@/components/commonComponents/ItemLoadingErrorState.tsx";
+import {eventBus, EventName} from '@api/EventBus';
+import Card from '@commonComponents/Card';
+import {ItemLoadingErrorState} from "@commonComponents/ItemLoadingErrorState";
+
 
 export function UserTable() {
     const [users, setUsers] = useState<UserDto[]>([]);
@@ -23,9 +24,9 @@ export function UserTable() {
 
     //Runs when the user has been created
     useEffect(() => {
-        eventBus.addEventListener('UserTableShouldBeRefreshed', loadUsers);
+        eventBus.addEventListener(EventName.UsersUpdated, loadUsers);
         return () => {
-            eventBus.removeEventListener('UserTableShouldBeRefreshed', loadUsers);
+            eventBus.removeEventListener(EventName.UsersUpdated, loadUsers);
         };
     }, []);
 

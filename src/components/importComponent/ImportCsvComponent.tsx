@@ -1,6 +1,7 @@
 import {useState} from "react";
-import Card from "../commonComponents/Card";
-import {Column, Row} from "../commonComponents/Container";
+import Card from "@commonComponents/Card";
+import {Column, Row} from "@commonComponents/Container";
+
 
 interface ImportCsvProps {
     title: string,
@@ -8,7 +9,9 @@ interface ImportCsvProps {
     description?: string | undefined
 }
 
+
 const API_URL = import.meta.env.VITE_BACKEND_URL + "/import";
+
 
 export default function ImportCsvComponent({title, end_point, description = undefined}: ImportCsvProps) {
     const [file, setFile] = useState<File | null>(null);
@@ -29,7 +32,7 @@ export default function ImportCsvComponent({title, end_point, description = unde
 
         const responseBody = await response.json();
 
-        if (response.status == 500) {
+        if (response.status != 200) {
             setErrorMsg(responseBody['message']);
         }
 
@@ -40,12 +43,12 @@ export default function ImportCsvComponent({title, end_point, description = unde
     return (
         <Card title={title}>
             <Column>
-                {description !== null && description !== "" &&
+                {description !== undefined &&
                     <Row>
                         <h6>{description}</h6>
                     </Row>
                 }
-                {responseCode == 502 &&
+                {responseCode != 200 && responseCode != 400 &&
                     <Row style={{color: "red"}}>
                         <Column><p>{errorMsg}</p></Column>
                     </Row>

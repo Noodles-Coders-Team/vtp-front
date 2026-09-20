@@ -1,11 +1,12 @@
-import {eventBus} from "@/api/EventBus";
+import {eventBus, EventName} from "@api/EventBus";
 import type {SettingDto} from "@nct/vtp-common";
 import {useEffect, useState} from "react";
-import Card from "./commonComponents/Card";
+import Card from "@commonComponents/Card";
 import {createSetting, deleteSettingByKey, readSettings} from "@/api/SettingApi";
-import {Column, Row} from "./commonComponents/Container";
-import {InputComponent} from "./commonComponents/InputComponent";
-import {ItemLoadingErrorState} from "@/components/commonComponents/ItemLoadingErrorState.tsx";
+import {Column, Row} from "@commonComponents/Container";
+import {InputComponent} from "@commonComponents/InputComponent";
+import {ItemLoadingErrorState} from "@commonComponents/ItemLoadingErrorState";
+
 
 export function SettingsConfigurationPage() {
     const [settingsData, setSettingsData] = useState<SettingDto[]>([]);
@@ -40,9 +41,9 @@ export function SettingsConfigurationPage() {
 
     //Runs when the user has been created
     useEffect(() => {
-        eventBus.addEventListener('SettingsTableShouldBeRefreshed', loadSettingsData);
+        eventBus.addEventListener(EventName.SettingsUpdated, loadSettingsData);
         return () => {
-            eventBus.removeEventListener('SettingsTableShouldBeRefreshed', loadSettingsData);
+            eventBus.removeEventListener(EventName.SettingsUpdated, loadSettingsData);
         };
     }, []);
 

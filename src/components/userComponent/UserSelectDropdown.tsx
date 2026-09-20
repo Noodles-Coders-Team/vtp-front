@@ -1,12 +1,14 @@
 import type {UserDto} from "@nct/vtp-common";
 import {useEffect, useState} from "react";
 import {fetchUsers} from "@api/UsersApi";
-import {eventBus} from "@/api/EventBus";
+import {eventBus, EventName} from "@api/EventBus";
+
 
 type UserDropdownProps = {
     value: string;
     onChange: (value: string) => void;
 }
+
 
 export function UserDropdown({value, onChange}: UserDropdownProps) {
     const [users, setUsers] = useState<UserDto[]>([]);
@@ -26,9 +28,9 @@ export function UserDropdown({value, onChange}: UserDropdownProps) {
 
     //Runs when the user has been created
     useEffect(() => {
-        eventBus.addEventListener('UserTableShouldBeRefreshed', loadUsers);
+        eventBus.addEventListener(EventName.UsersUpdated, loadUsers);
         return () => {
-            eventBus.removeEventListener('UserTableShouldBeRefreshed', loadUsers);
+            eventBus.removeEventListener(EventName.UsersUpdated, loadUsers);
         };
     }, []);
 

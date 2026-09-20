@@ -7,6 +7,7 @@ import Navigation from './components/NavigationBar';
 import ChannelData from './pages/ChannelDataPage';
 import ConfigurationPage from './pages/ConfigurationPage';
 
+
 function App() {
 
     useEffect(() => {
@@ -32,5 +33,6 @@ function App() {
         </>
     )
 }
+
 
 export default App;

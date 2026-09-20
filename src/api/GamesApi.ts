@@ -10,14 +10,14 @@ import {
     ValidateSchema
 } from "@nct/vtp-common";
 import {get, post, put} from "./RequestApi";
-import {eventBus} from "./EventBus";
+import {eventBus, EventName} from "./EventBus";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL + "/games";
 
 export async function createGame(game: CreateGameDto): Promise<GameDto> {
     const response = await post(`${API_URL}/create`, ValidateSchema<CreateGameDto>(game, CreateGameSchema));
     const result = ValidateSchema<GameDto>(response, GameSchema);
-    eventBus.dispatchEvent(new Event('GameTableShouldBeRefreshed'));
+    eventBus.dispatchEvent(new Event(EventName.GamesUpdated));
     return result;
 }
 

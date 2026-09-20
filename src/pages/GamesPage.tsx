@@ -1,6 +1,6 @@
-import {Column, Container, Row} from "@/components/commonComponents/Container";
-import GamesCreate from "@/components/gamePageComponent/GamesCreate";
-import GamesTable from "@/components/gamePageComponent/GamesTable";
+import {Column, Container, Row} from "@commonComponents/Container";
+import GamesCreate from "@components/gamePageComponent/GamesCreate";
+import GamesTable from "@components/gamePageComponent/GamesTable";
 
 
 export default function GamesPage() {

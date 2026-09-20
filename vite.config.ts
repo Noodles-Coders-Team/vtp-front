@@ -8,9 +8,11 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
-      '@api': path.resolve(__dirname, './src/api'),
-      '@assets': path.resolve(__dirname, './src/assets')
+      '@': path.resolve(import.meta.dirname, './src'),
+      '@api': path.resolve(import.meta.dirname, './src/api'),
+      '@assets': path.resolve(import.meta.dirname, './src/assets'),
+      '@components': path.resolve(import.meta.dirname, './src/components'),
+      '@commonComponents': path.resolve(import.meta.dirname, './src/components/commonComponents')
     }
   }
 })

@@ -1,7 +1,8 @@
-import {createGame} from "@/api/GamesApi";
+import {createGame} from "@api/GamesApi";
 import type {CreateGameDto} from "@nct/vtp-common";
 import {useState} from "react";
-import Card from "../commonComponents/Card";
+import Card from "@commonComponents/Card";
+
 
 const cleanGame: CreateGameDto = {
     name: '',
@@ -9,6 +10,7 @@ const cleanGame: CreateGameDto = {
     release_date: null,
     link: null,
 }
+
 
 export default function GamesCreate() {
 

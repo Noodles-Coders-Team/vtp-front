@@ -1,9 +1,10 @@
 import {type ChannelDataDto} from "@nct/vtp-common";
-import Card from "@/components/commonComponents/Card";
+import Card from "@commonComponents/Card";
 import {useEffect, useState} from "react";
 import {readChannelData} from "@/api/ChannelDataApi";
 import {Area, AreaChart, CartesianGrid, Tooltip, XAxis, YAxis} from "recharts";
-import {Column, Container, Row} from "@/components/commonComponents/Container";
+import {Column, Container, Row} from "@commonComponents/Container";
+import {ItemLoadingErrorState} from "@commonComponents/ItemLoadingErrorState";
 
 
 export default function ChannelData() {
@@ -33,9 +34,6 @@ export default function ChannelData() {
         };
     }, [daysLimit]);
 
-    if (loading) return <p>Loading channel data...</p>;
-
-    if (error) return <p style={{color: "red"}}>Error loading data: {error}</p>;
 
     return (
         <Card title="Channel Data graph!">
@@ -58,18 +56,20 @@ export default function ChannelData() {
                 </Row>
                 <Row>
                     <Column>
-                        <AreaChart
-                            height={400}
-                            width={500}
-                            data={channelData}
-                        >
-                            <CartesianGrid strokeDasharray="3 3"/>
-                            <XAxis<ChannelDataDto, string> dataKey="id"/>
-                            <YAxis<ChannelDataDto, number> />
-                            <Tooltip/>
-                            <Area<ChannelDataDto, number> type="monotone" dataKey="views" stroke="#3aca23"
-                                                          fill="#83c01b"/>
-                        </AreaChart>
+                        <ItemLoadingErrorState label="channel data" loading={loading} error={error}>
+                            <AreaChart
+                                height={400}
+                                width={500}
+                                data={channelData}
+                            >
+                                <CartesianGrid strokeDasharray="3 3"/>
+                                <XAxis<ChannelDataDto, string> dataKey="id"/>
+                                <YAxis<ChannelDataDto, number> />
+                                <Tooltip/>
+                                <Area<ChannelDataDto, number> type="monotone" dataKey="views" stroke="#3aca23"
+                                                              fill="#83c01b"/>
+                            </AreaChart>
+                        </ItemLoadingErrorState>
                     </Column>
                 </Row>
             </Container>

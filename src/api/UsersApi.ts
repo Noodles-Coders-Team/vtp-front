@@ -1,18 +1,18 @@
 import {type CreateUserDto, CreateUserSchema, type UserDto, UserSchema, ValidateSchema} from "@nct/vtp-common";
-import {eventBus} from "./EventBus";
+import {eventBus, EventName} from "./EventBus";
 import {get, post} from "./RequestApi";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL + '/users';
 
 export async function deleteUser(id: string): Promise<void> {
     await post(`${API_URL}/delete/byId/${id}`);
-    eventBus.dispatchEvent(new Event('UserTableShouldBeRefreshed'));
+    eventBus.dispatchEvent(new Event(EventName.UsersUpdated));
 }
 
 
 export async function createUser(user: CreateUserDto): Promise<void> {
     await post(`${API_URL}/create`, ValidateSchema<CreateUserDto>(user, CreateUserSchema));
-    eventBus.dispatchEvent(new Event('UserTableShouldBeRefreshed'));
+    eventBus.dispatchEvent(new Event(EventName.UsersUpdated));
 }
 
 

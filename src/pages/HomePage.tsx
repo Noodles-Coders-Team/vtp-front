@@ -1,11 +1,8 @@
-import Card from "@/components/commonComponents/Card";
-import {Column, Container, Row} from "@/components/commonComponents/Container";
-import {useEffect} from "react";
+import Card from "@commonComponents/Card";
+import {Column, Container, Row} from "@commonComponents/Container";
+
 
 export default function HomePage() {
-    useEffect(() => {
-        document.title = "Video Tracker & Planner";
-    });
 
     return (
         <Container style={{width: '50%'}}>

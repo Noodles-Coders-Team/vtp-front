@@ -10,6 +10,7 @@
     "types": [
       "vite/client"
     ],
+    "strict": true,
     "allowArbitraryExtensions": true,
     "skipLibCheck": true,
     /* Bundler mode */
@@ -22,7 +23,7 @@
     /* Linting */
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "erasableSyntaxOnly": true,
+    "erasableSyntaxOnly": false,
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "@/*": [
@@ -31,12 +32,18 @@
       "@api/*": [
         "./src/api/*"
       ],
-      "@assets/*":[
+      "@assets/*": [
         "./src/assets/*"
+      ],
+      "@components/*": [
+        "./src/components/*"
+      ],
+      "@commonComponents/*": [
+        "./src/components/commonComponents/*"
       ]
     }
   },
   "include": [
     "src"
-  ],
+  ]
 }

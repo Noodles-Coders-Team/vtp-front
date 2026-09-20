@@ -1,13 +1,14 @@
-import {eventBus} from "@/api/EventBus";
+import {eventBus, EventName} from "@/api/EventBus";
 import {readGamesWithInfo, updateGameInfo} from "@/api/GamesApi";
 import type {DropDownDto, GameWithInfoDto} from "@nct/vtp-common";
 import {useEffect, useState} from "react";
-import {TableColumnNameBooleanFilter} from "../commonComponents/TableColumnNameBooleanFilter";
-import Card from "../commonComponents/Card";
+import {TableColumnNameBooleanFilter} from "@commonComponents/TableColumnNameBooleanFilter";
+import Card from "@commonComponents/Card";
 import {getGenreDropDownData, getTagDropDownData} from "@/api/DropDownDataApi";
-import {ItemLoadingErrorState} from "@/components/commonComponents/ItemLoadingErrorState.tsx";
-import {TableTextColumnName} from "@/components/commonComponents/TableTextColumnName.tsx";
-import {TableToggleable} from "@/components/commonComponents/TableToggleable.tsx";
+import {ItemLoadingErrorState} from "@commonComponents/ItemLoadingErrorState";
+import {TableTextColumnName} from "@commonComponents/TableTextColumnName";
+import {TableToggleable} from "@commonComponents/TableToggleable";
+
 
 export default function GamesTable() {
     const [games, setGames] = useState<GameWithInfoDto[]>([]);
@@ -43,23 +44,23 @@ export default function GamesTable() {
             .finally(() => setLoading(false));
     };
 
-    const onToggleCanRecord = async (id: string) => {
-        const game = games.find((g) => g.id == id);
+    const onToggleCanRecord = (id: string) => {
+        let game = games.find((g) => g.id == id);
         if (game === undefined) {
             console.error(`Game not found with id: ${id}`);
             return;
         }
-        game.can_record = !game?.can_record;
+        game = {...game, can_record: !game?.can_record};
         updateGameInfo(game).then(() => loadGames());
     }
 
-    const onToggleDiscussed = async (id: string) => {
-        const game = games.find((g) => g.id == id);
+    const onToggleDiscussed = (id: string) => {
+        let game = games.find((g) => g.id == id);
         if (game === undefined) {
             console.error(`Game not found with id: ${id}`);
             return;
         }
-        game.discussed = !game?.discussed;
+        game = {...game, discussed: !game.discussed};
         updateGameInfo(game).then(() => loadGames());
     }
 
@@ -103,9 +104,9 @@ export default function GamesTable() {
     }, [can_record, discussed]);
 
     useEffect(() => {
-        eventBus.addEventListener('GameTableShouldBeRefreshed', loadGames);
+        eventBus.addEventListener(EventName.GamesUpdated, loadGames);
         return () => {
-            eventBus.removeEventListener('GameTableShouldBeRefreshed', loadGames);
+            eventBus.removeEventListener(EventName.GamesUpdated, loadGames);
         };
     }, []);
 
@@ -165,15 +166,18 @@ type DropDownValueProps = {
     mappings: DropDownDto[];
 }
 
+
 interface IColorDictionary {
     [key: number]: string;
 }
+
 
 const Color_To_Score_Mapping: IColorDictionary = {
     0: "orange",
     1: "green",
     "-1": "red"
 }
+
 
 function DropDownValue({value, mappings}: DropDownValueProps) {
 

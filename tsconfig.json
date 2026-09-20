@@ -1,5 +1,7 @@
 {
-  "files": [],
+  "strict": true,
+  "noImplicitAny": true,
+  "strictFunctionTypes": true,
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }

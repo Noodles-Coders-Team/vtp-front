@@ -1,5 +1,5 @@
 export async function get(URL: string): Promise<unknown> {
-    const response = await fetch(URL,
+    const response = await fetch(encodeURIComponent(URL),
         {
             method: 'GET',
             headers: {
@@ -9,7 +9,7 @@ export async function get(URL: string): Promise<unknown> {
     );
     if (!response.ok) {
         const text = await response.text();
-        throw new Error(`${URL} failed (${response.status}): ${text || response.statusText}`);
+        throw new Error(`${encodeURIComponent(URL)} failed (${response.status}): ${text || response.statusText}`);
     }
     return await response.json();
 }
@@ -27,7 +27,7 @@ export async function post(URL: string, body: unknown = {}): Promise<unknown> {
 }
 
 async function sendPostPutRequest(type: string, URL: string, body: unknown): Promise<unknown> {
-    const response = await fetch(URL, {
+    const response = await fetch(encodeURIComponent(URL), {
         method: type,
         headers: {
             'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ async function sendPostPutRequest(type: string, URL: string, body: unknown): Pro
     });
     if (!response.ok) {
         const text = await response.text();
-        throw new Error(`${URL} failed (${response.status}): ${text || response.statusText}`);
+        throw new Error(`${encodeURIComponent(URL)} failed (${response.status}): ${text || response.statusText}`);
     }
     return await response.json();
 }

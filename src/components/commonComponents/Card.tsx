@@ -1,9 +1,11 @@
 import type {ReactNode} from 'react';
 
+
 interface CardProps {
     children: ReactNode,
     title: string
 }
+
 
 export default function Card({children, title}: CardProps) {
     return (
