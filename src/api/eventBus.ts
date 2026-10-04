@@ -5,7 +5,7 @@ export const eventBus = new EventBus();
 
 export enum EventName {
     GamesUpdated= 'GamesUpdated',
-    DropDownDataUpdated = 'DropDropDownDataUpdated',
+    DropDownDataUpdated = 'DropDownDataUpdated',
     SettingsUpdated = 'SettingsUpdated',
     UsersUpdated = 'UsersUpdated',
     SortingReset = 'SortingReset',

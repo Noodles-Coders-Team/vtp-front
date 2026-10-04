@@ -26,14 +26,12 @@ export default function GamesTable() {
         getTagDropDownData()
             .then(data => setTagDropDownData(data))
             .catch((e) => {
-                if (error === null) setError((e as Error).message);
-                else setError(error.concat((e as Error).message));
+                setError(p => (e as Error).message.concat(p ?? ""));
             });
 
         getGenreDropDownData().then(data => setGenreDropDownData(data))
             .catch((e) => {
-                if (error === null) setError((e as Error).message);
-                else setError(error.concat((e as Error).message));
+                setError(p => (e as Error).message.concat(p ?? ""));
             });
     };
 
@@ -103,6 +101,7 @@ export default function GamesTable() {
         loadGames();
     }, [can_record, discussed]);
 
+    //TODO: Fix filter reset after event trigger
     useEffect(() => {
         eventBus.addEventListener(EventName.GamesUpdated, loadGames);
         return () => {

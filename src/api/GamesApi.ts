@@ -9,13 +9,20 @@ import {
     GameWithInfoSchema,
     ValidateSchema
 } from "@nct/vtp-common";
-import {get, post, put} from "./RequestApi";
+import {RequestApi} from "./RequestApi";
 import {eventBus, EventName} from "./EventBus";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL + "/games";
+const API_URL = import.meta.env.VITE_BACKEND_URL + "/games/";
+const requestApi = new RequestApi(API_URL);
+
+let abortController: AbortController;
 
 export async function createGame(game: CreateGameDto): Promise<GameDto> {
-    const response = await post(`${API_URL}/create`, ValidateSchema<CreateGameDto>(game, CreateGameSchema));
+    if (abortController)
+        abortController.abort();
+    abortController = new AbortController();
+
+    const response = await requestApi.post(ValidateSchema<CreateGameDto>(game, CreateGameSchema), abortController.signal, 'create');
     const result = ValidateSchema<GameDto>(response, GameSchema);
     eventBus.dispatchEvent(new Event(EventName.GamesUpdated));
     return result;
@@ -23,21 +30,34 @@ export async function createGame(game: CreateGameDto): Promise<GameDto> {
 
 
 export async function updateGameInfo(gameInfo: GameInfoDto): Promise<GameInfoDto> {
-    const response = await put(`${API_URL}/info`, ValidateSchema<GameInfoDto>(gameInfo, GameInfoSchema));
+    if (abortController)
+        abortController.abort();
+    abortController = new AbortController();
+
+    const response = await requestApi.put(ValidateSchema<GameInfoDto>(gameInfo, GameInfoSchema), abortController.signal, 'info');
     return ValidateSchema<GameInfoDto>(response, GameInfoSchema);
 }
 
 
 export async function readGames(): Promise<GameDto[]> {
-    const response = await get(`${API_URL}`);
+    if (abortController)
+        abortController.abort();
+    abortController = new AbortController();
+
+    const response = await requestApi.get(abortController.signal);
     return ValidateSchema<GameDto>(response, GameSchema, true);
 }
 
 
 export async function readGamesWithInfo(can_record: boolean | null, discussed: boolean | null): Promise<GameWithInfoDto[]> {
-    const response = await post(`${API_URL}/with-info`, {
-        can_record: can_record,
-        discussed: discussed
-    });
+    if (abortController)
+        abortController.abort();
+    abortController = new AbortController();
+
+    const response = await requestApi.post({
+            can_record: can_record,
+            discussed: discussed
+        },
+        abortController.signal, 'with-info');
     return ValidateSchema<GameWithInfoDto>(response, GameWithInfoSchema, true);
 }

@@ -1,22 +1,38 @@
-import {type CreateUserDto, CreateUserSchema, type UserDto, UserSchema, ValidateSchema} from "@nct/vtp-common";
+import {type UserDto, UserSchema, ValidateSchema} from "@nct/vtp-common";
 import {eventBus, EventName} from "./EventBus";
-import {get, post} from "./RequestApi";
+import {RequestApi} from "./RequestApi";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL + '/users';
+
+const API_URL = import.meta.env.VITE_BACKEND_URL + '/users/';
+const requestApi = new RequestApi(API_URL);
+
+let abortController: AbortController;
 
 export async function deleteUser(id: string): Promise<void> {
-    await post(`${API_URL}/delete/byId/${id}`);
+    if(abortController)
+        abortController.abort();
+    abortController = new AbortController();
+
+    await requestApi.post({}, abortController.signal,`delete/byId/${id}`);
     eventBus.dispatchEvent(new Event(EventName.UsersUpdated));
 }
 
 
-export async function createUser(user: CreateUserDto): Promise<void> {
-    await post(`${API_URL}/create`, ValidateSchema<CreateUserDto>(user, CreateUserSchema));
+export async function createUser(user: UserDto): Promise<void> {
+    if(abortController)
+        abortController.abort();
+    abortController = new AbortController();
+
+    await requestApi.post(ValidateSchema<UserDto>(user, UserSchema), abortController.signal, `create`);
     eventBus.dispatchEvent(new Event(EventName.UsersUpdated));
 }
 
 
 export async function fetchUsers(): Promise<UserDto[]> {
-    const response = await get(`${API_URL}`);
+    if(abortController)
+        abortController.abort();
+    abortController = new AbortController();
+
+    const response = await requestApi.get(abortController.signal);
     return ValidateSchema<UserDto>(response, UserSchema, true);
 }

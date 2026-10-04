@@ -1,9 +1,17 @@
 import {type ChannelDataDto, ChannelDataSchema, ValidateSchema} from "@nct/vtp-common";
-import {get} from "./RequestApi";
+import {RequestApi} from "./RequestApi";
 
-const API_URL = import.meta.env.VITE_BACKEND_URL + "/channel-data";
+
+const API_URL = import.meta.env.VITE_BACKEND_URL + "/channel-data/";
+const requestApi = new RequestApi(API_URL);
+
+let abortController: AbortController;
 
 export async function readChannelData(): Promise<ChannelDataDto[]> {
-    const response = await get(API_URL);
+    if(abortController)
+        abortController.abort();
+    abortController = new AbortController();
+
+    const response = await requestApi.get(abortController.signal);
     return ValidateSchema<ChannelDataDto>(response, ChannelDataSchema, true);
 }
