@@ -13,7 +13,7 @@ export function ItemLoadingErrorState({label, loading, error, children}: InputPr
     return (
         <div>
             {loading && <p>Loading {label}...</p>}
-            {error && <p style={{color: "red"}}>Error loading {label}: {error}</p>}
+            {error && <p style={{color: "red"}}>Error loading {label}: {error.substring(0,400)}</p>}
             {!loading && !error && children}
         </div>
     )

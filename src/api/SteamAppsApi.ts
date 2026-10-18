@@ -1,24 +1,38 @@
 import {RequestApi} from "./RequestApi";
+import {type SteamAppDto, SteamAppSchema, ValidateSchema} from "@nct/vtp-common";
 
 
 const API_URL = import.meta.env.VITE_BACKEND_URL + "/steam-apps/";
 const requestApi = new RequestApi(API_URL);
 
-let abortController: AbortController;
+let acTriggerAllGamesScheduler: AbortController;
+let acTriggerAllDataScheduler: AbortController;
+let acGetAllImportedApps: AbortController;
 
 
 export async function triggerAllGamesScheduler(): Promise<void> {
-    if (abortController)
-        abortController.abort();
-    abortController = new AbortController();
+    if (acTriggerAllGamesScheduler)
+        acTriggerAllGamesScheduler.abort();
+    acTriggerAllGamesScheduler = new AbortController();
 
-    await requestApi.get(abortController.signal, 'trigger-all-games-scheduler');
+    await requestApi.get(acTriggerAllGamesScheduler.signal, 'trigger-all-games-scheduler');
 }
 
 export async function triggerAllDataScheduler(): Promise<void> {
-    if (abortController)
-        abortController.abort();
-    abortController = new AbortController();
+    if (acTriggerAllDataScheduler)
+        acTriggerAllDataScheduler.abort();
+    acTriggerAllDataScheduler = new AbortController();
 
-    await requestApi.get(abortController.signal, 'trigger-all-data-scheduler');
+    await requestApi.get(acTriggerAllDataScheduler.signal, 'trigger-all-data-scheduler');
+}
+
+export async function getAllImportedApps(): Promise<SteamAppDto[]> {
+    if (acGetAllImportedApps)
+        acGetAllImportedApps.abort();
+    acGetAllImportedApps = new AbortController();
+
+    const response = await requestApi.get(acGetAllImportedApps.signal, 'imported-apps');
+    if (response == undefined)
+        return [];
+    return ValidateSchema<SteamAppDto>(response, SteamAppSchema, true);
 }
