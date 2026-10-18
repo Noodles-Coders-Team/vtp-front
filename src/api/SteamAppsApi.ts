@@ -7,6 +7,7 @@ const requestApi = new RequestApi(API_URL);
 
 let acTriggerAllGamesScheduler: AbortController;
 let acTriggerAllDataScheduler: AbortController;
+let acTriggerAllTagsScheduler: AbortController;
 let acGetAllImportedApps: AbortController;
 
 
@@ -36,6 +37,21 @@ export async function triggerAllDataScheduler(): Promise<void> {
 
 export async function getAllDataSchedulerStatus(): Promise<boolean> {
     const response = await requestApi.get(new AbortController().signal, 'all-data-scheduler-status');
+    return (response as SchedulerStatus).isActive;
+}
+
+
+export async function triggerAllTagsScheduler(): Promise<void> {
+    if (acTriggerAllTagsScheduler)
+        acTriggerAllTagsScheduler.abort();
+    acTriggerAllTagsScheduler = new AbortController();
+
+    await requestApi.get(acTriggerAllTagsScheduler.signal, 'trigger-all-tags-scheduler');
+}
+
+
+export async function getAllTagsSchedulerStatus(): Promise<boolean> {
+    const response = await requestApi.get(new AbortController().signal, 'all-tags-scheduler-status');
     return (response as SchedulerStatus).isActive;
 }
 

@@ -3,8 +3,10 @@ import {Column, Container, Row} from "@commonComponents/Container";
 import {
     getAllDataSchedulerStatus,
     getAllGamesSchedulerStatus,
+    getAllTagsSchedulerStatus,
     triggerAllDataScheduler,
-    triggerAllGamesScheduler
+    triggerAllGamesScheduler,
+    triggerAllTagsScheduler
 } from "@api/SteamAppsApi.ts";
 import {useEffect, useState} from "react";
 
@@ -13,10 +15,12 @@ export default function HomePage() {
 
     const [allGamesJobStatus, setAllGamesJobStatus] = useState<boolean>(false);
     const [allDataJobStatus, setAllDataJobStatus] = useState<boolean>(false);
+    const [allTagsJobStatus, setAllTagsJobStatus] = useState<boolean>(false);
 
     const loadStatuses = async () => {
         getAllGamesSchedulerStatus().then(setAllGamesJobStatus);
         getAllDataSchedulerStatus().then(setAllDataJobStatus);
+        getAllTagsSchedulerStatus().then(setAllTagsJobStatus);
     };
 
     useEffect(() => {
@@ -49,6 +53,14 @@ export default function HomePage() {
                             Trigger Scheduler: All Data
                         </button>
                     </Column>
+                    <Column>
+                        <button className="btn btn-primary" onClick={() => {
+                            triggerAllTagsScheduler();
+                            loadStatuses();
+                        }}>
+                            Trigger Scheduler: All Tags
+                        </button>
+                    </Column>
                 </Row>
                 <Row>
                     <Column>
@@ -56,6 +68,9 @@ export default function HomePage() {
                     </Column>
                     <Column>
                         {allDataJobStatus ? jobIsRunning() : jobIsNotRunning()}
+                    </Column>
+                    <Column>
+                        {allTagsJobStatus ? jobIsRunning() : jobIsNotRunning()}
                     </Column>
                 </Row>
             </Card>
