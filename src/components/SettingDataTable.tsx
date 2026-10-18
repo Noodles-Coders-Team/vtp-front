@@ -50,77 +50,82 @@ export function SettingsConfigurationPage() {
 
     return (
         <Card title='Settings'>
-            <div>
-                <form onSubmit={handleSubmit}>
-                    <Row>
-                        <Column>
-                            <InputComponent
-                                id="settingDisplay"
-                                label="Setting Name"
-                                placeholder="Setting Name"
-                                value={settingCreate.display}
-                                onChange={(value: string) => setSettingCreate({...settingCreate, display: value})}
-                            />
-                        </Column>
-                        <Column>
-                            <InputComponent
-                                id="settingValue"
-                                label="Value"
-                                placeholder="100"
-                                value={settingCreate.value}
-                                onChange={(value: string) => setSettingCreate({...settingCreate, value: value})}
-                            />
-                        </Column>
-                        <Column>
-                            <InputComponent
-                                id="settingKey"
-                                label="Key"
-                                placeholder="setting_name"
-                                value={settingCreate.key}
-                                onChange={(value: string) => setSettingCreate({...settingCreate, key: value})}/>
-                        </Column>
-                        <Column>
-                            <button type="submit" className="btn btn-success" style={{marginTop: 15}}>Create</button>
-                        </Column>
-                    </Row>
-                </form>
-            </div>
+            <form onSubmit={handleSubmit}>
+                <Row>
+                    <Column>
+                        <InputComponent
+                            id="settingDisplay"
+                            label="Name"
+                            placeholder="Setting Name"
+                            value={settingCreate.display}
+                            onChange={(value: string) => setSettingCreate({...settingCreate, display: value})}
+                        />
+                    </Column>
+                    <Column>
+                        <InputComponent
+                            id="settingValue"
+                            label="Value"
+                            placeholder="100"
+                            value={settingCreate.value}
+                            onChange={(value: string) => setSettingCreate({...settingCreate, value: value})}
+                        />
+                    </Column>
+                    <Column>
+                        <InputComponent
+                            id="settingKey"
+                            label="Key"
+                            placeholder="setting_name"
+                            value={settingCreate.key}
+                            onChange={(value: string) => setSettingCreate({...settingCreate, key: value})}/>
+                    </Column>
+                    <Column>
+                        <button type="submit" className="btn btn-success" style={{marginTop: 30}}>Create</button>
+                    </Column>
+                </Row>
+            </form>
             <br/>
-            <ItemLoadingErrorState label={"settings"} loading={loading} error={error}>
-                <div className="overflow-y-scroll" style={{height: 400}}>
-                    <table className='table'>
-                        <thead>
-                        <tr>
-                            <th scope="col">Display</th>
-                            <th scope="col">Value</th>
-                            <th scope="col">Key</th>
-                            <th></th>
-                        </tr>
-                        </thead>
+            <Row>
 
-                        <tbody>
-                        {settingsData.map((data) => (
-                            <tr key={data.key}>
-                                <td>{data.display}</td>
-                                <td>{data.value}</td>
-                                <td>{data.key}</td>
-                                <td>
-                                    <button className="btn btn-danger"
-                                            onClick={() => deleteSettingByKey(data.key as string)}>X
-                                    </button>
-                                </td>
+                <ItemLoadingErrorState label={"settings"} loading={loading} error={error}>
+                    <div className="overflow-y-scroll" style={{height: 400}}>
+                        <table className='table'>
+                            <thead>
+                            <tr>
+                                <th scope="col">Display</th>
+                                <th scope="col">Value</th>
+                                <th scope="col">Key</th>
+                                <th></th>
                             </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </div>
-                <br/>
-            </ItemLoadingErrorState>
-            <button onClick={() => {
-                setError(null);
-                loadSettingsData();
-            }} className="btn btn-secondary">Refresh Data
-            </button>
+                            </thead>
+
+                            <tbody>
+                            {settingsData.map((data) => (
+                                <tr key={data.key}>
+                                    <td>{data.display}</td>
+                                    <td>{data.value}</td>
+                                    <td>{data.key}</td>
+                                    <td>
+                                        <button className="btn btn-danger"
+                                                onClick={() => deleteSettingByKey(data.key as string)}>X
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    <br/>
+                </ItemLoadingErrorState>
+            </Row>
+            <Row style={{marginTop: 15}}>
+                <Column>
+                    <button onClick={() => {
+                        setError(null);
+                        loadSettingsData();
+                    }} className="btn btn-secondary">Refresh Data
+                    </button>
+                </Column>
+            </Row>
         </Card>
     );
 }

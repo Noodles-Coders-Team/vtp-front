@@ -1,4 +1,5 @@
 import type {ReactNode} from 'react';
+import {Container} from "@commonComponents/Container.tsx";
 
 
 interface CardProps {
@@ -10,9 +11,13 @@ interface CardProps {
 export default function Card({children, title}: CardProps) {
     return (
         <div className='card' style={{margin: 20}}>
+            <div className="card-header">
+                {title}
+            </div>
             <div className='card-body'>
-                <h5 className='card-title'>{title}</h5>
-                {children}
+                <Container>
+                    {children}
+                </Container>
             </div>
         </div>)
 }

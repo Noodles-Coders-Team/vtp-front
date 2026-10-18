@@ -40,38 +40,44 @@ export default function SteamAppTable() {
 
     return (
         <Card title="Steam Apps list">
-            <button onClick={() => {
-                setError(null);
-                loadApps();
-            }} className="btn btn-secondary" style={{margin: 10}}>Refresh Data
-            </button>
-            <ItemLoadingErrorState label="steam apps" loading={loading} error={error}>
-                <div className="overflow-y-scroll" style={{height: 750}}>
-                    <table className='table table-bordered'>
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col" style={{width: '25%', textAlign: 'left'}}>App Name</th>
-                            <th scope="col" style={{width: '25%'}}>Categories</th>
-                            <th scope="col" style={{width: '25%'}}>Genres</th>
-                            <th scope="col" style={{width: '25%'}}>User Tags</th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-                        {apps.map((app) => (
-                            <tr key={app.id}>
-                                <td>{app.id}</td>
-                                <td style={{textAlign: 'left'}}>{app.name}</td>
-                                <td>{arrayToString(app.categories)}</td>
-                                <td>{arrayToString(app.genres)}</td>
-                                <td>{arrayToString(app.tags)}</td>
+            <Row>
+                <Column>
+                    <button onClick={() => {
+                        setError(null);
+                        loadApps();
+                    }} className="btn btn-secondary" style={{margin: 10}}>Refresh Data
+                    </button>
+                </Column>
+            </Row>
+            <Row>
+                <ItemLoadingErrorState label="steam apps" loading={loading} error={error}>
+                    <div className="overflow-y-scroll" style={{height: 750}}>
+                        <table className='table table-bordered'>
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col" style={{width: '25%', textAlign: 'left'}}>App Name</th>
+                                <th scope="col" style={{width: '25%'}}>Categories</th>
+                                <th scope="col" style={{width: '25%'}}>Genres</th>
+                                <th scope="col" style={{width: '25%'}}>User Tags</th>
                             </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </div>
-            </ItemLoadingErrorState>
+                            </thead>
+
+                            <tbody>
+                            {apps.map((app) => (
+                                <tr key={app.id}>
+                                    <td>{app.id}</td>
+                                    <td style={{textAlign: 'left'}}>{app.name}</td>
+                                    <td>{arrayToString(app.categories)}</td>
+                                    <td>{arrayToString(app.genres)}</td>
+                                    <td>{arrayToString(app.tags)}</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </ItemLoadingErrorState>
+            </Row>
             <Row style={{marginTop: 10}}>
                 <Column>
                     <button onClick={() => {

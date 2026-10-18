@@ -10,8 +10,6 @@ export default function ConfigurationPage() {
                 <Column>
                     <DropDownConfigurationComponent/>
                 </Column>
-            </Row>
-            <Row>
                 <Column>
                     <SettingsConfigurationPage/>
                 </Column>

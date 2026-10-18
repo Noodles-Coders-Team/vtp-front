@@ -42,42 +42,40 @@ export default function ImportCsvComponent({title, end_point, description = unde
 
     return (
         <Card title={title}>
-            <Column>
-                {description !== undefined &&
-                    <Row>
-                        <h6>{description}</h6>
-                    </Row>
-                }
-                {responseCode != 200 && responseCode != 400 &&
-                    <Row style={{color: "red"}}>
-                        <Column><p>{errorMsg}</p></Column>
-                    </Row>
-                }
-                {responseCode == 200 &&
-                    <Row style={{color: "green"}}>
-                        <Column><p>Import was successful!</p></Column>
-                    </Row>
-                }
-                {responseCode == 400 &&
-                    <Row style={{color: "orange"}}>
-                        <Column><p>No import file was attached!</p></Column>
-                    </Row>
-                }
+            {description !== undefined &&
                 <Row>
-                    <Column>
-                        <input
-                            type="file"
-                            className="form-control"
-                            id={end_point + 'File'}
-                            accept=".csv"
-                            onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-                        />
-                    </Column>
-                    <Column>
-                        <button onClick={upload} type="button" className="btn btn-primary">Import CSV</button>
-                    </Column>
+                    <h6>{description}</h6>
                 </Row>
-            </Column>
+            }
+            {responseCode != 200 && responseCode != 400 &&
+                <Row style={{color: "red"}}>
+                    <Column><p>{errorMsg}</p></Column>
+                </Row>
+            }
+            {responseCode == 200 &&
+                <Row style={{color: "green"}}>
+                    <Column><p>Import was successful!</p></Column>
+                </Row>
+            }
+            {responseCode == 400 &&
+                <Row style={{color: "orange"}}>
+                    <Column><p>No import file was attached!</p></Column>
+                </Row>
+            }
+            <Row>
+                <Column>
+                    <input
+                        type="file"
+                        className="form-control"
+                        id={end_point + 'File'}
+                        accept=".csv"
+                        onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                    />
+                </Column>
+                <Column>
+                    <button onClick={upload} type="button" className="btn btn-primary">Import CSV</button>
+                </Column>
+            </Row>
         </Card>
     );
 }

@@ -11,15 +11,13 @@ export default function GamesPage() {
                 <Column>
                     <SteamAppTable/>
                 </Column>
-            </Row>
-            <Row>
                 <Column>
-                    <GamesCreate/>
+                    <GamesTable/>
                 </Column>
             </Row>
             <Row>
                 <Column>
-                    <GamesTable/>
+                    <GamesCreate/>
                 </Column>
             </Row>
         </Container>

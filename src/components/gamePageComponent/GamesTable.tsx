@@ -8,6 +8,7 @@ import {getGenreDropDownData, getTagDropDownData} from "@/api/DropDownDataApi";
 import {ItemLoadingErrorState} from "@commonComponents/ItemLoadingErrorState";
 import {TableTextColumnName} from "@commonComponents/TableTextColumnName";
 import {TableToggleable} from "@commonComponents/TableToggleable";
+import {Column, Row} from "@commonComponents/Container.tsx";
 
 
 export default function GamesTable() {
@@ -111,50 +112,57 @@ export default function GamesTable() {
 
     return (
         <Card title="Games list">
-            <button onClick={() => {
-                setError(null);
-                loadGames();
-            }} className="btn btn-secondary">Refresh Data
-            </button>
-            <ItemLoadingErrorState label="games" loading={loading} error={error}>
-                <div className="overflow-y-scroll" style={{height: 750}}>
-                    <table className='table table-bordered'>
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <TableTextColumnName id={"name"} onChangeState={onToggleTextColumnSorting}
-                                                 style={{width: '50%', textAlign: 'left'}}>Game
-                                Name</TableTextColumnName>
-                            {/* <th scope="col" style={{ width: '50%', textAlign: 'left' }}>Game Name</th> */}
-                            <TableColumnNameBooleanFilter label="Can Record" value={can_record}
-                                                          onChange={setCanRecord}/>
-                            <TableColumnNameBooleanFilter label="Discussed" value={discussed} onChange={setDiscussed}/>
-                            <TableTextColumnName id={"score"}
-                                                 onChangeState={onToggleTextColumnSorting}>Score</TableTextColumnName>
-                            {/* <th scope="col">Score</th> */}
-                            <th scope="col">Genre</th>
-                            <th scope="col">Tags</th>
-                            <th scope="col">Notes</th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-                        {games.map((game) => (
-                            <tr key={game.id}>
-                                <td>{games.indexOf(game) + 1}</td>
-                                <td>{game.name}</td>
-                                <TableToggleable value={game.can_record} id={game.id} onToggle={onToggleCanRecord}/>
-                                <TableToggleable value={game.discussed} id={game.id} onToggle={onToggleDiscussed}/>
-                                <td>{game.game_score ?? 0}</td>
-                                <DropDownValue value={game.genre} mappings={genreDropDownData}/>
-                                <DropDownValue value={game.tags} mappings={tagDropDownData}/>
-                                <td>{game.notes}</td>
+            <Row style={{marginBottom: 10}}>
+                <Column>
+                    <button onClick={() => {
+                        setError(null);
+                        loadGames();
+                    }} className="btn btn-secondary">Refresh Data
+                    </button>
+                </Column>
+            </Row>
+            <Row>
+                <ItemLoadingErrorState label="games" loading={loading} error={error}>
+                    <div className="overflow-y-scroll" style={{height: 750}}>
+                        <table className='table table-bordered'>
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <TableTextColumnName id={"name"} onChangeState={onToggleTextColumnSorting}
+                                                     style={{width: '50%', textAlign: 'left'}}>Game
+                                    Name</TableTextColumnName>
+                                {/* <th scope="col" style={{ width: '50%', textAlign: 'left' }}>Game Name</th> */}
+                                <TableColumnNameBooleanFilter label="Can Record" value={can_record}
+                                                              onChange={setCanRecord}/>
+                                <TableColumnNameBooleanFilter label="Discussed" value={discussed}
+                                                              onChange={setDiscussed}/>
+                                <TableTextColumnName id={"score"}
+                                                     onChangeState={onToggleTextColumnSorting}>Score</TableTextColumnName>
+                                {/* <th scope="col">Score</th> */}
+                                <th scope="col">Genre</th>
+                                <th scope="col">Tags</th>
+                                <th scope="col">Notes</th>
                             </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </div>
-            </ItemLoadingErrorState>
+                            </thead>
+
+                            <tbody>
+                            {games.map((game) => (
+                                <tr key={game.id}>
+                                    <td>{games.indexOf(game) + 1}</td>
+                                    <td>{game.name}</td>
+                                    <TableToggleable value={game.can_record} id={game.id} onToggle={onToggleCanRecord}/>
+                                    <TableToggleable value={game.discussed} id={game.id} onToggle={onToggleDiscussed}/>
+                                    <td>{game.game_score ?? 0}</td>
+                                    <DropDownValue value={game.genre} mappings={genreDropDownData}/>
+                                    <DropDownValue value={game.tags} mappings={tagDropDownData}/>
+                                    <td>{game.notes}</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </ItemLoadingErrorState>
+            </Row>
         </Card>
     )
 }

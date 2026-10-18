@@ -18,6 +18,13 @@ export async function triggerAllGamesScheduler(): Promise<void> {
     await requestApi.get(acTriggerAllGamesScheduler.signal, 'trigger-all-games-scheduler');
 }
 
+
+export async function getAllGamesSchedulerStatus(): Promise<boolean> {
+    const response = await requestApi.get(new AbortController().signal, 'all-games-scheduler-status');
+    return (response as SchedulerStatus).isActive;
+}
+
+
 export async function triggerAllDataScheduler(): Promise<void> {
     if (acTriggerAllDataScheduler)
         acTriggerAllDataScheduler.abort();
@@ -25,6 +32,13 @@ export async function triggerAllDataScheduler(): Promise<void> {
 
     await requestApi.get(acTriggerAllDataScheduler.signal, 'trigger-all-data-scheduler');
 }
+
+
+export async function getAllDataSchedulerStatus(): Promise<boolean> {
+    const response = await requestApi.get(new AbortController().signal, 'all-data-scheduler-status');
+    return (response as SchedulerStatus).isActive;
+}
+
 
 export async function getAllImportedApps(page: number): Promise<SteamAppDto[]> {
     if (acGetAllImportedApps)
@@ -35,4 +49,9 @@ export async function getAllImportedApps(page: number): Promise<SteamAppDto[]> {
     if (response == undefined)
         return [];
     return ValidateSchema<SteamAppDto>(response, SteamAppSchema, true);
+}
+
+
+interface SchedulerStatus{
+    isActive: boolean
 }

@@ -56,7 +56,7 @@ export default function ChannelData() {
                 </Row>
                 <Row>
                     <Column>
-                        <ItemLoadingErrorState label="channel data" loading={loading} error={error}>
+                        <ItemLoadingErrorState label="channel data" loading={loading} error={error} border={false}>
                             <AreaChart
                                 height={400}
                                 width={500}

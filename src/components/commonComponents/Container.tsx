@@ -7,9 +7,9 @@ interface ContainerProps {
 }
 
 
-export function Container({children, style = undefined}: ContainerProps) {
+export function Container({children, style = {}}: ContainerProps) {
     return (
-        <div className="container text-center" style={style}>
+        <div className="container-fluid text-center" style={style}>
             {children}
         </div>
     )
