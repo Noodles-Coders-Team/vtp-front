@@ -8,7 +8,7 @@ export class RequestApi {
 
 
     async get(signal: AbortSignal, point: string = ""): Promise<unknown> {
-        const response = await fetch(this.URL + encodeURIComponent(point),
+        const response = await fetch(new URL(point, this.URL),
             {
                 method: 'GET',
                 headers: {
@@ -41,14 +41,16 @@ export class RequestApi {
 
 
     private async sendPostPutRequest(type: string, body: unknown, signal: AbortSignal, point: string): Promise<unknown> {
-        const response = await fetch(this.URL + encodeURIComponent(point), {
-            method: type,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body),
-            signal: signal
-        });
+        const response = await fetch(new URL(point, this.URL),
+            {
+                method: type,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body),
+                signal: signal
+            }
+        );
         if (!response.ok) {
             const text = await response.text();
             throw new Error(`${this.URL + encodeURIComponent(point)} failed (${response.status}): ${text || response.statusText}`);

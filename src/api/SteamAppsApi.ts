@@ -26,12 +26,12 @@ export async function triggerAllDataScheduler(): Promise<void> {
     await requestApi.get(acTriggerAllDataScheduler.signal, 'trigger-all-data-scheduler');
 }
 
-export async function getAllImportedApps(): Promise<SteamAppDto[]> {
+export async function getAllImportedApps(page: number): Promise<SteamAppDto[]> {
     if (acGetAllImportedApps)
         acGetAllImportedApps.abort();
     acGetAllImportedApps = new AbortController();
 
-    const response = await requestApi.get(acGetAllImportedApps.signal, 'imported-apps');
+    const response = await requestApi.get(acGetAllImportedApps.signal, `imported-apps?page=${page}`);
     if (response == undefined)
         return [];
     return ValidateSchema<SteamAppDto>(response, SteamAppSchema, true);
