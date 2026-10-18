@@ -39,24 +39,21 @@ export default function HomePage() {
                 <Row>
                     <Column>
                         <button className="btn btn-primary" onClick={() => {
-                            triggerAllGamesScheduler();
-                            loadStatuses();
+                            triggerAllGamesScheduler().then(loadStatuses);
                         }}>
                             Trigger Scheduler: All Games
                         </button>
                     </Column>
                     <Column>
                         <button className="btn btn-primary" onClick={() => {
-                            triggerAllDataScheduler();
-                            loadStatuses();
+                            triggerAllDataScheduler().then(loadStatuses);
                         }}>
                             Trigger Scheduler: All Data
                         </button>
                     </Column>
                     <Column>
                         <button className="btn btn-primary" onClick={() => {
-                            triggerAllTagsScheduler();
-                            loadStatuses();
+                            triggerAllTagsScheduler().then(loadStatuses);
                         }}>
                             Trigger Scheduler: All Tags
                         </button>
