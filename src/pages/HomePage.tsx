@@ -18,6 +18,7 @@ export default function HomePage() {
     const [allTagsJobStatus, setAllTagsJobStatus] = useState<boolean>(false);
 
     const loadStatuses = async () => {
+        await new Promise(f => setTimeout(f, 250));
         getAllGamesSchedulerStatus().then(setAllGamesJobStatus);
         getAllDataSchedulerStatus().then(setAllDataJobStatus);
         getAllTagsSchedulerStatus().then(setAllTagsJobStatus);
