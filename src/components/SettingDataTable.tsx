@@ -26,6 +26,7 @@ export function SettingsConfigurationPage() {
         // Prevent browser default form submission behavior (page reload)
         event.preventDefault();
 
+        setSettingCreate({...settingCreate, is_system: false});
         await createSetting(settingCreate);
 
         // Clear form after submission

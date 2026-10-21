@@ -11,12 +11,13 @@ let acTriggerAllTagsScheduler: AbortController;
 let acGetAllImportedApps: AbortController;
 
 
-export async function triggerAllGamesScheduler(): Promise<void> {
+export async function triggerAllGamesScheduler(): Promise<boolean> {
     if (acTriggerAllGamesScheduler)
         acTriggerAllGamesScheduler.abort();
     acTriggerAllGamesScheduler = new AbortController();
 
-    await requestApi.get(acTriggerAllGamesScheduler.signal, 'trigger-all-games-scheduler');
+    const response = await requestApi.get(acTriggerAllGamesScheduler.signal, 'trigger-all-games-scheduler');
+    return (response as SchedulerStatus).isActive;
 }
 
 
@@ -26,12 +27,13 @@ export async function getAllGamesSchedulerStatus(): Promise<boolean> {
 }
 
 
-export async function triggerAllDataScheduler(): Promise<void> {
+export async function triggerAllDataScheduler(): Promise<boolean> {
     if (acTriggerAllDataScheduler)
         acTriggerAllDataScheduler.abort();
     acTriggerAllDataScheduler = new AbortController();
 
-    await requestApi.get(acTriggerAllDataScheduler.signal, 'trigger-all-data-scheduler');
+    const response = await requestApi.get(acTriggerAllDataScheduler.signal, 'trigger-all-data-scheduler');
+    return (response as SchedulerStatus).isActive;
 }
 
 
@@ -41,12 +43,13 @@ export async function getAllDataSchedulerStatus(): Promise<boolean> {
 }
 
 
-export async function triggerAllTagsScheduler(): Promise<void> {
+export async function triggerAllTagsScheduler(): Promise<boolean> {
     if (acTriggerAllTagsScheduler)
         acTriggerAllTagsScheduler.abort();
     acTriggerAllTagsScheduler = new AbortController();
 
-    await requestApi.get(acTriggerAllTagsScheduler.signal, 'trigger-all-tags-scheduler');
+    const response = await requestApi.get(acTriggerAllTagsScheduler.signal, 'trigger-all-tags-scheduler');
+    return (response as SchedulerStatus).isActive;
 }
 
 
@@ -68,6 +71,6 @@ export async function getAllImportedApps(page: number): Promise<SteamAppDto[]> {
 }
 
 
-interface SchedulerStatus{
+interface SchedulerStatus {
     isActive: boolean
 }

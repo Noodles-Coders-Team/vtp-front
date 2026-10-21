@@ -11,6 +11,8 @@ export default function GamesPage() {
                 <Column>
                     <SteamAppTable/>
                 </Column>
+            </Row>
+            <Row>
                 <Column>
                     <GamesTable/>
                 </Column>
