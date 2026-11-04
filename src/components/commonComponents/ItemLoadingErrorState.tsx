@@ -21,7 +21,8 @@ export function ItemLoadingErrorState({label, loading, error, children, border =
                 <div className="spinner-border" role="status">
                     <span className="visually-hidden">Loading {loading}...</span>
                 </div>}
-            {error && <p style={{color: "red"}}>Error loading {label}: {error.substring(0, 400)}</p>}
+            {error && <p style={{color: "red"}}>Error
+                loading {label}: {error.length > 400 ? error.substring(0, 400) : error}</p>}
             {!loading && !error && children}
         </div>
     )

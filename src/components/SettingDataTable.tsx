@@ -16,8 +16,11 @@ export function SettingsConfigurationPage() {
 
     const loadSettingsData = () => {
         readSettings()
-            .then(data => setSettingsData(data))
-            .catch(error => setError(error))
+            .then(setSettingsData)
+            .catch(e => {
+                if ((e as Error).name !== "AbortError")
+                    setError((e as Error).message);
+            })
             .finally(() => setLoading(false));
     };
 
@@ -86,7 +89,6 @@ export function SettingsConfigurationPage() {
             </form>
             <br/>
             <Row>
-
                 <ItemLoadingErrorState label={"settings"} loading={loading} error={error}>
                     <div className="overflow-y-scroll" style={{height: 400}}>
                         <table className='table'>

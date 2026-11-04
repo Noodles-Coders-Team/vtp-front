@@ -14,9 +14,9 @@ export default function Navigation() {
                     <NavLink address="/" text='Home'/>
                     <NavLink address="/config" text="Configuration"/>
                     <NavLink address="/games" text="Games"/>
-                    <NavLink address='/import' text="CSV Import"/>
+                    {/*<NavLink address='/import' text="CSV Import"/>*/}
                     <NavLink address='http://localhost:8080/docs' text="API Docs"/>
-                    <NavLink address='/channel-data' text="Channel Data Graph"/>
+                    {/*<NavLink address='/channel-data' text="Channel Data Graph"/>*/}
                 </div>
             </div>
         </nav>
