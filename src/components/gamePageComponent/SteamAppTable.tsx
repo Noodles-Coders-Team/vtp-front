@@ -26,7 +26,7 @@ export default function SteamAppTable() {
 
 
     useEffect(() => {
-        loadApps();
+        loadApps().then();
     }, [page]);
 
 

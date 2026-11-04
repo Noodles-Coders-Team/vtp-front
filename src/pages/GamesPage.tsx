@@ -1,7 +1,6 @@
 import {Column, Container, Row} from "@commonComponents/Container";
-import GamesCreate from "@components/gamePageComponent/GamesCreate";
-import GamesTable from "@components/gamePageComponent/GamesTable";
 import SteamAppTable from "@components/gamePageComponent/SteamAppTable.tsx";
+import SteamAppSearcher from "@components/gamePageComponent/SteamAppSearcher.tsx";
 
 
 export default function GamesPage() {
@@ -14,12 +13,7 @@ export default function GamesPage() {
             </Row>
             <Row>
                 <Column>
-                    <GamesTable/>
-                </Column>
-            </Row>
-            <Row>
-                <Column>
-                    <GamesCreate/>
+                    <SteamAppSearcher/>
                 </Column>
             </Row>
         </Container>

@@ -1,7 +1,7 @@
 import type {ReactNode} from "react";
 
 
-interface BaseInput {
+interface BaseInputProps {
     id: string,
     label: string,
     value: string,
@@ -9,13 +9,13 @@ interface BaseInput {
 }
 
 
-interface InputProps extends BaseInput {
+interface InputProps extends BaseInputProps {
     placeholder?: string,
     type?: string,
 }
 
 
-interface SelectProps extends BaseInput {
+interface SelectProps extends BaseInputProps {
     children: ReactNode,
 }
 
@@ -33,6 +33,26 @@ export function InputComponent({id, label, placeholder = "", type = "text", valu
                 onChange={(event) => onChange(event.target.value)}
             />
         </>
+    )
+}
+
+
+interface InputTextProps {
+    id: string,
+    value: string,
+    onChange: (value: number, id: string) => void,
+}
+
+
+export function InputText({id, value, onChange}: InputTextProps) {
+    return (
+        <input
+            className="form-control"
+            id={id}
+            type="number"
+            value={value}
+            onChange={(event) => onChange(Number(event.target.value), id)}
+        />
     )
 }
 

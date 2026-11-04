@@ -9,6 +9,7 @@ import {
     triggerAllTagsScheduler
 } from "@api/SteamAppsApi.ts";
 import {useEffect, useState} from "react";
+import SteamAppTable from "@/pages/GameFilter.tsx";
 
 
 export default function HomePage() {
@@ -31,47 +32,53 @@ export default function HomePage() {
 
     return (
         <Container>
-            <Card title='Welcome to the Video Tracking & Planning app'>
-                <Row>
-                    <Column>
-                        <p>This is the home page of the App.</p>
-                    </Column>
-                </Row>
-                <Row>
-                    <Column>
-                        <button className="btn btn-primary" onClick={() => {
-                            triggerAllGamesScheduler().then(setAllGamesJobStatus);
-                        }}>
-                            Trigger Scheduler: All Games
-                        </button>
-                    </Column>
-                    <Column>
-                        <button className="btn btn-primary" onClick={() => {
-                            triggerAllDataScheduler().then(setAllDataJobStatus);
-                        }}>
-                            Trigger Scheduler: All Data
-                        </button>
-                    </Column>
-                    <Column>
-                        <button className="btn btn-primary" onClick={() => {
-                            triggerAllTagsScheduler().then(setAllTagsJobStatus);
-                        }}>
-                            Trigger Scheduler: All Tags
-                        </button>
-                    </Column>
-                </Row>
-                <Row>
-                    <Column>
-                        {allGamesJobStatus ? jobIsRunning() : jobIsNotRunning()}
-                    </Column>
-                    <Column>
-                        {allDataJobStatus ? jobIsRunning() : jobIsNotRunning()}
-                    </Column>
-                    <Column>
-                        {allTagsJobStatus ? jobIsRunning() : jobIsNotRunning()}
-                    </Column>
-                </Row>
-            </Card>
+            <Row>
+
+                <Card title='Welcome to the Video Tracking & Planning app'>
+                    <Row>
+                        <Column>
+                            <p>This is the home page of the App.</p>
+                        </Column>
+                    </Row>
+                    <Row>
+                        <Column>
+                            <button className="btn btn-primary" onClick={() => {
+                                triggerAllGamesScheduler().then(setAllGamesJobStatus);
+                            }}>
+                                Trigger Scheduler: All Games
+                            </button>
+                        </Column>
+                        <Column>
+                            <button className="btn btn-primary" onClick={() => {
+                                triggerAllDataScheduler().then(setAllDataJobStatus);
+                            }}>
+                                Trigger Scheduler: All Data
+                            </button>
+                        </Column>
+                        <Column>
+                            <button className="btn btn-primary" onClick={() => {
+                                triggerAllTagsScheduler().then(setAllTagsJobStatus);
+                            }}>
+                                Trigger Scheduler: All Tags
+                            </button>
+                        </Column>
+                    </Row>
+                    <Row>
+                        <Column>
+                            {allGamesJobStatus ? jobIsRunning() : jobIsNotRunning()}
+                        </Column>
+                        <Column>
+                            {allDataJobStatus ? jobIsRunning() : jobIsNotRunning()}
+                        </Column>
+                        <Column>
+                            {allTagsJobStatus ? jobIsRunning() : jobIsNotRunning()}
+                        </Column>
+                    </Row>
+                </Card>
+            </Row>
+            <Row>
+                <SteamAppTable/>
+            </Row>
         </Container>
     );
 }

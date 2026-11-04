@@ -1,5 +1,4 @@
 import {Column, Container, Row} from "@commonComponents/Container";
-import {DropDownConfigurationComponent} from "@components/dropdownComponents/DropDownConfigurationComponent";
 import {SettingsConfigurationPage} from "@components/SettingDataTable";
 
 
@@ -7,9 +6,6 @@ export default function ConfigurationPage() {
     return (
         <Container>
             <Row>
-                <Column>
-                    <DropDownConfigurationComponent/>
-                </Column>
                 <Column>
                     <SettingsConfigurationPage/>
                 </Column>
