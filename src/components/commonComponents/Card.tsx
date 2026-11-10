@@ -4,13 +4,14 @@ import {Container} from "@commonComponents/Container.tsx";
 
 interface CardProps {
     children: ReactNode,
-    title: string
+    title: string,
+    style?: React.CSSProperties | undefined
 }
 
 
-export default function Card({children, title}: CardProps) {
+export default function Card({children, title, style = {}}: CardProps) {
     return (
-        <div className='card' style={{margin: 20}}>
+        <div className='card' style={{margin: '0 auto', width: '95%', ...style}}>
             <div className="card-header">
                 {title}
             </div>

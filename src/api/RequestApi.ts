@@ -14,7 +14,8 @@ export class RequestApi {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                signal: signal
+                signal: signal,
+                credentials: 'include'
             }
         );
         if (!response.ok) {
@@ -48,7 +49,8 @@ export class RequestApi {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(body),
-                signal: signal
+                signal: signal,
+                credentials: 'include'
             }
         );
         if (!response.ok) {

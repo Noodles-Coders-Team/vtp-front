@@ -1,8 +1,11 @@
 import {Link} from 'react-router-dom';
 import logo from '@assets/dvr_128dp.png';
+import {authClient, authClientSignOut} from "@api/AuthApi.ts";
 
 
 export default function Navigation() {
+    const {data} = authClient.useSession();
+
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary nav-scroller fixed-top shadow-sm">
             <div className="container-fluid">
@@ -17,6 +20,16 @@ export default function Navigation() {
                     {/*<NavLink address='/import' text="CSV Import"/>*/}
                     <NavLink address='http://localhost:8080/docs' text="API Docs"/>
                     {/*<NavLink address='/channel-data' text="Channel Data Graph"/>*/}
+                    <div style={{marginLeft: 'auto', marginRight: '10px'}}>
+                        <span className="navbar-text">
+                                {data?.user.name ?? 'LOADING'}
+                        </span>
+                        <button className="btn btn-outline-secondary" style={{marginLeft: '15px'}}
+                                onClick={() => {
+                                    authClientSignOut().then()
+                                }}>Log Out
+                        </button>
+                    </div>
                 </div>
             </div>
         </nav>
