@@ -9,7 +9,7 @@ import {getGamesFilteredByRefData} from "@api/SteamAppsApi.ts";
 import type {SteamAppDto} from "@nct/vtp-common";
 
 
-export default function SteamAppTable() {
+export default function SteamAppGlobalSearchPage() {
     const [appRefData, setAppRefData] = useState<UserSteamAppRefDataConfigDto[]>([]);
     const [loadingRefData, setLoadingRefData] = useState<boolean>(true);
     const [errorRefData, setErrorRefData] = useState<string | null>(null);
@@ -163,7 +163,9 @@ export default function SteamAppTable() {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {filteredApps[0] == null && <h5>Try searching first :)</h5>}
+                                {filteredApps[0] == null && <tr>
+                                    <td><h5>Try searching first :)</h5></td>
+                                </tr>}
                                 {filteredApps.map((app) => {
                                     return (
                                         <tr key={app.id}>

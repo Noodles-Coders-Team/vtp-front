@@ -1,6 +1,7 @@
-import {Link} from 'react-router-dom';
 import logo from '@assets/dvr_128dp.png';
 import {authClient, authClientSignOut} from "@api/AuthApi.ts";
+import {NavLink} from "@commonComponents/NavLink.tsx";
+import {UserRoles} from "@nct/vtp-common";
 
 
 export default function Navigation() {
@@ -15,11 +16,15 @@ export default function Navigation() {
                         <p className="navbar-brand">VT&P</p>
                     </ul>
                     <NavLink address="/" text='Home'/>
-                    <NavLink address="/config" text="Configuration"/>
                     <NavLink address="/games" text="Games"/>
+                    <NavLink address="/steam-global-search" text="Steam App Filter"/>
+                    {/*Display only do admin*/}
                     {/*<NavLink address='/import' text="CSV Import"/>*/}
-                    <NavLink address='http://localhost:8080/docs' text="API Docs"/>
-                    {/*<NavLink address='/channel-data' text="Channel Data Graph"/>*/}
+                    {data?.user.role == UserRoles.Admin && <>
+                        <NavLink address="/config" text="Configuration"/>
+                        <NavLink address='http://localhost:8080/docs' text="API Docs"/>
+                    </>
+                    }
                     <div style={{marginLeft: 'auto', marginRight: '10px'}}>
                         <span className="navbar-text">
                                 {data?.user.name ?? 'LOADING'}
@@ -33,15 +38,5 @@ export default function Navigation() {
                 </div>
             </div>
         </nav>
-    )
-}
-
-
-function NavLink({address = '/', text = 'No Text Provided'}) {
-    // We are using link as it's just updates status, and prevents browser from refreshing the page
-    return (
-        <ul className="navbar-nav">
-            <Link className="nav-link active" to={address}>{text}</Link>
-        </ul>
     )
 }
