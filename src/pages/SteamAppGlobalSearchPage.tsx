@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {ItemLoadingErrorState} from "@commonComponents/ItemLoadingErrorState.tsx";
 import Card from "@commonComponents/Card.tsx";
 import {Column, Row} from "@commonComponents/Container.tsx";
-import {getAllSteamAppRefData, updateAllSteamAppRefData} from "@api/SteamAppRefDataApi.ts";
+import {getAllSteamAppRefData} from "@api/SteamAppRefDataApi.ts";
 import type {UserSteamAppRefDataConfigDto} from "@nct/vtp-common/dist/schemas/user_steam_app_ref_data_config.ts";
 import {InputComponent, InputText} from "@commonComponents/InputComponent.tsx";
 import {getGamesFilteredByRefData} from "@api/SteamAppsApi.ts";
@@ -70,7 +70,6 @@ export default function SteamAppGlobalSearchPage() {
 
     return (
         <Card title="Steam Apps list">
-            {/*TODO: add better UI separation*/}
             <Row>
                 <Column>
                     <InputComponent
@@ -103,11 +102,6 @@ export default function SteamAppGlobalSearchPage() {
                     <br/>
                     <button onClick={loadSteamAppRefData} className="btn btn-warning" style={{margin: 10}}>Refresh
                         Data
-                    </button>
-                    <button onClick={() => {
-                        setErrorRefData(null);
-                        updateAllSteamAppRefData().then();
-                    }} className="btn btn-info" style={{margin: 10}}>Update Reference Data
                     </button>
                     <button onClick={loadFilteredGames} className="btn btn-primary" style={{margin: 10}}>
                         Filter Games
@@ -143,8 +137,10 @@ export default function SteamAppGlobalSearchPage() {
                                         <tr key={refData.id}>
                                             <td style={{textAlign: 'left'}}>{refData.value}</td>
                                             <td style={{textAlign: 'left'}}>{refData.type}</td>
-                                            <InputText id={refData.id} value={refData.score.toString()}
-                                                       onChange={onScoreChange}/>
+                                            <td>
+                                                <InputText id={refData.id} value={refData.score.toString()}
+                                                           onChange={onScoreChange}/>
+                                            </td>
                                         </tr>
                                     );
                                 })}

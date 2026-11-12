@@ -1,4 +1,4 @@
-import {Column, Container, Row} from "@commonComponents/Container";
+import {Column, Container, Row, RowColumn} from "@commonComponents/Container";
 import {SettingsConfigurationPage} from "@components/SettingDataTable";
 import {
     getAllDataSchedulerStatus,
@@ -10,12 +10,15 @@ import {
 } from "@api/SteamAppsApi.ts";
 import {useEffect, useState} from "react";
 import Card from "@commonComponents/Card.tsx";
+import {updateAllSteamAppRefData} from "@api/SteamAppRefDataApi.ts";
 
 
 export default function AdminPage() {
     const [allGamesJobStatus, setAllGamesJobStatus] = useState<boolean>(false);
     const [allDataJobStatus, setAllDataJobStatus] = useState<boolean>(false);
     const [allTagsJobStatus, setAllTagsJobStatus] = useState<boolean>(false);
+
+    const [updateRefDataStatusString, setUpdateRefDataStatusString] = useState<string | null>(null);
 
 
     const loadStatuses = async () => {
@@ -33,45 +36,53 @@ export default function AdminPage() {
 
     return (
         <Container>
-            <Row>
-                <Card title="Jobs">
-                    <Row>
-                        <Column>
-                            <button className="btn btn-primary" onClick={() => {
-                                triggerAllGamesScheduler().then(setAllGamesJobStatus);
-                            }}>
-                                Trigger Scheduler: All Games
+            <Row style={{marginBottom: 15}}>
+                <Column>
+                    <Card title="Jobs">
+                        <RowColumn>
+                            <button onClick={() => {
+                                setUpdateRefDataStatusString("Updating...");
+                                updateAllSteamAppRefData().then(() => setUpdateRefDataStatusString("Updated"));
+                            }} className="btn btn-info" style={{margin: 10}}>Update Reference
+                                Data {updateRefDataStatusString && ": " + updateRefDataStatusString}
                             </button>
-                        </Column>
-                        <Column>
-                            <button className="btn btn-primary" onClick={() => {
-                                triggerAllDataScheduler().then(setAllDataJobStatus);
-                            }}>
-                                Trigger Scheduler: All Data
-                            </button>
-                        </Column>
-                        <Column>
-                            <button className="btn btn-primary" onClick={() => {
-                                triggerAllTagsScheduler().then(setAllTagsJobStatus);
-                            }}>
-                                Trigger Scheduler: All Tags
-                            </button>
-                        </Column>
-                    </Row>
-                    <Row>
-                        <Column>
-                            {allGamesJobStatus ? jobIsRunning() : jobIsNotRunning()}
-                        </Column>
-                        <Column>
-                            {allDataJobStatus ? jobIsRunning() : jobIsNotRunning()}
-                        </Column>
-                        <Column>
-                            {allTagsJobStatus ? jobIsRunning() : jobIsNotRunning()}
-                        </Column>
-                    </Row>
-                </Card>
-            </Row>
-            <Row>
+                        </RowColumn>
+                        <Row>
+                            <Column>
+                                {jobRunningStatus("All Games", allGamesJobStatus)}
+                            </Column>
+                            <Column>
+                                {jobRunningStatus("All Data", allDataJobStatus)}
+                            </Column>
+                            <Column>
+                                {jobRunningStatus("All Tags", allTagsJobStatus)}
+                            </Column>
+                        </Row>
+                        <Row>
+                            <Column>
+                                <button className="btn btn-primary" onClick={() => {
+                                    triggerAllGamesScheduler().then(setAllGamesJobStatus);
+                                }}>
+                                    Toggle Scheduler
+                                </button>
+                            </Column>
+                            <Column>
+                                <button className="btn btn-primary" onClick={() => {
+                                    triggerAllDataScheduler().then(setAllDataJobStatus);
+                                }}>
+                                    Toggle Scheduler
+                                </button>
+                            </Column>
+                            <Column>
+                                <button className="btn btn-primary" onClick={() => {
+                                    triggerAllTagsScheduler().then(setAllTagsJobStatus);
+                                }}>
+                                    Toggle Scheduler
+                                </button>
+                            </Column>
+                        </Row>
+                    </Card>
+                </Column>
                 <Column>
                     <SettingsConfigurationPage/>
                 </Column>
@@ -81,15 +92,10 @@ export default function AdminPage() {
 }
 
 
-function jobIsRunning() {
-    return (
-        <h5 style={{color: "green"}}>Job is running</h5>
-    );
-}
+function jobRunningStatus(jobName: string, isRunning: boolean) {
+    const color = isRunning ? "green" : "red";
 
-
-function jobIsNotRunning() {
     return (
-        <h5 style={{color: "red"}}>Job is not running</h5>
+        <h5 style={{color: color}}>Job {jobName} is {!isRunning && "not"} running</h5>
     );
 }

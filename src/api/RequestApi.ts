@@ -18,11 +18,7 @@ export class RequestApi {
                 credentials: 'include'
             }
         );
-        if (!response.ok) {
-            const text = await response.text();
-            throw new Error(`${this.URL + encodeURIComponent(point)} failed (${response.status}): ${text || response.statusText}`);
-        }
-        return await response.json();
+        return await this.unpackResponse(response, point);
     }
 
 
@@ -53,10 +49,19 @@ export class RequestApi {
                 credentials: 'include'
             }
         );
+        return await this.unpackResponse(response, point);
+    }
+
+
+    private async unpackResponse(response: Response, point: string): Promise<JSON | null> {
         if (!response.ok) {
             const text = await response.text();
             throw new Error(`${this.URL + encodeURIComponent(point)} failed (${response.status}): ${text || response.statusText}`);
         }
-        return await response.json();
+
+        const bodyText = await response.text();
+        if (!bodyText)
+            return null;
+        return JSON.parse(bodyText);
     }
 }

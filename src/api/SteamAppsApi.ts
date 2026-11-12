@@ -25,6 +25,8 @@ export async function triggerAllGamesScheduler(): Promise<boolean> {
 
 export async function getAllGamesSchedulerStatus(): Promise<boolean> {
     const response = await requestApi.get(new AbortController().signal, 'all-games-scheduler-status');
+    if (response == null)
+        return false;
     return (response as SchedulerStatus).isActive;
 }
 
@@ -41,6 +43,8 @@ export async function triggerAllDataScheduler(): Promise<boolean> {
 
 export async function getAllDataSchedulerStatus(): Promise<boolean> {
     const response = await requestApi.get(new AbortController().signal, 'all-data-scheduler-status');
+    if (response == null)
+        return false;
     return (response as SchedulerStatus).isActive;
 }
 
@@ -57,6 +61,8 @@ export async function triggerAllTagsScheduler(): Promise<boolean> {
 
 export async function getAllTagsSchedulerStatus(): Promise<boolean> {
     const response = await requestApi.get(new AbortController().signal, 'all-tags-scheduler-status');
+    if (response == null)
+        return false;
     return (response as SchedulerStatus).isActive;
 }
 
@@ -90,8 +96,7 @@ export async function getGamesFilteredByRefData(refData: UserSteamAppRefDataConf
     if (acCallSteamAppCalculated)
         acCallSteamAppCalculated.abort();
     acCallSteamAppCalculated = new AbortController();
-
-    //TODO: this should be changed to send smaller updates of RefData rather than whole batch at once
+    
     const filteredRefData = refData.filter(ref => ref.score != 0);
     const response = await requestApi.post(filteredRefData, acCallSteamAppCalculated.signal, `apps-filtered-with-user-config`);
     if (response == undefined)

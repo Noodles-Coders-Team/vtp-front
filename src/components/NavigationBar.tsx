@@ -1,7 +1,7 @@
 import logo from '@assets/dvr_128dp.png';
 import {authClient, authClientSignOut} from "@api/AuthApi.ts";
 import {NavLink} from "@commonComponents/NavLink.tsx";
-import {UserRoles} from "@nct/vtp-common";
+import {ShowAdminOnly} from "@commonComponents/ShowAdminOnly.tsx";
 
 
 export default function Navigation() {
@@ -20,11 +20,10 @@ export default function Navigation() {
                     <NavLink address="/steam-global-search" text="Steam App Filter"/>
                     {/*Display only do admin*/}
                     {/*<NavLink address='/import' text="CSV Import"/>*/}
-                    {data?.user.role == UserRoles.Admin && <>
+                    <ShowAdminOnly>
                         <NavLink address="/config" text="Configuration"/>
                         <NavLink address='http://localhost:8080/docs' text="API Docs"/>
-                    </>
-                    }
+                    </ShowAdminOnly>
                     <div style={{marginLeft: 'auto', marginRight: '10px'}}>
                         <span className="navbar-text">
                                 {data?.user.name ?? 'LOADING'}

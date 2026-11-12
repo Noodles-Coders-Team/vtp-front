@@ -32,3 +32,14 @@ export function Column({children, style = {}}: ContainerProps) {
         </div>
     )
 }
+
+
+export function RowColumn({children, style = {}}: ContainerProps) {
+    return (
+        <Row style={style}>
+            <Column>
+                {children}
+            </Column>
+        </Row>
+    )
+}

@@ -67,7 +67,8 @@ export default function SteamAppTable() {
                             {apps.map((app) => (
                                 <tr key={app.id}>
                                     <td>{app.id}</td>
-                                    <td style={{textAlign: 'left'}}>{app.name}</td>
+                                    <td style={{textAlign: 'left', cursor: 'pointer'}}
+                                        onClick={() => window.open(`https://store.steampowered.com/app/${app.id}/`, "_blank")}>{app.name}</td>
                                     <td>{arrayToString(app.categories)}</td>
                                     <td>{arrayToString(app.genres)}</td>
                                     <td>{arrayToString(app.tags)}</td>
