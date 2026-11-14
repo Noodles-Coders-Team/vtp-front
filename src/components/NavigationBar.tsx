@@ -18,6 +18,7 @@ export default function Navigation() {
                     <NavLink address="/" text='Home'/>
                     <NavLink address="/games" text="Games"/>
                     <NavLink address="/steam-global-search" text="Steam App Filter"/>
+                    <NavLink address="/steam-user-search" text="Steam App User Filter"/>
                     {/*Display only do admin*/}
                     {/*<NavLink address='/import' text="CSV Import"/>*/}
                     <ShowAdminOnly>

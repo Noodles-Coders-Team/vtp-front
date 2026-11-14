@@ -37,14 +37,14 @@ export function InputComponent({id, label, placeholder = "", type = "text", valu
 }
 
 
-interface InputTextProps {
+interface InputNumberProps {
     id: string,
     value: string,
     onChange: (value: number, id: string) => void,
 }
 
 
-export function InputText({id, value, onChange}: InputTextProps) {
+export function InputNumber({id, value, onChange}: InputNumberProps) {
     return (
         <input
             className="form-control"
@@ -57,7 +57,7 @@ export function InputText({id, value, onChange}: InputTextProps) {
 }
 
 
-export function SelectComponent({id, label, value, onChange, children}: SelectProps) {
+export function SelectComponent({id, label, onChange, children}: SelectProps) {
     return (
         <>
             <label htmlFor={id} className="col-sm-2 col-form-label">{label}</label>
@@ -65,7 +65,6 @@ export function SelectComponent({id, label, value, onChange, children}: SelectPr
                 className="form-select"
                 aria-label="Default select example"
                 id={id}
-                value={value}
                 onChange={(event) => onChange(event.target.value)}
             >
                 {children}
