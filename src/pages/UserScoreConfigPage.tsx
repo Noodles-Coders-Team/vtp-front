@@ -64,7 +64,7 @@ export function UserScoreConfigPage() {
         <Card title="User Score Configuration">
             <Row style={{width: '50%'}}>
                 <Column>
-                    <SelectComponent id={"configId"} label={"ConfigList"} onChange={onDropDownSelected} value="">
+                    <SelectComponent id={"configId"} label="Config List" onChange={onDropDownSelected} value="">
                         <option id="configNull" value="null">Please select smth...</option>
                         <option id="configNew" value="new">New</option>
                         {userConfigs.map((config: UserGameScoreConfigDto) => {

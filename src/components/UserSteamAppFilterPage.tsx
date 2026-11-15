@@ -86,7 +86,7 @@ export default function UserSteamAppFilterPage({configId = null}: UserSteamAppFi
                 <Column>
                     <InputComponent
                         id="filterTags"
-                        label="Filter"
+                        label="Search"
                         placeholder=""
                         value={tagFilter}
                         onChange={(value: string) => {
@@ -99,16 +99,16 @@ export default function UserSteamAppFilterPage({configId = null}: UserSteamAppFi
                             onClick={() => setShowTags(!showTags)}/>
                     <Button label={`Genres: ${showGenres ? "Yes" : "No"}`} type={ButtonType.SUCCESS}
                             onClick={() => setShowGenres(!showGenres)}/>
-                    <Button label={`Scored: ${showOnlyScored ? "Yes" : "No"}`} type={ButtonType.SUCCESS}
-                            onClick={() => setShowOnlyScored(!showOnlyScored)}/>
-
                     {configId == null &&
                         <Button label="Clear RefData" type={ButtonType.WARNING} onClick={() => {
                             setLoadingAndClearError();
                             loadFiltersConfigRefData().then();
                         }}/>
                     }
-                    <Button label="Filter Games" type={ButtonType.PRIMARY} onClick={loadFilteredGames}/>
+                    <br/>
+                    <Button label={`Scored: ${showOnlyScored ? "Yes" : "No"}`} type={ButtonType.INFO}
+                            onClick={() => setShowOnlyScored(!showOnlyScored)}/>
+                    <Button label="Search Games" type={ButtonType.PRIMARY} onClick={loadFilteredGames}/>
                 </Column>
             </Row>
             <Row>
@@ -120,12 +120,12 @@ export default function UserSteamAppFilterPage({configId = null}: UserSteamAppFi
                                 <tr>
                                     <th scope="col" style={{width: '25%', textAlign: 'left'}}>Value</th>
                                     <th scope="col" style={{width: '25%'}}>Type</th>
-                                    <th scope="col" style={{width: '25%'}}>UserValue</th>
+                                    <th scope="col" style={{width: '25%'}}>Score</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {appRefData.map((refData) => {
-                                    if (tagFilter && !refData.value.includes(tagFilter))
+                                    if (tagFilter && !refData.value.toUpperCase().includes(tagFilter.toUpperCase()))
                                         return;
                                     if (showOnlyScored && refData.score == 0)
                                         return;

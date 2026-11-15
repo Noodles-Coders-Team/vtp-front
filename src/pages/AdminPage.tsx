@@ -3,10 +3,8 @@ import {SettingsConfigurationPage} from "@components/SettingDataTable";
 import {
     getAllDataSchedulerStatus,
     getAllGamesSchedulerStatus,
-    getAllTagsSchedulerStatus,
     triggerAllDataScheduler,
-    triggerAllGamesScheduler,
-    triggerAllTagsScheduler
+    triggerAllGamesScheduler
 } from "@api/SteamAppsApi.ts";
 import {useEffect, useState} from "react";
 import Card from "@commonComponents/Card.tsx";
@@ -16,7 +14,6 @@ import {updateAllSteamAppRefData} from "@api/SteamAppRefDataApi.ts";
 export default function AdminPage() {
     const [allGamesJobStatus, setAllGamesJobStatus] = useState<boolean>(false);
     const [allDataJobStatus, setAllDataJobStatus] = useState<boolean>(false);
-    const [allTagsJobStatus, setAllTagsJobStatus] = useState<boolean>(false);
 
     const [updateRefDataStatusString, setUpdateRefDataStatusString] = useState<string | null>(null);
 
@@ -25,7 +22,6 @@ export default function AdminPage() {
         await new Promise(f => setTimeout(f, 250));
         getAllGamesSchedulerStatus().then(setAllGamesJobStatus);
         getAllDataSchedulerStatus().then(setAllDataJobStatus);
-        getAllTagsSchedulerStatus().then(setAllTagsJobStatus);
     };
 
 
@@ -54,9 +50,6 @@ export default function AdminPage() {
                             <Column>
                                 {jobRunningStatus("All Data", allDataJobStatus)}
                             </Column>
-                            <Column>
-                                {jobRunningStatus("All Tags", allTagsJobStatus)}
-                            </Column>
                         </Row>
                         <Row>
                             <Column>
@@ -69,13 +62,6 @@ export default function AdminPage() {
                             <Column>
                                 <button className="btn btn-primary" onClick={() => {
                                     triggerAllDataScheduler().then(setAllDataJobStatus);
-                                }}>
-                                    Toggle Scheduler
-                                </button>
-                            </Column>
-                            <Column>
-                                <button className="btn btn-primary" onClick={() => {
-                                    triggerAllTagsScheduler().then(setAllTagsJobStatus);
                                 }}>
                                     Toggle Scheduler
                                 </button>

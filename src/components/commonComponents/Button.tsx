@@ -22,7 +22,9 @@ export default function Button({label, type, onClick, style = {}}: ButtonProps) 
         <button type="button"
                 className={`btn btn-${type.toString()}`}
                 onClick={onClick}
-                style={{margin: 10, ...style}}>
+                style={{margin: 10, ...style}}
+                // TODO: add tooltips
+        >
             {label}
         </button>
     )

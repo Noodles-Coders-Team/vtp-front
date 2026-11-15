@@ -8,7 +8,6 @@ const requestApi = new RequestApi(API_URL);
 
 let acTriggerAllGamesScheduler: AbortController;
 let acTriggerAllDataScheduler: AbortController;
-let acTriggerAllTagsScheduler: AbortController;
 let acGetAllImportedApps: AbortController;
 let acCallSteamAppCalculated: AbortController;
 
@@ -49,24 +48,6 @@ export async function getAllDataSchedulerStatus(): Promise<boolean> {
 }
 
 
-export async function triggerAllTagsScheduler(): Promise<boolean> {
-    if (acTriggerAllTagsScheduler)
-        acTriggerAllTagsScheduler.abort();
-    acTriggerAllTagsScheduler = new AbortController();
-
-    const response = await requestApi.get(acTriggerAllTagsScheduler.signal, 'trigger-all-tags-scheduler');
-    return (response as SchedulerStatus).isActive;
-}
-
-
-export async function getAllTagsSchedulerStatus(): Promise<boolean> {
-    const response = await requestApi.get(new AbortController().signal, 'all-tags-scheduler-status');
-    if (response == null)
-        return false;
-    return (response as SchedulerStatus).isActive;
-}
-
-
 export async function getAllImportedApps(page: number): Promise<SteamAppDto[]> {
     if (acGetAllImportedApps)
         acGetAllImportedApps.abort();
@@ -96,7 +77,7 @@ export async function getGamesFilteredByRefData(refData: UserSteamAppRefDataConf
     if (acCallSteamAppCalculated)
         acCallSteamAppCalculated.abort();
     acCallSteamAppCalculated = new AbortController();
-    
+
     const filteredRefData = refData.filter(ref => ref.score != 0);
     const response = await requestApi.post(filteredRefData, acCallSteamAppCalculated.signal, `apps-filtered-with-user-config`);
     if (response == undefined)
