@@ -5,6 +5,8 @@ import Card from "@commonComponents/Card.tsx";
 import {eventBus, EventName} from "@api/EventBus.ts";
 import {getAllImportedApps} from "@api/SteamAppsApi.ts";
 import {Column, Row} from "@commonComponents/Container.tsx";
+import Button from "@commonComponents/Button.tsx";
+import {ButtonType} from "@/enum/ButtonType.ts";
 
 
 export default function SteamAppTable() {
@@ -42,11 +44,11 @@ export default function SteamAppTable() {
         <Card title="Steam Apps list">
             <Row>
                 <Column>
-                    <button onClick={() => {
+                    <Button label="Refresh Data" type={ButtonType.SECONDARY} onClick={() => {
                         setError(null);
                         loadApps();
-                    }} className="btn btn-secondary" style={{margin: 10}}>Refresh Data
-                    </button>
+                    }}
+                            style={{margin: 10}}/>
                 </Column>
             </Row>
             <Row>
@@ -81,21 +83,21 @@ export default function SteamAppTable() {
             </Row>
             <Row style={{marginTop: 10}}>
                 <Column>
-                    <button onClick={() => {
+                    <Button label="Previous Page" type={ButtonType.SECONDARY} onClick={() => {
                         setError(null);
                         if (page > 1) setPage(page - 1);
-                    }} className="btn btn-secondary">Previous Page
-                    </button>
+                    }}
+                    />
                 </Column>
                 <Column>
                     <h5 style={{alignContent: "center"}}>{page}</h5>
                 </Column>
                 <Column>
-                    <button onClick={() => {
+                    <Button label="Next Page" type={ButtonType.SECONDARY} onClick={() => {
                         setError(null);
                         setPage(page + 1);
-                    }} className="btn btn-secondary">Next Page
-                    </button>
+                    }}
+                    />
                 </Column>
             </Row>
         </Card>

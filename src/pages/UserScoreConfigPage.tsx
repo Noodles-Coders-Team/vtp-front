@@ -5,7 +5,8 @@ import {type UserGameScoreConfigDto} from "@nct/vtp-common";
 import {createUserScoreConfig, getAllUserGameScoreConfigs} from "@api/UserGameScoreApi.ts";
 import UserSteamAppFilterPage from "@components/UserSteamAppFilterPage.tsx";
 import {InputComponent, SelectComponent} from "@commonComponents/InputComponent.tsx";
-import Button, {ButtonType} from "@commonComponents/Button.tsx";
+import Button from "@commonComponents/Button.tsx";
+import {ButtonType} from "@/enum/ButtonType.ts";
 
 
 export function UserScoreConfigPage() {

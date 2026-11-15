@@ -6,7 +6,8 @@ import {InputComponent, InputNumber} from "@commonComponents/InputComponent.tsx"
 import {getGamesFilteredByRefData} from "@api/SteamAppsApi.ts";
 import type {SteamAppDto} from "@nct/vtp-common";
 import {getAllUserScoreConfigRefData, saveUserScoreConfig} from "@api/UserGameScoreApi.ts";
-import Button, {ButtonType} from "@commonComponents/Button.tsx";
+import Button from "@commonComponents/Button.tsx";
+import {ButtonType} from "@/enum/ButtonType.ts";
 
 
 interface UserSteamAppFilterProps {
@@ -77,7 +78,7 @@ export default function UserSteamAppFilterPage({configId = null}: UserSteamAppFi
 
     useEffect(() => {
         loadFiltersConfigRefData().then();
-    }, []);
+    }, [configId]);
 
 
     return (
@@ -107,6 +108,7 @@ export default function UserSteamAppFilterPage({configId = null}: UserSteamAppFi
                     }
                     <br/>
                     <Button label={`Scored: ${showOnlyScored ? "Yes" : "No"}`} type={ButtonType.INFO}
+                            tooltip="Shows only scored Values"
                             onClick={() => setShowOnlyScored(!showOnlyScored)}/>
                     <Button label="Search Games" type={ButtonType.PRIMARY} onClick={loadFilteredGames}/>
                 </Column>

@@ -5,6 +5,8 @@ import type {UserSignInDto, UserSignUpDto} from "@nct/vtp-common";
 import {InputComponent} from "@commonComponents/InputComponent.tsx";
 import {authClientSignIn, authClientSignUp} from "@api/AuthApi.ts";
 import {appDisplayStyle} from "@/style/appDisplayStyle.ts";
+import Button from "@commonComponents/Button.tsx";
+import {ButtonType} from "@/enum/ButtonType.ts";
 
 
 const emptySignIn: UserSignInDto = {callbackURL: "", email: "", password: "", rememberMe: true};
@@ -59,14 +61,11 @@ export default function UserLoginPage() {
                     </Row>
                     <Row>
                         <Column>
-                            <button onClick={signIn} className="btn btn-primary" style={{margin: 10}}>
-                                Sign In
-                            </button>
+                            <Button label="Sign In" type={ButtonType.PRIMARY} onClick={signIn} style={{margin: 10}}/>
                         </Column>
                         <Column>
-                            <button onClick={switchToSignUp} className="btn btn-info" style={{margin: 10}}>
-                                Sign Up?
-                            </button>
+                            <Button label="Sign Up?" type={ButtonType.INFO} onClick={switchToSignUp}
+                                    style={{margin: 10}}/>
                         </Column>
                     </Row>
                 </Card>
@@ -94,14 +93,11 @@ export default function UserLoginPage() {
                     </Row>
                     <Row>
                         <Column>
-                            <button onClick={signUp} className="btn btn-primary" style={{margin: 10}}>
-                                Sign Up
-                            </button>
+                            <Button label="Sign Up" type={ButtonType.PRIMARY} onClick={signUp} style={{margin: 10}}/>
                         </Column>
                         <Column>
-                            <button onClick={switchToSignIn} className="btn btn-info" style={{margin: 10}}>
-                                Sign In?
-                            </button>
+                            <Button label="Sign In?" type={ButtonType.INFO} onClick={switchToSignIn}
+                                    style={{margin: 10}}/>
                         </Column>
                     </Row>
                 </Card>

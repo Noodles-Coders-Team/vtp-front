@@ -6,6 +6,8 @@ import {createSetting, deleteSettingByKey, readSettings} from "@/api/SettingApi"
 import {Column, Row} from "@commonComponents/Container";
 import {InputComponent} from "@commonComponents/InputComponent";
 import {ItemLoadingErrorState} from "@commonComponents/ItemLoadingErrorState";
+import Button from "@commonComponents/Button.tsx";
+import {ButtonType} from "@/enum/ButtonType.ts";
 
 
 export function SettingsConfigurationPage() {
@@ -25,16 +27,20 @@ export function SettingsConfigurationPage() {
     };
 
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const handleCreateSettingSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         // Prevent browser default form submission behavior (page reload)
         event.preventDefault();
+        createSettingSubmit().then();
+    };
 
+
+    const createSettingSubmit = async () => {
         setSettingCreate({...settingCreate, is_system: false});
         await createSetting(settingCreate);
 
         // Clear form after submission
         setSettingCreate({} as SettingDto);
-    };
+    }
 
 
     // Runs once on page load
@@ -54,7 +60,7 @@ export function SettingsConfigurationPage() {
 
     return (
         <Card title='Settings'>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleCreateSettingSubmit}>
                 <Row>
                     <Column>
                         <InputComponent
@@ -83,7 +89,8 @@ export function SettingsConfigurationPage() {
                             onChange={(value: string) => setSettingCreate({...settingCreate, key: value})}/>
                     </Column>
                     <Column>
-                        <button type="submit" className="btn btn-success" style={{marginTop: 30}}>Create</button>
+                        <Button label="Create" style={{marginTop: 30}} type={ButtonType.SUCCESS}
+                                onClick={() => createSettingSubmit().then()}/>
                     </Column>
                 </Row>
             </form>
@@ -108,9 +115,8 @@ export function SettingsConfigurationPage() {
                                     <td>{data.value}</td>
                                     <td>{data.key}</td>
                                     <td>
-                                        <button className="btn btn-danger"
-                                                onClick={() => deleteSettingByKey(data.key as string)}>X
-                                        </button>
+                                        <Button label="X" type={ButtonType.DANGER}
+                                                onClick={() => deleteSettingByKey(data.key as string)}/>
                                     </td>
                                 </tr>
                             ))}
@@ -122,11 +128,12 @@ export function SettingsConfigurationPage() {
             </Row>
             <Row style={{marginTop: 15}}>
                 <Column>
-                    <button onClick={() => {
-                        setError(null);
-                        loadSettingsData();
-                    }} className="btn btn-secondary">Refresh Data
-                    </button>
+                    <Button label="Refresh Data" type={ButtonType.SECONDARY}
+                            onClick={() => {
+                                setError(null);
+                                loadSettingsData();
+                            }}
+                    />
                 </Column>
             </Row>
         </Card>

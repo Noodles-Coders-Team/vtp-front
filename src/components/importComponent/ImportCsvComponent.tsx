@@ -1,6 +1,8 @@
 import {useState} from "react";
 import Card from "@commonComponents/Card";
 import {Column, Row} from "@commonComponents/Container";
+import Button from "@commonComponents/Button.tsx";
+import {ButtonType} from "@/enum/ButtonType.ts";
 
 
 interface ImportCsvProps {
@@ -73,7 +75,7 @@ export default function ImportCsvComponent({title, end_point, description = unde
                     />
                 </Column>
                 <Column>
-                    <button onClick={upload} type="button" className="btn btn-primary">Import CSV</button>
+                    <Button label="Import CSV" type={ButtonType.PRIMARY} onClick={upload}/>
                 </Column>
             </Row>
         </Card>

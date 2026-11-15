@@ -9,6 +9,8 @@ import {
 import {useEffect, useState} from "react";
 import Card from "@commonComponents/Card.tsx";
 import {updateAllSteamAppRefData} from "@api/SteamAppRefDataApi.ts";
+import Button from "@commonComponents/Button.tsx";
+import {ButtonType} from "@/enum/ButtonType.ts";
 
 
 export default function AdminPage() {
@@ -36,12 +38,12 @@ export default function AdminPage() {
                 <Column>
                     <Card title="Jobs">
                         <RowColumn>
-                            <button onClick={() => {
+                            <Button
+                                label={`Update Reference Data ${updateRefDataStatusString ? ": " + updateRefDataStatusString : ""}`}
+                                type={ButtonType.INFO} onClick={() => {
                                 setUpdateRefDataStatusString("Updating...");
                                 updateAllSteamAppRefData().then(() => setUpdateRefDataStatusString("Updated"));
-                            }} className="btn btn-info" style={{margin: 10}}>Update Reference
-                                Data {updateRefDataStatusString && ": " + updateRefDataStatusString}
-                            </button>
+                            }}/>
                         </RowColumn>
                         <Row>
                             <Column>
@@ -53,18 +55,12 @@ export default function AdminPage() {
                         </Row>
                         <Row>
                             <Column>
-                                <button className="btn btn-primary" onClick={() => {
-                                    triggerAllGamesScheduler().then(setAllGamesJobStatus);
-                                }}>
-                                    Toggle Scheduler
-                                </button>
+                                <Button label="Toggle Scheduler" type={ButtonType.PRIMARY}
+                                        onClick={() => triggerAllGamesScheduler().then(setAllGamesJobStatus)}/>
                             </Column>
                             <Column>
-                                <button className="btn btn-primary" onClick={() => {
-                                    triggerAllDataScheduler().then(setAllDataJobStatus);
-                                }}>
-                                    Toggle Scheduler
-                                </button>
+                                <Button label="Toggle Scheduler" type={ButtonType.PRIMARY}
+                                        onClick={() => triggerAllDataScheduler().then(setAllDataJobStatus)}/>
                             </Column>
                         </Row>
                     </Card>

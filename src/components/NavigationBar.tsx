@@ -2,41 +2,52 @@ import logo from '@assets/dvr_128dp.png';
 import {authClient, authClientSignOut} from "@api/AuthApi.ts";
 import {NavLink} from "@commonComponents/NavLink.tsx";
 import {ShowAdminOnly} from "@commonComponents/ShowAdminOnly.tsx";
+import Button from "@commonComponents/Button.tsx";
+import {ButtonType} from "@/enum/ButtonType.ts";
 
 
 export default function Navigation() {
     const {data} = authClient.useSession();
 
     return (
-        <nav className="navbar navbar-expand-lg bg-body-tertiary nav-scroller fixed-top shadow-sm">
+        <nav className="navbar sm:navbar-expand bg-1 fg-2">
             <div className="container-fluid">
-                <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav">
-                        <img src={logo} alt="Logo" width="64" height="64" className="d-inline-block align-text-top"/>
-                        <p className="navbar-brand">VT&P</p>
-                    </ul>
-                    <NavLink address="/" text='Home'/>
-                    <NavLink address="/games" text="Games"/>
-                    <NavLink address="/steam-global-search" text="Steam App Filter"/>
-                    <NavLink address="/steam-user-search" text="Steam App User Filter"/>
-                    {/*Display only do admin*/}
-                    {/*<NavLink address='/import' text="CSV Import"/>*/}
-                    <ShowAdminOnly>
-                        <NavLink address="/config" text="Configuration"/>
-                        <NavLink address='http://localhost:8080/docs' text="API Docs"/>
-                    </ShowAdminOnly>
-                    <div style={{marginLeft: 'auto', marginRight: '10px'}}>
-                        <span className="navbar-text">
-                                {data?.user.name ?? 'LOADING'}
-                        </span>
-                        <button className="btn btn-outline-secondary" style={{marginLeft: '15px'}}
-                                onClick={() => {
-                                    authClientSignOut().then()
-                                }}>Log Out
-                        </button>
-                    </div>
+                <div className="navbar-brand">
+                    <img src={logo} alt="Logo" width="30" height="30"
+                         className="d-inline-block align-text-top"/>
+                    VT&P
                 </div>
+                <dialog className="drawer drawer-end" tabIndex={-1} id="navbarNav" aria-labelledby="navbarNavLabel">
+                    <div className="drawer-body">
+                        <ul className="navbar-nav">
+                            <NavLink address="/" text='Home'/>
+                            <NavLink address="/games" text="Games"/>
+                            <NavLink address="/steam-global-search" text="Steam App Filter"/>
+                            <NavLink address="/steam-user-search" text="Steam App User Filter"/>
+                            {/*<NavLink address='/import' text="CSV Import"/>*/}
+                            <ShowAdminOnly>
+                                <NavLink address="/config" text="Configuration"/>
+                                <NavLink address='http://localhost:8080/docs' text="API Docs"/>
+                            </ShowAdminOnly>
+                            {/*TODO: add left alignment*/}
+                            <div className="d-flex" style={{marginLeft: 'auto', marginRight: '10px'}}>
+                                <span className="navbar-text">
+                                        {data?.user.name ?? 'LOADING'}
+                                </span>
+                                <Button style={{marginLeft: '15px'}}
+                                        type={ButtonType.SECONDARY}
+                                        onClick={() => {
+                                            authClientSignOut().then()
+                                        }}
+                                        label="Log Out"
+                                />
+                            </div>
+                        </ul>
+                    </div>
+                </dialog>
             </div>
         </nav>
     )
 }
+
+
