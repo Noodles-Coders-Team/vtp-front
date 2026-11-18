@@ -6,9 +6,10 @@ import {
 } from "@nct/vtp-common";
 import {RequestApi} from "@api/RequestApi.ts";
 import {getAllSteamAppRefData} from "@api/SteamAppRefDataApi.ts";
+import {BACKEND_URL} from "@api/BackendUrl.ts";
 
 
-const API_URL = import.meta.env.VITE_BACKEND_URL + "/user-game-score/";
+const API_URL = BACKEND_URL + "/user-game-score/";
 const requestApi = new RequestApi(API_URL);
 
 let acGetAllUserGameScoreConfigs: AbortController;

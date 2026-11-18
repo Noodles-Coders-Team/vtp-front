@@ -1,9 +1,10 @@
 import {type SettingDto, SettingSchema, ValidateSchema} from "@nct/vtp-common";
 import {RequestApi} from "./RequestApi";
 import {eventBus, EventName} from "./EventBus";
+import {BACKEND_URL} from "./BackendUrl.ts";
 
 
-const API_URL = import.meta.env.VITE_BACKEND_URL + '/settings/';
+const API_URL = BACKEND_URL + '/settings/';
 const requestApi = new RequestApi(API_URL);
 
 let abortController: AbortController;

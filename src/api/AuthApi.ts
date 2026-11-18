@@ -1,10 +1,11 @@
 import {createAuthClient} from "better-auth/react";
 import type {UserSignInDto, UserSignUpDto} from "@nct/vtp-common";
 import {adminClient} from "better-auth/client/plugins";
+import {BACKEND_URL} from "./BackendUrl.ts";
 
 
 export const authClient = createAuthClient({
-    baseURL: import.meta.env.VITE_BACKEND_URL,
+    baseURL: BACKEND_URL,
     plugins: [
         adminClient()
     ]

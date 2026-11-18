@@ -3,6 +3,7 @@ import Card from "@commonComponents/Card";
 import {Column, Row} from "@commonComponents/Container";
 import Button from "@commonComponents/Button.tsx";
 import {ButtonType} from "@/enum/ButtonType.ts";
+import {BACKEND_URL} from "@api/BackendUrl.ts";
 
 
 interface ImportCsvProps {
@@ -12,7 +13,7 @@ interface ImportCsvProps {
 }
 
 
-const API_URL = import.meta.env.VITE_BACKEND_URL + "/import";
+const API_URL = BACKEND_URL + "/import";
 
 
 export default function ImportCsvComponent({title, end_point, description = undefined}: ImportCsvProps) {

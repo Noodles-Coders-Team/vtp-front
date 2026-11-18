@@ -33,7 +33,6 @@ export function UserScoreConfigPage() {
             enableCreationOfConfig();
         } else {
             disableCreationOfConfig();
-            //TODO: on change UI does not load new configuration
             setSelectedConfig(selectedId);
         }
     }

@@ -4,6 +4,7 @@ import {NavLink} from "@commonComponents/NavLink.tsx";
 import {ShowAdminOnly} from "@commonComponents/ShowAdminOnly.tsx";
 import Button from "@commonComponents/Button.tsx";
 import {ButtonType} from "@/enum/ButtonType.ts";
+import {BACKEND_URL} from "@api/BackendUrl.ts";
 
 
 export default function Navigation() {
@@ -27,9 +28,9 @@ export default function Navigation() {
                             {/*<NavLink address='/import' text="CSV Import"/>*/}
                             <ShowAdminOnly>
                                 <NavLink address="/config" text="Configuration"/>
-                                <NavLink address='http://localhost:8080/docs' text="API Docs"/>
+                                <NavLink address={`${BACKEND_URL}/docs`} text="API Docs"/>
                             </ShowAdminOnly>
-                            {/*TODO: add left alignment*/}
+                            {/*TODO: add right alignment*/}
                             <div className="d-flex" style={{marginLeft: 'auto', marginRight: '10px'}}>
                                 <span className="navbar-text">
                                         {data?.user.name ?? 'LOADING'}

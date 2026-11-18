@@ -1,8 +1,9 @@
 import {RequestApi} from "./RequestApi";
 import {type UserSteamAppRefDataConfigDto, UserSteamAppRefDataConfigSchema, ValidateSchema} from "@nct/vtp-common";
+import {BACKEND_URL} from "./BackendUrl.ts";
 
 
-const API_URL = import.meta.env.VITE_BACKEND_URL + "/steam-app-ref-data/";
+const API_URL = BACKEND_URL + "/steam-app-ref-data/";
 const requestApi = new RequestApi(API_URL);
 
 
