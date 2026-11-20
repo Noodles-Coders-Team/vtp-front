@@ -9,6 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
+  "engines": {
+    "node": ">=22.13.0"
+  },
   "dependencies": {
     "@nct/vtp-common": "file:../vtp-common",
     "better-auth": "^1.7.18",

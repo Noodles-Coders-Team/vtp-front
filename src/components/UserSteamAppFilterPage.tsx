@@ -3,9 +3,9 @@ import {ItemLoadingErrorState} from "@commonComponents/ItemLoadingErrorState.tsx
 import {Column, Row} from "@commonComponents/Container.tsx";
 import type {UserSteamAppRefDataConfigDto} from "@nct/vtp-common/dist/schemas/user_steam_app_ref_data_config.ts";
 import {InputComponent, InputNumber} from "@commonComponents/InputComponent.tsx";
-import {getGamesFilteredByRefData} from "@api/SteamAppsApi.ts";
-import type {SteamAppDto} from "@nct/vtp-common";
-import {getAllUserScoreConfigRefData, saveUserScoreConfig} from "@api/UserGameScoreApi.ts";
+import {getGamesFilteredByConfigId, getGamesFilteredByRefData} from "@api/SteamAppsApi.ts";
+import type {SteamAppDto, UserGameScoreConfigDto} from "@nct/vtp-common";
+import {getAllUserScoreConfigRefData, saveUserMinMaxConfig, saveUserScoreConfig} from "@api/UserGameScoreApi.ts";
 import Button from "@commonComponents/Button.tsx";
 import {ButtonType} from "@/enum/ButtonType.ts";
 
@@ -31,6 +31,10 @@ export default function UserSteamAppFilterPage({configId = null}: UserSteamAppFi
     const [tagFilter, setTagFilter] = useState<string>("");
 
 
+    const [minimumReviewsInput, setMinimumReviewsInput] = useState<number | null>(null);
+    const [minimumRatingInput, setMinimumRatingInput] = useState<number | null>(null);
+
+
     const setLoadingAndClearError = () => {
         setErrorRefData(null);
         setLoadingRefData(true);
@@ -39,7 +43,7 @@ export default function UserSteamAppFilterPage({configId = null}: UserSteamAppFi
 
     const loadFiltersConfigRefData = async () => {
         getAllUserScoreConfigRefData(configId)
-            .then(setAppRefData)
+            .then(setUserConfigParameters)
             .catch(e => {
                 if ((e as Error).name !== "AbortError")
                     setErrorRefData((e as Error).message);
@@ -48,10 +52,17 @@ export default function UserSteamAppFilterPage({configId = null}: UserSteamAppFi
     };
 
 
+    const setUserConfigParameters = (data: UserGameScoreConfigDto) => {
+        setAppRefData(data.score_config);
+        setMinimumRatingInput(data.positive_reviews_percentage ?? null);
+        setMinimumReviewsInput(data.minimum_reviews ?? null);
+    }
+
+
     const loadFilteredGames = async () => {
         setErrorSteamApps(null);
         setLoadingSteamApps(true);
-        getGamesFilteredByRefData(appRefData)
+        (configId == null ? getGamesFilteredByRefData(appRefData) : getGamesFilteredByConfigId(configId))
             .then(setFilteredApps)
             .catch(e => {
                 if ((e as Error).name !== "AbortError")
@@ -74,6 +85,14 @@ export default function UserSteamAppFilterPage({configId = null}: UserSteamAppFi
             saveUserScoreConfig(configId, newRefData).then();
         }
     };
+
+
+    const updateMinimumsInConfig = () => {
+        // DOESN"T WORK STUPID
+        if (configId != null) {
+            saveUserMinMaxConfig(configId, minimumReviewsInput, minimumRatingInput).then();
+        }
+    }
 
 
     useEffect(() => {
@@ -111,6 +130,22 @@ export default function UserSteamAppFilterPage({configId = null}: UserSteamAppFi
                             tooltip="Shows only scored Values"
                             onClick={() => setShowOnlyScored(!showOnlyScored)}/>
                     <Button label="Search Games" type={ButtonType.PRIMARY} onClick={loadFilteredGames}/>
+                    <br/>
+                    <p>Minimum Reviews Input</p>
+                    <InputNumber id="minimumReviewsInput"
+                                 value={minimumReviewsInput?.toString() ?? "0"}
+                                 onChange={(n) => {
+                                     setMinimumReviewsInput(n);
+                                     updateMinimumsInConfig();
+                                 }}/>
+                    <p>Minimum Rating Input</p>
+                    <InputNumber id="minimumRatingInput"
+                                 value={minimumRatingInput?.toString() ?? "0"}
+                                 onChange={(n) => {
+                                     setMinimumRatingInput(n);
+                                     updateMinimumsInConfig();
+                                 }}/>
+                    <br/>
                 </Column>
             </Row>
             <Row>

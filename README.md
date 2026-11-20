@@ -18,15 +18,18 @@ Part of a three repository set:
 
 ## Getting started
 
-Prerequisites: Node.js 20+, and a running `vtp-backend`.
+Prerequisites: Node.js 22.13+ (see `.nvmrc`), and a running `vtp-backend`. Windows and
+Linux both work, with the same commands.
 
 ```bash
 npm install
-npm run dev     # http://localhost:5173
+cp .env.example .env    # see below
+npm run dev             # http://localhost:5173
 ```
 
 Create a `.env` in the repository root before the first run — it is git ignored, so it
-never arrives with a clone:
+never arrives with a clone. [.env.example](.env.example) is the committed template, so
+every machine starts from the same configuration:
 
 ```ini
 VITE_BACKEND_URL=http://localhost:8080

@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {type UserGameScoreConfigDto} from "@nct/vtp-common";
 import {createUserScoreConfig, getAllUserGameScoreConfigs} from "@api/UserGameScoreApi.ts";
 import UserSteamAppFilterPage from "@components/UserSteamAppFilterPage.tsx";
-import {InputComponent, SelectComponent} from "@commonComponents/InputComponent.tsx";
+import {InputComponent, SelectComponent, SelectComponentItem} from "@commonComponents/InputComponent.tsx";
 import Button from "@commonComponents/Button.tsx";
 import {ButtonType} from "@/enum/ButtonType.ts";
 
@@ -64,12 +64,13 @@ export function UserScoreConfigPage() {
         <Card title="User Score Configuration">
             <Row style={{width: '50%'}}>
                 <Column>
-                    <SelectComponent id={"configId"} label="Config List" onChange={onDropDownSelected} value="">
-                        <option id="configNull" value="null">Please select smth...</option>
-                        <option id="configNew" value="new">New</option>
+                    <SelectComponent id={"configId"} label="Config List" toolTip="Select a config"
+                                     onChange={onDropDownSelected}>
+                        <SelectComponentItem value="new" label="New"/>
                         {userConfigs.map((config: UserGameScoreConfigDto) => {
                             return (
-                                <option id={config.id} value={config.id}> {config.score_config_label} </option>
+                                <SelectComponentItem key={config.id} value={config.id}
+                                                     label={config.score_config_label}/>
                             )
                         })}
                     </SelectComponent>

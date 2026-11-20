@@ -11,6 +11,7 @@ let acTriggerAllGamesScheduler: AbortController;
 let acTriggerAllDataScheduler: AbortController;
 let acGetAllImportedApps: AbortController;
 let acCallSteamAppCalculated: AbortController;
+let acGetGamesFilteredByConfigId: AbortController;
 
 
 export async function triggerAllGamesScheduler(): Promise<boolean> {
@@ -61,19 +62,6 @@ export async function getAllImportedApps(page: number): Promise<SteamAppDto[]> {
 }
 
 
-export async function getFilteredByTagsApps(tags: string, tag_weights: string): Promise<SteamAppDto[]> {
-    if (acGetAllImportedApps)
-        acGetAllImportedApps.abort();
-    acGetAllImportedApps = new AbortController();
-
-    const query = new URLSearchParams({tags: tags ?? '', tag_weights: tag_weights ?? ''});
-    const response = await requestApi.get(acGetAllImportedApps.signal, `apps-filtered?${query}`);
-    if (response == undefined)
-        return [];
-    return ValidateSchema<SteamAppDto>(response, SteamAppSchema, true);
-}
-
-
 export async function getGamesFilteredByRefData(refData: UserSteamAppRefDataConfigDto[]): Promise<SteamAppDto[]> {
     if (acCallSteamAppCalculated)
         acCallSteamAppCalculated.abort();
@@ -81,6 +69,18 @@ export async function getGamesFilteredByRefData(refData: UserSteamAppRefDataConf
 
     const filteredRefData = refData.filter(ref => ref.score != 0);
     const response = await requestApi.post(filteredRefData, acCallSteamAppCalculated.signal, `apps-filtered-with-user-config`);
+    if (response == undefined)
+        return [];
+    return ValidateSchema<SteamAppDto>(response, SteamAppSchema, true);
+}
+
+
+export async function getGamesFilteredByConfigId(configId: string): Promise<SteamAppDto[]> {
+    if (acGetGamesFilteredByConfigId)
+        acGetGamesFilteredByConfigId.abort();
+    acGetGamesFilteredByConfigId = new AbortController();
+
+    const response = await requestApi.get(acGetGamesFilteredByConfigId.signal, `filter-apps-by-config/${configId}`);
     if (response == undefined)
         return [];
     return ValidateSchema<SteamAppDto>(response, SteamAppSchema, true);

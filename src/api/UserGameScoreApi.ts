@@ -15,7 +15,8 @@ const requestApi = new RequestApi(API_URL);
 let acGetAllUserGameScoreConfigs: AbortController;
 let acSaveUserScoreConfig: AbortController;
 let acCreateUserScoreConfig: AbortController;
-let acGetAllUserScoreConfigRefDataFromDb: AbortController;
+let acGetAllUserScoreConfigFromDb: AbortController;
+let acSaveUserMinMaxConfig: AbortController;
 
 
 export async function getAllUserGameScoreConfigs(): Promise<UserGameScoreConfigDto[]> {
@@ -28,35 +29,42 @@ export async function getAllUserGameScoreConfigs(): Promise<UserGameScoreConfigD
 }
 
 
-export async function getAllUserScoreConfigRefData(configId: string | null): Promise<UserSteamAppRefDataConfigDto[]> {
+export async function getAllUserScoreConfigRefData(configId: string | null): Promise<UserGameScoreConfigDto> {
     const defaultRefData = await getAllSteamAppRefData();
 
+    const configless: UserGameScoreConfigDto = {
+        id: "", score_config: defaultRefData, score_config_label: "", user_id: ""
+    };
+
     if (configId == null) {
-        return defaultRefData;
+        return configless;
     }
-    const userConfig = await getAllUserScoreConfigRefDataFromDb(configId);
-    if (userConfig.length == 0) {
-        return defaultRefData;
+    const userConfig = await getAllUserScoreConfigFromDb(configId);
+    if (userConfig == null) {
+        return configless;
     }
-    return defaultRefData.map((defData) => {
-        const existing = userConfig.find((c) => {
+    userConfig.score_config = defaultRefData.map((defData) => {
+        const existing = userConfig.score_config.find((c) => {
             return c.id == defData.id
         });
         if (!existing)
             return defData;
         return existing;
     }) as UserSteamAppRefDataConfigDto[];
+
+    return userConfig;
 }
 
 
-export async function getAllUserScoreConfigRefDataFromDb(configId: string): Promise<UserSteamAppRefDataConfigDto[]> {
-    if (acGetAllUserScoreConfigRefDataFromDb)
-        acGetAllUserScoreConfigRefDataFromDb.abort();
-    acGetAllUserScoreConfigRefDataFromDb = new AbortController();
+export async function getAllUserScoreConfigFromDb(configId: string): Promise<UserGameScoreConfigDto | null> {
+    if (acGetAllUserScoreConfigFromDb)
+        acGetAllUserScoreConfigFromDb.abort();
+    acGetAllUserScoreConfigFromDb = new AbortController();
 
-    const response = await requestApi.get(acGetAllUserScoreConfigRefDataFromDb.signal, `${configId}`);
-    const dto = ValidateSchema<UserGameScoreConfigDto>(response, UserGameScoreConfigSchema);
-    return dto.score_config;
+    const response = await requestApi.get(acGetAllUserScoreConfigFromDb.signal, `${configId}`);
+    if (!response)
+        return null;
+    return ValidateSchema<UserGameScoreConfigDto>(response, UserGameScoreConfigSchema);
 }
 
 
@@ -67,6 +75,18 @@ export async function saveUserScoreConfig(configId: string, userRefDataConfig: U
 
     const filteredRefData = userRefDataConfig.filter(conf => conf.score != 0);
     await requestApi.post(filteredRefData, acSaveUserScoreConfig.signal, `${configId}`);
+}
+
+
+export async function saveUserMinMaxConfig(configId: string, minimum_reviews: number | null, positive_reviews_percentage: number | null) {
+    if (acSaveUserMinMaxConfig)
+        acSaveUserMinMaxConfig.abort();
+    acSaveUserMinMaxConfig = new AbortController();
+
+    await requestApi.post({
+        minReviews: minimum_reviews,
+        minScore: positive_reviews_percentage
+    }, acSaveUserMinMaxConfig.signal, `min-max/${configId}`);
 }
 
 
