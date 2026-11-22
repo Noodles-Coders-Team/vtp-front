@@ -1,10 +1,9 @@
 import {useEffect, useState} from "react";
 import {ItemLoadingErrorState} from "@commonComponents/ItemLoadingErrorState.tsx";
 import {Column, Row} from "@commonComponents/Container.tsx";
-import type {UserSteamAppRefDataConfigDto} from "@nct/vtp-common/dist/schemas/user_steam_app_ref_data_config.ts";
+import type {SteamAppDto, UserGameScoreConfigDto, UserSteamAppRefDataConfigDto} from "@nct/vtp-common";
 import {InputComponent, InputNumber} from "@commonComponents/InputComponent.tsx";
 import {getGamesFilteredByConfigId, getGamesFilteredByRefData} from "@api/SteamAppsApi.ts";
-import type {SteamAppDto, UserGameScoreConfigDto} from "@nct/vtp-common";
 import {getAllUserScoreConfigRefData, saveUserMinMaxConfig, saveUserScoreConfig} from "@api/UserGameScoreApi.ts";
 import Button from "@commonComponents/Button.tsx";
 import {ButtonType} from "@/enum/ButtonType.ts";
@@ -66,29 +65,22 @@ export default function UserSteamAppFilterPage({configId = null}: UserSteamAppFi
             .then(setFilteredApps)
             .catch(e => {
                 if ((e as Error).name !== "AbortError")
-                    setErrorRefData((e as Error).message);
+                    setErrorSteamApps((e as Error).message);
             })
             .finally(() => setLoadingSteamApps(false));
     };
 
 
     const onScoreChange = (value: number, id: string) => {
-        const newRefData = appRefData.map(item => {
-            if (item.id === id) {
-                item.score = value;
-            }
-            return item;
-        });
-        setAppRefData(newRefData);
+        setAppRefData(prev => prev.map(item => item.id == id ? {...item, score: value} : item));
 
         if (configId != null) {
-            saveUserScoreConfig(configId, newRefData).then();
+            saveUserScoreConfig(configId, appRefData).then();
         }
     };
 
 
     const updateMinimumsInConfig = () => {
-        // DOESN"T WORK STUPID
         if (configId != null) {
             saveUserMinMaxConfig(configId, minimumReviewsInput, minimumRatingInput).then();
         }
@@ -130,21 +122,23 @@ export default function UserSteamAppFilterPage({configId = null}: UserSteamAppFi
                             tooltip="Shows only scored Values"
                             onClick={() => setShowOnlyScored(!showOnlyScored)}/>
                     <Button label="Search Games" type={ButtonType.PRIMARY} onClick={loadFilteredGames}/>
-                    <br/>
-                    <p>Minimum Reviews Input</p>
-                    <InputNumber id="minimumReviewsInput"
-                                 value={minimumReviewsInput?.toString() ?? "0"}
-                                 onChange={(n) => {
-                                     setMinimumReviewsInput(n);
-                                     updateMinimumsInConfig();
-                                 }}/>
-                    <p>Minimum Rating Input</p>
-                    <InputNumber id="minimumRatingInput"
-                                 value={minimumRatingInput?.toString() ?? "0"}
-                                 onChange={(n) => {
-                                     setMinimumRatingInput(n);
-                                     updateMinimumsInConfig();
-                                 }}/>
+                    {configId != null && <>
+                        <br/>
+                        <p>Minimum Reviews Input</p>
+                        <InputNumber id="minimumReviewsInput"
+                                     value={minimumReviewsInput?.toString() ?? "0"}
+                                     onChange={(n) => {
+                                         setMinimumReviewsInput(n);
+                                         updateMinimumsInConfig();
+                                     }}/>
+                        <p>Minimum Rating Input</p>
+                        <InputNumber id="minimumRatingInput"
+                                     value={minimumRatingInput?.toString() ?? "0"}
+                                     onChange={(n) => {
+                                         setMinimumRatingInput(n);
+                                         updateMinimumsInConfig();
+                                     }}/>
+                    </>}
                     <br/>
                 </Column>
             </Row>
@@ -161,18 +155,19 @@ export default function UserSteamAppFilterPage({configId = null}: UserSteamAppFi
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {appRefData.map((refData) => {
+                                {appRefData.filter(refData => {
                                     if (tagFilter && !refData.value.toUpperCase().includes(tagFilter.toUpperCase()))
-                                        return;
+                                        return false;
                                     if (showOnlyScored && refData.score == 0)
-                                        return;
+                                        return false;
                                     if (refData.type == 'TAG' && !showTags)
-                                        return;
+                                        return false;
                                     if (refData.type == 'GENRE' && !showGenres)
-                                        return;
+                                        return false;
                                     if (refData.type == 'CATEGORY' && !showCategories)
-                                        return;
-
+                                        return false;
+                                    return true;
+                                }).map((refData) => {
                                     return (
                                         <tr key={refData.id}>
                                             <td style={{textAlign: 'left'}}>{refData.value}</td>

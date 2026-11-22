@@ -49,9 +49,7 @@ export function UserScoreConfigPage() {
 
 
     const createNewConfigAndReload = async () => {
-        createUserScoreConfig(configName).then(() => {
-            window.location.reload();
-        });
+        createUserScoreConfig(configName).then(loadUserConfigs);
     };
 
 
