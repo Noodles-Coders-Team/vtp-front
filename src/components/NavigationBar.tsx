@@ -22,11 +22,11 @@ export default function Navigation() {
                     <div className="drawer-body">
                         <ul className="navbar-nav">
                             <NavLink address="/" text='Home'/>
-                            <NavLink address="/games" text="Games"/>
                             <NavLink address="/steam-global-search" text="Steam App Filter"/>
                             <NavLink address="/steam-user-search" text="Steam App User Filter"/>
                             {/*<NavLink address='/import' text="CSV Import"/>*/}
                             <ShowAdminOnly>
+                                <NavLink address="/games" text="Games"/>
                                 <NavLink address="/config" text="Configuration"/>
                                 <NavLink address={`${BACKEND_URL}/docs`} text="API Docs"/>
                             </ShowAdminOnly>

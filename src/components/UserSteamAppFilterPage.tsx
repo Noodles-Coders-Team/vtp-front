@@ -112,10 +112,11 @@ export default function UserSteamAppFilterPage({configId = null}: UserSteamAppFi
                     <Button label={`Genres: ${showGenres ? "Yes" : "No"}`} type={ButtonType.SUCCESS}
                             onClick={() => setShowGenres(!showGenres)}/>
                     {configId == null &&
-                        <Button label="Clear RefData" type={ButtonType.WARNING} onClick={() => {
+                        <Button label="Clear Config" type={ButtonType.WARNING} onClick={() => {
                             setLoadingAndClearError();
                             loadFiltersConfigRefData().then();
-                        }}/>
+                        }}
+                                tooltip="Resets configuration"/>
                     }
                     <br/>
                     <Button label={`Scored: ${showOnlyScored ? "Yes" : "No"}`} type={ButtonType.INFO}
@@ -124,20 +125,26 @@ export default function UserSteamAppFilterPage({configId = null}: UserSteamAppFi
                     <Button label="Search Games" type={ButtonType.PRIMARY} onClick={loadFilteredGames}/>
                     {configId != null && <>
                         <br/>
-                        <p>Minimum Reviews Input</p>
-                        <InputNumber id="minimumReviewsInput"
-                                     value={minimumReviewsInput?.toString() ?? "0"}
-                                     onChange={(n) => {
-                                         setMinimumReviewsInput(n);
-                                         updateMinimumsInConfig();
-                                     }}/>
-                        <p>Minimum Rating Input</p>
-                        <InputNumber id="minimumRatingInput"
-                                     value={minimumRatingInput?.toString() ?? "0"}
-                                     onChange={(n) => {
-                                         setMinimumRatingInput(n);
-                                         updateMinimumsInConfig();
-                                     }}/>
+                        <Row>
+                            <Column>
+                                <p>Minimum Reviews</p>
+                                <InputNumber id="minimumReviewsInput"
+                                             value={minimumReviewsInput?.toString() ?? "0"}
+                                             onChange={(n) => {
+                                                 setMinimumReviewsInput(n);
+                                                 updateMinimumsInConfig();
+                                             }}/>
+                            </Column>
+                            <Column>
+                                <p>Minimum Rating</p>
+                                <InputNumber id="minimumRatingInput"
+                                             value={minimumRatingInput?.toString() ?? "0"}
+                                             onChange={(n) => {
+                                                 setMinimumRatingInput(n);
+                                                 updateMinimumsInConfig();
+                                             }}/>
+                            </Column>
+                        </Row>
                     </>}
                     <br/>
                 </Column>
@@ -149,7 +156,7 @@ export default function UserSteamAppFilterPage({configId = null}: UserSteamAppFi
                             <table className='table table-bordered'>
                                 <thead>
                                 <tr>
-                                    <th scope="col" style={{width: '25%', textAlign: 'left'}}>Value</th>
+                                    <th scope="col" style={{width: '25%', textAlign: 'left'}}>Name</th>
                                     <th scope="col" style={{width: '25%'}}>Type</th>
                                     <th scope="col" style={{width: '25%'}}>Score</th>
                                 </tr>
@@ -171,11 +178,11 @@ export default function UserSteamAppFilterPage({configId = null}: UserSteamAppFi
                                     return (
                                         <tr key={refData.id}>
                                             <td style={{textAlign: 'left'}}>{refData.value}</td>
-                                            <td style={{textAlign: 'left'}}>{refData.type}</td>
+                                            <td style={{textAlign: 'center'}}>{refData.type}</td>
                                             <td>
-                                                <InputNumber id={refData.id}
-                                                             value={refData.score == undefined ? "0" : refData.score.toString()}
-                                                             onChange={onScoreChange}/>
+                                                <ScoreSelector id={refData.id}
+                                                               value={refData.score == undefined ? 0 : refData.score}
+                                                               onChange={onScoreChange}/>
                                             </td>
                                         </tr>
                                     );
@@ -214,5 +221,30 @@ export default function UserSteamAppFilterPage({configId = null}: UserSteamAppFi
                 </Column>
             </Row>
         </div>
+    )
+}
+
+
+interface ScoreSelectorProps {
+    id: string
+    value: number
+    onChange: (value: number, id: string) => void
+}
+
+
+function ScoreSelector({id, value, onChange}: ScoreSelectorProps) {
+    return (
+        <>
+            <Button subtle={value != -10} label="-10" tooltip="I don't want to see it" type={ButtonType.DANGER}
+                    onClick={() => onChange(-10, id)}/>
+            <Button subtle={value != -5} label="-5" tooltip="I fine with seeing it" type={ButtonType.WARNING}
+                    onClick={() => onChange(-5, id)}/>
+            <Button subtle={value != 0} label="0" tooltip="I don't care" type={ButtonType.PRIMARY}
+                    onClick={() => onChange(0, id)}/>
+            <Button subtle={value != 5} label="5" tooltip="I prefer to see it" type={ButtonType.ACCENT}
+                    onClick={() => onChange(5, id)}/>
+            <Button subtle={value != 10} label="10" tooltip="I want to see it" type={ButtonType.SUCCESS}
+                    onClick={() => onChange(10, id)}/>
+        </>
     )
 }

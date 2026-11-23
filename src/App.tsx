@@ -56,11 +56,13 @@ function App() {
                 <Routes>
                     <Route path="/" element={<HomePage/>}/>
                     {/*<Route path="/import" element={<ImportPage/>}/>*/}
-                    <Route path="/games" element={<GamesPage/>}/>
                     <Route path="/steam-global-search" element={<SteamAppGlobalSearchPage/>}/>
                     <Route path="/steam-user-search" element={<UserScoreConfigPage/>}/>
                     {data.user.role == UserRoles.Admin &&
-                        <Route path="/config" element={<AdminPage/>}/>
+                        <>
+                            <Route path="/games" element={<GamesPage/>}/>
+                            <Route path="/config" element={<AdminPage/>}/>
+                        </>
                     }
                     <Route path="*" element={<Navigate to="/" replace/>}/>
                 </Routes>

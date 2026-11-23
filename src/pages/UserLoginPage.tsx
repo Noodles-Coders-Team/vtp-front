@@ -15,6 +15,7 @@ const emptySignUp: UserSignUpDto = {callbackURL: "", email: "", name: "", passwo
 
 export default function UserLoginPage() {
     const [isSignIn, setIsSignIn] = useState(true);
+    const [isErrorLogin, setIsErrorLogin] = useState<boolean>(false);
     const [userSignIn, setUserSignIn] = useState<UserSignInDto>(emptySignIn);
     const [userSignUp, setUserSignUp] = useState<UserSignUpDto>(emptySignUp);
 
@@ -32,12 +33,14 @@ export default function UserLoginPage() {
 
 
     const signIn = () => {
-        authClientSignIn(userSignIn);
+        authClientSignIn(userSignIn)
+            .then((result) => setIsErrorLogin(!result));
     };
 
 
     const signUp = () => {
-        authClientSignUp(userSignUp);
+        authClientSignUp(userSignUp)
+            .then((result) => setIsErrorLogin(!result));
     };
 
 
@@ -48,6 +51,7 @@ export default function UserLoginPage() {
                     <Row>
                         <Column>
                             <h2>Sign In</h2>
+                            {isErrorLogin && <p style={{color: "red"}}>ERROR OCCURRED WHILE SIGNING IN</p>}
                             <InputComponent id={"signInEmail"} label={"Email"} value={userSignIn.email} type={"email"}
                                             onChange={(value: string) => {
                                                 setUserSignIn({...userSignIn, email: value});
@@ -76,6 +80,7 @@ export default function UserLoginPage() {
                     <Row>
                         <Column>
                             <h2>Sign Up</h2>
+                            {isErrorLogin && <p style={{color: "red"}}>ERROR OCCURRED WHILE SIGNING UP</p>}
                             <InputComponent id={"signUpName"} label={"User Name"} value={userSignUp.name}
                                             onChange={(value: string) => {
                                                 setUserSignUp({...userSignUp, name: value});
